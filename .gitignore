@@ -1,5 +1,6 @@
 embeddeds/haskell/dist
-
+.vscode
+.metals
 # Python
 *.py[cod]
 

@@ -16,7 +16,7 @@ trait ArduinoML {
    *************************************************/
 
   // Set the name of the App
-  protected def hasForName(n: String) { app.setName(n) }
+  protected def hasForName(n: String):Unit= { app.setName(n) }
 
   // Declaration of a Brick
   protected def declare: StructureBuilder = {
@@ -33,7 +33,7 @@ trait ArduinoML {
   }
 
   // Declaration of the transition system
-  protected def transitions(transitionSystem: => Unit) {
+  protected def transitions(transitionSystem: => Unit): Unit = {
     flush()
     transitionSystem
   }
@@ -59,7 +59,7 @@ trait ArduinoML {
   }
 
   // Flush the elements under construction into the App, if any
-  private def flush() {
+  private def flush(): Unit = {
     if (currentBrick.isDefined) {
       app.setBricks(app.getBricks :+ currentBrick.get.toBrick)
       currentBrick = None
