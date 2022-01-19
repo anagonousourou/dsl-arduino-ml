@@ -1,0 +1,18 @@
+application redButton
+
+# Declaring bricks
+sensor button: 9
+led l1: 12
+buzzer buz: 10
+# Declaring states
+on {
+    l1 <= HIGH
+    buz <= HIGH
+    button is HIGH => off
+}
+
+-> off {
+    l1 <= LOW
+    buz <= LOW
+    button is HIGH => on
+}
