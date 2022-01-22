@@ -1,4 +1,5 @@
-// Generated from /home/anagonou/Documents/si5/dsl/dsl-arduino-ml/projects/extern/wrapper/src/main/antlr4/io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.8
+// Generated from io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.7
+package io.github.mosser.arduinoml.externals.antlr.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ArduinomlParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -24,31 +25,22 @@ public class ArduinomlParser extends Parser {
 		RULE_actuator = 4, RULE_location = 5, RULE_states = 6, RULE_state = 7, 
 		RULE_action = 8, RULE_condition = 9, RULE_transition = 10, RULE_temporalTransition = 11, 
 		RULE_triggerTransition = 12, RULE_initial = 13;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"root", "declaration", "bricks", "sensor", "actuator", "location", "states", 
-			"state", "action", "condition", "transition", "temporalTransition", "triggerTransition", 
-			"initial"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"root", "declaration", "bricks", "sensor", "actuator", "location", "states", 
+		"state", "action", "condition", "transition", "temporalTransition", "triggerTransition", 
+		"initial"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "'application'", "'sensor'", "'actuator'", "':'", "'{'", "'}'", 
-			"'<='", "'or'", "'and'", "'after'", "'milliseconds'", "'=>'", "'is'", 
-			"'->'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "PORT_NUMBER", "IDENTIFIER", "SIGNAL", "DURATION_UNIT", 
-			"INTEGER", "NEWLINE", "WS", "COMMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "'application'", "'sensor'", "'actuator'", "':'", "'{'", "'}'", 
+		"'<='", "'or'", "'and'", "'after'", "'milliseconds'", "'=>'", "'is'", 
+		"'->'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, "PORT_NUMBER", "IDENTIFIER", "SIGNAL", "DURATION_UNIT", 
+		"INTEGER", "NEWLINE", "WS", "COMMENT"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -98,7 +90,6 @@ public class ArduinomlParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class RootContext extends ParserRuleContext {
 		public DeclarationContext declaration() {
 			return getRuleContext(DeclarationContext.class,0);
@@ -114,6 +105,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_root; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterRoot(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitRoot(this);
+		}
 	}
 
 	public final RootContext root() throws RecognitionException {
@@ -150,6 +149,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitDeclaration(this);
+		}
 	}
 
 	public final DeclarationContext declaration() throws RecognitionException {
@@ -192,6 +199,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_bricks; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterBricks(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitBricks(this);
+		}
 	}
 
 	public final BricksContext bricks() throws RecognitionException {
@@ -250,6 +265,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sensor; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterSensor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitSensor(this);
+		}
 	}
 
 	public final SensorContext sensor() throws RecognitionException {
@@ -283,6 +306,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_actuator; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterActuator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitActuator(this);
+		}
 	}
 
 	public final ActuatorContext actuator() throws RecognitionException {
@@ -317,6 +348,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_location; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterLocation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitLocation(this);
+		}
 	}
 
 	public final LocationContext location() throws RecognitionException {
@@ -355,6 +394,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_states; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterStates(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitStates(this);
+		}
 	}
 
 	public final StatesContext states() throws RecognitionException {
@@ -413,6 +460,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_state; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterState(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitState(this);
+		}
 	}
 
 	public final StateContext state() throws RecognitionException {
@@ -495,6 +550,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_action; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterAction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitAction(this);
+		}
 	}
 
 	public final ActionContext action() throws RecognitionException {
@@ -533,6 +596,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterCondition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitCondition(this);
+		}
 	}
 
 	public final ConditionContext condition() throws RecognitionException {
@@ -580,6 +651,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_transition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterTransition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitTransition(this);
+		}
 	}
 
 	public final TransitionContext transition() throws RecognitionException {
@@ -627,6 +706,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_temporalTransition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterTemporalTransition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitTemporalTransition(this);
+		}
 	}
 
 	public final TemporalTransitionContext temporalTransition() throws RecognitionException {
@@ -671,6 +758,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_triggerTransition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterTriggerTransition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitTriggerTransition(this);
+		}
 	}
 
 	public final TriggerTransitionContext triggerTransition() throws RecognitionException {
@@ -707,6 +802,14 @@ public class ArduinomlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initial; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterInitial(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitInitial(this);
+		}
 	}
 
 	public final InitialContext initial() throws RecognitionException {

@@ -34,6 +34,7 @@
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>4.7</version>
                 <configuration>
+                    <outputDirectory>${basedir}/src/main/java</outputDirectory>
                     <arguments>
                         <argument>-package</argument>
                         <argument>${generated.package}</argument>

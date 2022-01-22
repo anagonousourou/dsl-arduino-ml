@@ -19,11 +19,11 @@ action: receiver = IDENTIFIER '<=' value = SIGNAL;
 condition:
 	trigger1 = IDENTIFIER ('or' | 'and') trigger2 = IDENTIFIER;
 
-transition:
-	temporal_transition
-	| trigger = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
-temporal_transition:
-	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
+transition: temporalTransition | triggerTransition;
+temporalTransition:
+	'after' duration = INTEGER 'milliseconds' '=>' next = IDENTIFIER;
+triggerTransition:
+	trigger = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
 initial: '->';
 
 /*****************
