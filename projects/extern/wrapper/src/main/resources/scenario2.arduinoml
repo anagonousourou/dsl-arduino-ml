@@ -16,8 +16,5 @@ state1 {
 
 -> start {
     buz <= LOW
-    button2 and button are HIGH => state1
-    
-
-    
+    button2 and button are HIGH => state1 
 }
