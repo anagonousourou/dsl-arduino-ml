@@ -17,16 +17,18 @@ public class ArduinomlParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, PORT_NUMBER=12, IDENTIFIER=13, SIGNAL=14, DURATION_UNIT=15, 
-		INTEGER=16, NEWLINE=17, WS=18, COMMENT=19;
+		T__9=10, T__10=11, T__11=12, T__12=13, PORT_NUMBER=14, IDENTIFIER=15, 
+		SIGNAL=16, DURATION_UNIT=17, INTEGER=18, NEWLINE=19, WS=20, COMMENT=21;
 	public static final int
 		RULE_root = 0, RULE_declaration = 1, RULE_bricks = 2, RULE_sensor = 3, 
 		RULE_actuator = 4, RULE_location = 5, RULE_states = 6, RULE_state = 7, 
-		RULE_action = 8, RULE_transition = 9, RULE_initial = 10;
+		RULE_action = 8, RULE_condition = 9, RULE_transition = 10, RULE_temporal_transition = 11, 
+		RULE_initial = 12;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"root", "declaration", "bricks", "sensor", "actuator", "location", "states", 
-			"state", "action", "transition", "initial"
+			"state", "action", "condition", "transition", "temporal_transition", 
+			"initial"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -34,15 +36,15 @@ public class ArduinomlParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'application'", "'sensor'", "'actuator'", "':'", "'{'", "'}'", 
-			"'<='", "'after'", "'=>'", "'is'", "'->'"
+			"'<='", "'or'", "'and'", "'is'", "'=>'", "'after'", "'->'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			"PORT_NUMBER", "IDENTIFIER", "SIGNAL", "DURATION_UNIT", "INTEGER", "NEWLINE", 
-			"WS", "COMMENT"
+			null, null, "PORT_NUMBER", "IDENTIFIER", "SIGNAL", "DURATION_UNIT", "INTEGER", 
+			"NEWLINE", "WS", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -119,13 +121,13 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22);
+			setState(26);
 			declaration();
-			setState(23);
+			setState(27);
 			bricks();
-			setState(24);
+			setState(28);
 			states();
-			setState(25);
+			setState(29);
 			match(EOF);
 			}
 		}
@@ -155,9 +157,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27);
+			setState(31);
 			match(T__0);
-			setState(28);
+			setState(32);
 			((DeclarationContext)_localctx).name = match(IDENTIFIER);
 			}
 		}
@@ -198,23 +200,23 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(32); 
+			setState(36); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(32);
+				setState(36);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__1:
 					{
-					setState(30);
+					setState(34);
 					sensor();
 					}
 					break;
 				case T__2:
 					{
-					setState(31);
+					setState(35);
 					actuator();
 					}
 					break;
@@ -222,7 +224,7 @@ public class ArduinomlParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(34); 
+				setState(38); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__1 || _la==T__2 );
@@ -255,9 +257,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(40);
 			match(T__1);
-			setState(37);
+			setState(41);
 			location();
 			}
 		}
@@ -288,9 +290,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(43);
 			match(T__2);
-			setState(40);
+			setState(44);
 			location();
 			}
 		}
@@ -322,11 +324,11 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
+			setState(46);
 			((LocationContext)_localctx).id = match(IDENTIFIER);
-			setState(43);
+			setState(47);
 			match(T__3);
-			setState(44);
+			setState(48);
 			((LocationContext)_localctx).port = match(PORT_NUMBER);
 			}
 		}
@@ -361,20 +363,20 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47); 
+			setState(51); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(46);
+				setState(50);
 				state();
 				}
 				}
-				setState(49); 
+				setState(53); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__10 || _la==IDENTIFIER );
+			} while ( _la==T__12 || _la==IDENTIFIER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -420,21 +422,21 @@ public class ArduinomlParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(56);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__10) {
+			if (_la==T__12) {
 				{
-				setState(51);
+				setState(55);
 				initial();
 				}
 			}
 
-			setState(54);
+			setState(58);
 			((StateContext)_localctx).name = match(IDENTIFIER);
-			setState(55);
+			setState(59);
 			match(T__4);
-			setState(57); 
+			setState(61); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -442,7 +444,7 @@ public class ArduinomlParser extends Parser {
 				case 1:
 					{
 					{
-					setState(56);
+					setState(60);
 					action();
 					}
 					}
@@ -450,25 +452,25 @@ public class ArduinomlParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(59); 
+				setState(63); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(62); 
+			setState(66); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(61);
+				setState(65);
 				transition();
 				}
 				}
-				setState(64); 
+				setState(68); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__7 || _la==IDENTIFIER );
-			setState(66);
+			} while ( _la==T__11 || _la==IDENTIFIER );
+			setState(70);
 			match(T__5);
 			}
 		}
@@ -500,11 +502,11 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
+			setState(72);
 			((ActionContext)_localctx).receiver = match(IDENTIFIER);
-			setState(69);
+			setState(73);
 			match(T__6);
-			setState(70);
+			setState(74);
 			((ActionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -519,13 +521,60 @@ public class ArduinomlParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ConditionContext extends ParserRuleContext {
+		public Token trigger1;
+		public Token trigger2;
+		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
+		public TerminalNode IDENTIFIER(int i) {
+			return getToken(ArduinomlParser.IDENTIFIER, i);
+		}
+		public ConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_condition; }
+	}
+
+	public final ConditionContext condition() throws RecognitionException {
+		ConditionContext _localctx = new ConditionContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_condition);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(76);
+			((ConditionContext)_localctx).trigger1 = match(IDENTIFIER);
+			setState(77);
+			_la = _input.LA(1);
+			if ( !(_la==T__7 || _la==T__8) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(78);
+			((ConditionContext)_localctx).trigger2 = match(IDENTIFIER);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class TransitionContext extends ParserRuleContext {
-		public Token duration;
-		public Token next;
 		public Token trigger;
 		public Token value;
-		public TerminalNode DURATION_UNIT() { return getToken(ArduinomlParser.DURATION_UNIT, 0); }
-		public TerminalNode INTEGER() { return getToken(ArduinomlParser.INTEGER, 0); }
+		public Token next;
+		public Temporal_transitionContext temporal_transition() {
+			return getRuleContext(Temporal_transitionContext.class,0);
+		}
 		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(ArduinomlParser.IDENTIFIER, i);
@@ -539,43 +588,76 @@ public class ArduinomlParser extends Parser {
 
 	public final TransitionContext transition() throws RecognitionException {
 		TransitionContext _localctx = new TransitionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_transition);
+		enterRule(_localctx, 20, RULE_transition);
 		try {
-			setState(82);
+			setState(86);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__7:
+			case T__11:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(72);
-				match(T__7);
-				setState(73);
-				((TransitionContext)_localctx).duration = match(INTEGER);
-				setState(74);
-				match(DURATION_UNIT);
-				setState(75);
-				match(T__8);
-				setState(76);
-				((TransitionContext)_localctx).next = match(IDENTIFIER);
+				setState(80);
+				temporal_transition();
 				}
 				break;
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
-				((TransitionContext)_localctx).trigger = match(IDENTIFIER);
-				setState(78);
-				match(T__9);
-				setState(79);
-				((TransitionContext)_localctx).value = match(SIGNAL);
-				setState(80);
-				match(T__8);
 				setState(81);
+				((TransitionContext)_localctx).trigger = match(IDENTIFIER);
+				setState(82);
+				match(T__9);
+				setState(83);
+				((TransitionContext)_localctx).value = match(SIGNAL);
+				setState(84);
+				match(T__10);
+				setState(85);
 				((TransitionContext)_localctx).next = match(IDENTIFIER);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Temporal_transitionContext extends ParserRuleContext {
+		public Token duration;
+		public Token next;
+		public TerminalNode DURATION_UNIT() { return getToken(ArduinomlParser.DURATION_UNIT, 0); }
+		public TerminalNode INTEGER() { return getToken(ArduinomlParser.INTEGER, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public Temporal_transitionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_temporal_transition; }
+	}
+
+	public final Temporal_transitionContext temporal_transition() throws RecognitionException {
+		Temporal_transitionContext _localctx = new Temporal_transitionContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_temporal_transition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(88);
+			match(T__11);
+			setState(89);
+			((Temporal_transitionContext)_localctx).duration = match(INTEGER);
+			setState(90);
+			match(DURATION_UNIT);
+			setState(91);
+			match(T__10);
+			setState(92);
+			((Temporal_transitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -598,12 +680,12 @@ public class ArduinomlParser extends Parser {
 
 	public final InitialContext initial() throws RecognitionException {
 		InitialContext _localctx = new InitialContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_initial);
+		enterRule(_localctx, 24, RULE_initial);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
-			match(T__10);
+			setState(94);
+			match(T__12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -618,27 +700,29 @@ public class ArduinomlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25Y\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27c\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\6\4#\n\4\r\4\16\4$\3\5"+
-		"\3\5\3\5\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\6\b\62\n\b\r\b\16\b\63\3\t\5"+
-		"\t\67\n\t\3\t\3\t\3\t\6\t<\n\t\r\t\16\t=\3\t\6\tA\n\t\r\t\16\tB\3\t\3"+
-		"\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5"+
-		"\13U\n\13\3\f\3\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\2\2T\2\30\3\2"+
-		"\2\2\4\35\3\2\2\2\6\"\3\2\2\2\b&\3\2\2\2\n)\3\2\2\2\f,\3\2\2\2\16\61\3"+
-		"\2\2\2\20\66\3\2\2\2\22F\3\2\2\2\24T\3\2\2\2\26V\3\2\2\2\30\31\5\4\3\2"+
-		"\31\32\5\6\4\2\32\33\5\16\b\2\33\34\7\2\2\3\34\3\3\2\2\2\35\36\7\3\2\2"+
-		"\36\37\7\17\2\2\37\5\3\2\2\2 #\5\b\5\2!#\5\n\6\2\" \3\2\2\2\"!\3\2\2\2"+
-		"#$\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\7\3\2\2\2&\'\7\4\2\2\'(\5\f\7\2(\t\3"+
-		"\2\2\2)*\7\5\2\2*+\5\f\7\2+\13\3\2\2\2,-\7\17\2\2-.\7\6\2\2./\7\16\2\2"+
-		"/\r\3\2\2\2\60\62\5\20\t\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63"+
-		"\64\3\2\2\2\64\17\3\2\2\2\65\67\5\26\f\2\66\65\3\2\2\2\66\67\3\2\2\2\67"+
-		"8\3\2\2\289\7\17\2\29;\7\7\2\2:<\5\22\n\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2"+
-		"\2=>\3\2\2\2>@\3\2\2\2?A\5\24\13\2@?\3\2\2\2AB\3\2\2\2B@\3\2\2\2BC\3\2"+
-		"\2\2CD\3\2\2\2DE\7\b\2\2E\21\3\2\2\2FG\7\17\2\2GH\7\t\2\2HI\7\20\2\2I"+
-		"\23\3\2\2\2JK\7\n\2\2KL\7\22\2\2LM\7\21\2\2MN\7\13\2\2NU\7\17\2\2OP\7"+
-		"\17\2\2PQ\7\f\2\2QR\7\20\2\2RS\7\13\2\2SU\7\17\2\2TJ\3\2\2\2TO\3\2\2\2"+
-		"U\25\3\2\2\2VW\7\r\2\2W\27\3\2\2\2\t\"$\63\66=BT";
+		"\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\6\4\'"+
+		"\n\4\r\4\16\4(\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\6\b\66\n\b"+
+		"\r\b\16\b\67\3\t\5\t;\n\t\3\t\3\t\3\t\6\t@\n\t\r\t\16\tA\3\t\6\tE\n\t"+
+		"\r\t\16\tF\3\t\3\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f"+
+		"\3\f\3\f\5\fY\n\f\3\r\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16\2\2\17\2\4\6"+
+		"\b\n\f\16\20\22\24\26\30\32\2\3\3\2\n\13\2\\\2\34\3\2\2\2\4!\3\2\2\2\6"+
+		"&\3\2\2\2\b*\3\2\2\2\n-\3\2\2\2\f\60\3\2\2\2\16\65\3\2\2\2\20:\3\2\2\2"+
+		"\22J\3\2\2\2\24N\3\2\2\2\26X\3\2\2\2\30Z\3\2\2\2\32`\3\2\2\2\34\35\5\4"+
+		"\3\2\35\36\5\6\4\2\36\37\5\16\b\2\37 \7\2\2\3 \3\3\2\2\2!\"\7\3\2\2\""+
+		"#\7\21\2\2#\5\3\2\2\2$\'\5\b\5\2%\'\5\n\6\2&$\3\2\2\2&%\3\2\2\2\'(\3\2"+
+		"\2\2(&\3\2\2\2()\3\2\2\2)\7\3\2\2\2*+\7\4\2\2+,\5\f\7\2,\t\3\2\2\2-.\7"+
+		"\5\2\2./\5\f\7\2/\13\3\2\2\2\60\61\7\21\2\2\61\62\7\6\2\2\62\63\7\20\2"+
+		"\2\63\r\3\2\2\2\64\66\5\20\t\2\65\64\3\2\2\2\66\67\3\2\2\2\67\65\3\2\2"+
+		"\2\678\3\2\2\28\17\3\2\2\29;\5\32\16\2:9\3\2\2\2:;\3\2\2\2;<\3\2\2\2<"+
+		"=\7\21\2\2=?\7\7\2\2>@\5\22\n\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB\3\2\2"+
+		"\2BD\3\2\2\2CE\5\26\f\2DC\3\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2GH\3\2"+
+		"\2\2HI\7\b\2\2I\21\3\2\2\2JK\7\21\2\2KL\7\t\2\2LM\7\22\2\2M\23\3\2\2\2"+
+		"NO\7\21\2\2OP\t\2\2\2PQ\7\21\2\2Q\25\3\2\2\2RY\5\30\r\2ST\7\21\2\2TU\7"+
+		"\f\2\2UV\7\22\2\2VW\7\r\2\2WY\7\21\2\2XR\3\2\2\2XS\3\2\2\2Y\27\3\2\2\2"+
+		"Z[\7\16\2\2[\\\7\24\2\2\\]\7\23\2\2]^\7\r\2\2^_\7\21\2\2_\31\3\2\2\2`"+
+		"a\7\17\2\2a\33\3\2\2\2\t&(\67:AFX";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
