@@ -116,10 +116,11 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void enterTransition(ArduinomlParser.TransitionContext ctx) {
         // Creating a placeholder as the next state might not have been compiled yet.
         Binding toBeResolvedLater = new Binding();
-        toBeResolvedLater.to      = ctx.next.getText();
+        System.out.println("Hello transition");
+        /*toBeResolvedLater.to      = ctx.next.getText();
         toBeResolvedLater.trigger = sensors.get(ctx.trigger.getText());
         toBeResolvedLater.value   = SIGNAL.valueOf(ctx.value.getText());
-        bindings.put(currentState.getName(), toBeResolvedLater);
+        bindings.put(currentState.getName(), toBeResolvedLater);*/
     }
 
     @Override
