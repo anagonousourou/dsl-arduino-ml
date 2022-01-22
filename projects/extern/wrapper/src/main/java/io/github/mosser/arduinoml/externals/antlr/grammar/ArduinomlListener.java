@@ -98,16 +98,6 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitAction(ArduinomlParser.ActionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#condition}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondition(ArduinomlParser.ConditionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#condition}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondition(ArduinomlParser.ConditionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#transition}.
 	 * @param ctx the parse tree
 	 */
@@ -137,6 +127,26 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#conjunctionTriggerTransition}.
+	 * @param ctx the parse tree
+	 */
+	void enterConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#conjunctionTriggerTransition}.
+	 * @param ctx the parse tree
+	 */
+	void exitConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#disjunctionTriggerTransition}.
+	 * @param ctx the parse tree
+	 */
+	void enterDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#disjunctionTriggerTransition}.
+	 * @param ctx the parse tree
+	 */
+	void exitDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#initial}.
 	 * @param ctx the parse tree

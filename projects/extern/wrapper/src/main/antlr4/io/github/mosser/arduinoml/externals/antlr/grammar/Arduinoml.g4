@@ -11,35 +11,41 @@ declaration: 'application' name = IDENTIFIER;
 bricks: (sensor | actuator)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
-location: id = IDENTIFIER ':' port = PORT_NUMBER;
+location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
 state: initial? name = IDENTIFIER '{' action+ transition+ '}';
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
-condition:
-	trigger1 = IDENTIFIER ('or' | 'and') trigger2 = IDENTIFIER;
 
-transition: temporalTransition | triggerTransition;
+transition:
+	temporalTransition
+	| triggerTransition
+	| conjunctionTriggerTransition
+	| disjunctionTriggerTransition;
 temporalTransition:
-	'after' duration = INTEGER 'milliseconds' '=>' next = IDENTIFIER;
+	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
 triggerTransition:
 	trigger = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
+conjunctionTriggerTransition:
+	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL '=>' next = IDENTIFIER;
+
+disjunctionTriggerTransition:
+	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
 initial: '->';
 
 /*****************
  * * Lexer rules ** ***************
  */
 
-PORT_NUMBER: [1-9] | '11' | '12';
-IDENTIFIER: LOWERCASE (LOWERCASE | UPPERCASE)+;
-SIGNAL: 'HIGH' | 'LOW';
 DURATION_UNIT: 'milliseconds' | 'millisecond';
+IDENTIFIER: LOWERCASE (LOWERCASE | UPPERCASE | DIGITS)+;
+SIGNAL: 'HIGH' | 'LOW';
 INTEGER: [1-9] [0-9]*;
 
 /*************
  * * Helpers ** ***********
  */
-
+fragment DIGITS : [0-9];
 fragment LOWERCASE: [a-z];
 // abstract rule, does not really exists
 fragment UPPERCASE: [A-Z];

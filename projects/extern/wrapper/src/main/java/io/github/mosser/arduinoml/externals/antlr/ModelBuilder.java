@@ -1,19 +1,23 @@
 package io.github.mosser.arduinoml.externals.antlr;
 
-import io.github.mosser.arduinoml.externals.antlr.grammar.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ConjunctionTriggerTransitionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.DisjunctionTriggerTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TriggerTransitionContext;
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.ConjunctionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
 
@@ -42,10 +46,19 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private Map<String, State> states = new HashMap<>();
     private Map<String, Binding> bindings = new HashMap<>();
     private Map<String, TemporalTransitionBinding> temporalBindings = new HashMap<>();
+    private Map<String, MultipleTriggersTransitionBinding> conjunctionBindings = new HashMap<>();
 
     private class Binding { // used to support state resolution for transitions
         String to; // name of the next state, as its instance might not have been compiled yet
         Sensor trigger;
+        SIGNAL value;
+    }
+
+    private static class MultipleTriggersTransitionBinding {
+        String operator;
+        Sensor trigger1;
+        Sensor trigger2;
+        String to; // name of the next state, as its instance might not have been compiled yet
         SIGNAL value;
     }
 
@@ -82,7 +95,12 @@ public class ModelBuilder extends ArduinomlBaseListener {
         this.temporalBindings.forEach((fromState, transition) ->
 
         states.get(fromState)
-                .addTemporalTransition(new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
+                .addTemporalTransition(
+                        new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
+
+        this.conjunctionBindings.forEach((fromState, binding) -> states.get(fromState)
+                .addMultipleConditionTransition(new ConjunctionTransition(states.get(binding.to),
+                        binding.trigger1, binding.trigger2, binding.value, binding.operator)));
 
         this.built = true;
     }
@@ -150,12 +168,37 @@ public class ModelBuilder extends ArduinomlBaseListener {
         toBeResolvedLater.to = ctx.next.getText();
         toBeResolvedLater.trigger = sensors.get(ctx.trigger.getText());
         toBeResolvedLater.value = SIGNAL.valueOf(ctx.value.getText());
-        bindings.put(currentState.getName(), toBeResolvedLater);
+        bindings.put(this.currentState.getName(), toBeResolvedLater);// TODO the map means that only one transition is
+                                                                     // available by state
     }
 
     @Override
     public void enterInitial(ArduinomlParser.InitialContext ctx) {
         this.theApp.setInitial(this.currentState);
+    }
+
+    @Override
+    public void enterConjunctionTriggerTransition(ConjunctionTriggerTransitionContext ctx) {
+        MultipleTriggersTransitionBinding binding = new MultipleTriggersTransitionBinding();
+        binding.operator = "and";
+        binding.to = ctx.next.getText();
+        binding.trigger1 = sensors.get(ctx.trigger1.getText());
+        binding.trigger2 = sensors.get(ctx.trigger2.getText());
+        binding.value = SIGNAL.valueOf(ctx.value.getText());
+
+        this.conjunctionBindings.put(this.currentState.getName(), binding);
+    }
+
+    @Override
+    public void enterDisjunctionTriggerTransition(DisjunctionTriggerTransitionContext ctx) {
+        MultipleTriggersTransitionBinding binding = new MultipleTriggersTransitionBinding();
+        binding.operator = "or";
+        binding.to = ctx.next.getText();
+        binding.trigger1 = sensors.get(ctx.trigger1.getText());
+        binding.trigger2 = sensors.get(ctx.trigger2.getText());
+        binding.value = SIGNAL.valueOf(ctx.value.getText());
+
+        this.conjunctionBindings.put(this.currentState.getName(), binding);
     }
 
 }

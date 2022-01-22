@@ -43,6 +43,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		app.getStates().forEach(state -> state.getTemporalTransitions().forEach(transition -> transition.accept(this)));
 
+		
+
 		for (Brick brick : app.getBricks()) {
 			brick.accept(this);
 		}
@@ -101,6 +103,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 			state.getTransitions().forEach(transition -> transition.accept(this));
 			state.getTemporalTransitions().forEach(transition -> transition.accept(this));
+			state.getMultipleConditionTransitions().forEach(transition -> transition.accept(this));
 			w("\t\tbreak;\n");
 		}
 
@@ -141,10 +144,36 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		else if (context.get("pass") == PASS.TWO) {
 			w(String.format(
-					"\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\tif( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\ttemporal_transition_time%d = 0;%n\t\t\t}%n",
+					"\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\telse if( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\ttemporal_transition_time%d = 0;%n\t\t\t}%n",
 					transition.getNumber(), transition.getNumber(), transition.getNumber(), transition.getAfter(),
 					transition.getNext().getName(), transition.getNumber()));
 		}
+
+	}
+
+	@Override
+	public void visit(ConjunctionTransition transition) {
+
+		if (context.get("pass") == PASS.TWO) {
+			String sensorName = transition.getSensor1().getName();
+			w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
+					sensorName, sensorName));
+
+			if ("or".equals(transition.getOperator())) {
+				w(String.format("\t\t\tif((digitalRead(%d) == %s || digitalRead(%d) == %s) && %sBounceGuard) {%n",
+						transition.getSensor1().getPin(), transition.getValue(), transition.getSensor2().getPin(),
+						transition.getValue(), sensorName));
+			} else if ("and".equals(transition.getOperator())) {
+				w(String.format("\t\t\tif((digitalRead(%d) == %s && digitalRead(%d) == %s) && %sBounceGuard) {%n",
+						transition.getSensor1().getPin(), transition.getValue(), transition.getSensor2().getPin(),
+						transition.getValue(), sensorName));
+			}
+
+			w(String.format("\t\t\t\t%sLastDebounceTime = millis();%n", sensorName));
+			w("\t\t\t\tcurrentState = " + transition.getNext().getName() + ";\n");
+			w("\t\t\t}\n");
+		}
+		// TODO Auto-generated method stub
 
 	}
 

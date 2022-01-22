@@ -124,18 +124,6 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCondition(ArduinomlParser.ConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCondition(ArduinomlParser.ConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterTransition(ArduinomlParser.TransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -167,6 +155,30 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
