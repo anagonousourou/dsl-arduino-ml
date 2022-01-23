@@ -144,10 +144,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     @Override
     public void enterAction(ArduinomlParser.ActionContext ctx) {
-        Action action = new Action();
-        action.setActuator(actuators.get(ctx.receiver.getText()));
-        action.setValue(SIGNAL.valueOf(ctx.value.getText()));
-        currentState.getActions().add(action);
+        
+        if(actuators.get(ctx.receiver.getText())==null){
+            System.err.println("Undeclared actuator "+ctx.receiver.getText()+". Compilation failed");
+            System.exit(1);
+        }
+        else{
+            Action action = new Action();
+            action.setActuator(actuators.get(ctx.receiver.getText()));
+            action.setValue(SIGNAL.valueOf(ctx.value.getText()));
+            currentState.getActions().add(action);
+        }
+        
     }
 
     @Override

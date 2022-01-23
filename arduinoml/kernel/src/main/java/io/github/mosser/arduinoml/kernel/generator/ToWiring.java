@@ -22,6 +22,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(App app) {
+		this.result = new StringBuffer();
 		// first pass, create global vars
 		context.put("pass", PASS.ONE);
 		w("// Wiring code generated from an ArduinoML model\n");
