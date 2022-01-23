@@ -144,7 +144,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		else if (context.get("pass") == PASS.TWO) {
 			w(String.format(
-					"\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\telse if( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\ttemporal_transition_time%d = 0;%n\t\t\t}%n",
+					"\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\telse if( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\t_temporal_transition_time%d = 0;%n\t\t\t}%n",
 					transition.getNumber(), transition.getNumber(), transition.getNumber(), transition.getAfter(),
 					transition.getNext().getName(), transition.getNumber()));
 		}

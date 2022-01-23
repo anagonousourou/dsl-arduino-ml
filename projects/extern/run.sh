@@ -1,1 +1,0 @@
- mvn clean install; cd wrapper; mvn exec:java -Dexec.args="src/main/resources/$1"; cd ..;
