@@ -15,7 +15,7 @@ public class State implements NamedElement, Visitable {
 
 	private List<TemporalTransition> temporalTransitions;
 
-	private List<ConjunctionTransition> multipleConditionTransitions = new ArrayList<>();
+	private List<MultipleConditionTransition> multipleConditionTransitions = new ArrayList<>();
 
 	@Override
 	public String getName() {
@@ -42,11 +42,11 @@ public class State implements NamedElement, Visitable {
 		return temporalTransitions;
 	}
 
-	public List<ConjunctionTransition> getMultipleConditionTransitions() {
+	public List<MultipleConditionTransition> getMultipleConditionTransitions() {
 		return multipleConditionTransitions;
 	}
 
-	public void addMultipleConditionTransition(ConjunctionTransition transition){
+	public void addMultipleConditionTransition(MultipleConditionTransition transition){
 		this.multipleConditionTransitions.add(transition);
 	}
 

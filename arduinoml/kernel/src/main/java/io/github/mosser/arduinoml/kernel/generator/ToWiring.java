@@ -153,7 +153,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 	}
 
 	@Override
-	public void visit(ConjunctionTransition transition) {
+	public void visit(MultipleConditionTransition transition) {
 
 		if (context.get("pass") == PASS.TWO) {
 			String sensorName = transition.getSensor1().getName();

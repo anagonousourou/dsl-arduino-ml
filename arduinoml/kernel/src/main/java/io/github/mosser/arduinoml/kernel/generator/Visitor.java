@@ -19,7 +19,7 @@ public abstract class Visitor<T> {
 	public abstract void visit(Sensor sensor);
 	public abstract void visit(TemporalTransition transition);
 
-	public abstract void visit(ConjunctionTransition transition);
+	public abstract void visit(MultipleConditionTransition transition);
 
 	/***********************
 	 ** Helper mechanisms **

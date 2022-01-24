@@ -11,7 +11,7 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.Tempor
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TriggerTransitionContext;
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.ConjunctionTransition;
+import io.github.mosser.arduinoml.kernel.behavioral.MultipleConditionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
@@ -99,7 +99,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
                         new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
 
         this.conjunctionBindings.forEach((fromState, binding) -> states.get(fromState)
-                .addMultipleConditionTransition(new ConjunctionTransition(states.get(binding.to),
+                .addMultipleConditionTransition(new MultipleConditionTransition(states.get(binding.to),
                         binding.trigger1, binding.trigger2, binding.value, binding.operator)));
 
         this.built = true;
