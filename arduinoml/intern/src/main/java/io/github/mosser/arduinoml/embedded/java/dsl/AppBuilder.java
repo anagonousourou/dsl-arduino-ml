@@ -76,8 +76,8 @@ public class AppBuilder {
 
         Map<String, Sensor> sensorTable =
                 theApp.getBricks().stream()
-                        .filter(b -> b instanceof Sensor)
-                        .map( b -> (Sensor) b)
+                        .filter(Sensor.class::isInstance)
+                        .map( Sensor.class::cast)
                         .collect(Collectors.toMap(Brick::getName, Function.identity()));
 
         return new TransitionTableBuilder(this, stateTable, sensorTable);

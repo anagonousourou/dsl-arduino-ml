@@ -5,7 +5,7 @@
 
 ## Prerequisites
 
-The `pom.xml` file models this project as a Maven one. It reliez on the `kernel-jvm` dependency, which must be installed (as in `mvn install`) before compiling this project. The code also uses lambda-expressions, ans thus requires Java 8.
+The `pom.xml` file models this project as a Maven one. It reliez on the `kernel-jvm` dependency, which must be installed (as in `mvn install`) before compiling this project. The code also uses lambda-expressions, and thus requires Java 8.
 
 To run the code, considering the kernel available in the local maven repository:
 

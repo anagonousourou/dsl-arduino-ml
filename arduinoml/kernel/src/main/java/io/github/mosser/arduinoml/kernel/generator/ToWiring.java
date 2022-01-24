@@ -74,7 +74,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		if (context.get("pass") == PASS.TWO) {
 			w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]%n", actuator.getPin(), actuator.getName()));
-			return;
 		}
 	}
 

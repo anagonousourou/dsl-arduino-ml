@@ -16,10 +16,10 @@ This is a quick and dirty implementation of the ArduinoML kernel, using the Java
 
 ## Running the example
 
-We consider here that the current directory is the `antlr` directory. 
+We consider here that the current directory is the `extern` directory. 
 
   1. Make sure the ArduinoML JVM kernel is installed in your local maven repository
-    * `cd ../../kernels/jvm; mvn clean install`
+    * `cd ..; mvn clean install; cd extern;`
   2. Then, compile the ANTLR code
     * `mvn clean package`
   3. Run the compiler using the `exec` plugin:
@@ -48,8 +48,4 @@ To perform such a classical task, ANTLR provides a listener-based mechanism. Usi
 Running the compiler is quite straightforward (`Main.java`).
 
 First, we obtain a `CharStream` from the file to be used as input by the compiler (method `getCharStream`). Then, we run the compiler on this char stream to obtain an instance of `App` (method `buildModel`), the representation defined by the kernel to model an ArduinoML application. Finally, we trigger a visit of this model to generate the code to be executed on the Arduino board.
-
-### Importing in IntelliJ
-
-For the IntelliJ IDE, do not forget to right-click on the `antlr4` directory inside the `target` one (obtained after running the ANTLR tool on the g4 grammar) ans select _"mark directory as generated source root"_. It will allow IntelliJ to deal with the generated source easily.
 

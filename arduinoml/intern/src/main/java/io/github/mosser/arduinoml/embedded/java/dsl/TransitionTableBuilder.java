@@ -1,10 +1,9 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
-
 import java.util.Map;
+
+import io.github.mosser.arduinoml.kernel.behavioral.State;
+import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
 public class TransitionTableBuilder {
 
@@ -19,8 +18,7 @@ public class TransitionTableBuilder {
     }
 
     public TransitionBuilder from(String state) {
-        TransitionBuilder builder = new TransitionBuilder(this, state);
-        return builder;
+        return new TransitionBuilder(this, state);
     }
 
 

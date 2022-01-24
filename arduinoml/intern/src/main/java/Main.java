@@ -74,28 +74,6 @@ public class Main {
                 .endTransitionTable()
                 .build();
 
-        /*
-         * sensor button: 9
-         * actuator ll: 12
-         * actuator buz: 8
-         * 
-         * -> start {
-         * ll <= LOW
-         * buz <= LOW
-         * button is HIGH => stateA
-         * }
-         * stateA {
-         * ll <= HIGH
-         * after 3000 milliseconds => stateB
-         * }
-         * 
-         * stateB {
-         * buz <= HIGH
-         * ll <= LOW
-         * after 2000 milliseconds => start
-         * }
-         */
-
         App temporalTransitionScenario2 = application("temporalTransitionScenario2")
                 .uses(sensor("button", 9)).uses(actuator("led", 12)).uses(actuator("buz", 4))
                 .hasForState("start").initial().setting("led").toLow().setting("buz").toLow().endState()
