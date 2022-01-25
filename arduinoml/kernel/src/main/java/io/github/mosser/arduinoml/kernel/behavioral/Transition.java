@@ -7,9 +7,7 @@ import io.github.mosser.arduinoml.kernel.structural.*;
 public class Transition implements Visitable {
 
 	private State next;
-	private Sensor sensor;
-	private SIGNAL value;
-
+	private TransitionCondition transitionCondition;
 
 	public State getNext() {
 		return next;
@@ -19,24 +17,23 @@ public class Transition implements Visitable {
 		this.next = next;
 	}
 
-	public Sensor getSensor() {
-		return sensor;
-	}
-
-	public void setSensor(Sensor sensor) {
-		this.sensor = sensor;
-	}
-
-	public SIGNAL getValue() {
-		return value;
-	}
-
-	public void setValue(SIGNAL value) {
-		this.value = value;
-	}
-
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
+	public TransitionCondition getTransitionCondition() {
+		return transitionCondition;
+	}
+
+	public void setTransitionCondition(TransitionCondition transitionCondition) {
+		this.transitionCondition = transitionCondition;
+	}
+
+	@Override
+	public String toString() {
+		return "Transition [next=" + next + ", transitionCondition=" + transitionCondition + "]";
+	}
+
+
 }

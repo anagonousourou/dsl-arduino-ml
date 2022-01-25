@@ -11,11 +11,9 @@ public class State implements NamedElement, Visitable {
 
 	private String name;
 	private List<Action> actions = new ArrayList<>();
-	private List<Transition> transitions;
-
-	private List<TemporalTransition> temporalTransitions;
-
-	private List<MultipleConditionTransition> multipleConditionTransitions = new ArrayList<>();
+	private List<Transition> transitions = new ArrayList<>();
+	private List<ExceptionTransition> exceptionTransitions = new ArrayList<>();
+	private List<TemporalTransition> temporalTransitions = new ArrayList<>();
 
 	@Override
 	public String getName() {
@@ -31,6 +29,12 @@ public class State implements NamedElement, Visitable {
 		return actions;
 	}
 
+	public List<ExceptionTransition> getExceptionTransitions() {
+		return exceptionTransitions;
+	}
+	public void addExceptionTransition(ExceptionTransition transition) {
+		this.exceptionTransitions.add(transition);
+	}
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
 	}
@@ -40,14 +44,6 @@ public class State implements NamedElement, Visitable {
 			return new ArrayList<>();
 		}
 		return temporalTransitions;
-	}
-
-	public List<MultipleConditionTransition> getMultipleConditionTransitions() {
-		return multipleConditionTransitions;
-	}
-
-	public void addMultipleConditionTransition(MultipleConditionTransition transition){
-		this.multipleConditionTransitions.add(transition);
 	}
 
 	public void addTemporalTransition(TemporalTransition temporalTransition) {
@@ -76,4 +72,10 @@ public class State implements NamedElement, Visitable {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public String toString() {
+		return "State [name=" + name + "]";
+	}
+	
 }

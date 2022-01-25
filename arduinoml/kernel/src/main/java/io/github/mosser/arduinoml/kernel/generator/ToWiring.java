@@ -37,14 +37,17 @@ public class ToWiring extends Visitor<StringBuffer> {
 			state.accept(this);
 			sep = ", ";
 		}
+		for (ExceptionState state : app.getExceptionStates()) {
+			w(sep);
+			state.accept(this);
+			sep = ", ";
+		}
 		w("};\n");
 		if (app.getInitial() != null) {
 			w("STATE currentState = " + app.getInitial().getName() + ";\n");
 		}
 
 		app.getStates().forEach(state -> state.getTemporalTransitions().forEach(transition -> transition.accept(this)));
-
-		
 
 		for (Brick brick : app.getBricks()) {
 			brick.accept(this);
@@ -61,6 +64,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w("\nvoid loop() {\n" +
 				"\tswitch(currentState){\n");
 		for (State state : app.getStates()) {
+			state.accept(this);
+		}
+		for (ExceptionState state : app.getExceptionStates()) {
 			state.accept(this);
 		}
 		w("\t}\n" +
@@ -103,7 +109,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 			state.getTransitions().forEach(transition -> transition.accept(this));
 			state.getTemporalTransitions().forEach(transition -> transition.accept(this));
-			state.getMultipleConditionTransitions().forEach(transition -> transition.accept(this));
+
 			w("\t\tbreak;\n");
 		}
 
@@ -115,12 +121,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 			return;
 		}
 		if (context.get("pass") == PASS.TWO) {
-			String sensorName = transition.getSensor().getName();
-			w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
-					sensorName, sensorName));
-			w(String.format("\t\t\tif( digitalRead(%d) == %s && %sBounceGuard) {%n",
-					transition.getSensor().getPin(), transition.getValue(), sensorName));
-			w(String.format("\t\t\t\t%sLastDebounceTime = millis();%n", sensorName));
+
+			transition.getTransitionCondition().accept(this);
+
 			w("\t\t\t\tcurrentState = " + transition.getNext().getName() + ";\n");
 			w("\t\t\t}\n");
 		}
@@ -152,28 +155,63 @@ public class ToWiring extends Visitor<StringBuffer> {
 	}
 
 	@Override
-	public void visit(MultipleConditionTransition transition) {
+	public void visit(TransitionCondition transitionCondition) {
 
-		if (context.get("pass") == PASS.TWO) {
-			String sensorName = transition.getSensor1().getName();
-			w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
-					sensorName, sensorName));
+		Sensor firstSensor = transitionCondition.getSensors().get(0);
+		w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
+				firstSensor.getName(), firstSensor.getName()));
 
-			if ("or".equals(transition.getOperator())) {
-				w(String.format("\t\t\tif((digitalRead(%d) == %s || digitalRead(%d) == %s) && %sBounceGuard) {%n",
-						transition.getSensor1().getPin(), transition.getValue(), transition.getSensor2().getPin(),
-						transition.getValue(), sensorName));
-			} else if ("and".equals(transition.getOperator())) {
-				w(String.format("\t\t\tif((digitalRead(%d) == %s && digitalRead(%d) == %s) && %sBounceGuard) {%n",
-						transition.getSensor1().getPin(), transition.getValue(), transition.getSensor2().getPin(),
-						transition.getValue(), sensorName));
+		if (transitionCondition.getSensors().size() == 1) {
+			w(String.format("\t\t\tif( digitalRead(%d) == %s ", firstSensor.getPin(), transitionCondition.getValue()));
+		} else {
+			w(String.format("\t\t\tif((digitalRead(%d) == %s", firstSensor.getPin(), transitionCondition.getValue()));
+		}
+
+		for (int i = 1; i < transitionCondition.getSensors().size(); i++) {
+			if ("and".equals(transitionCondition.getOperator())) {
+				w(" && ");
+			} else if ("or".equals(transitionCondition.getOperator())) {
+				w(" || ");
 			}
+			w(String.format("digitalRead(%d) == %s) ", transitionCondition.getSensors().get(i).getPin(),
+					transitionCondition.getValue()));
+		}
 
-			w(String.format("\t\t\t\t%sLastDebounceTime = millis();%n", sensorName));
-			w("\t\t\t\tcurrentState = " + transition.getNext().getName() + ";\n");
+		w(String.format("&& %sBounceGuard) {%n",
+				firstSensor.getName()));
+		w(String.format("\t\t\t\t%sLastDebounceTime = millis();%n", firstSensor.getName()));
+
+	}
+
+	@Override
+	public void visit(ExceptionTransition exceptionTransition) {
+		if (context.get("pass") == PASS.ONE) {
+			return;
+		}
+		if (context.get("pass") == PASS.TWO) {
+
+			exceptionTransition.getTransitionCondition().accept(this);
+
+			w("\t\t\t\tcurrentState = " + exceptionTransition.getNext().getName() + ";\n");
 			w("\t\t\t}\n");
 		}
-		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(ExceptionState exceptionState) {
+		if (context.get("pass") == PASS.ONE) {
+			w(exceptionState.getName());
+		} else if (context.get("pass") == PASS.TWO) {
+			w("\t\tcase " + exceptionState.getName() + ":\n");
+			w(String.format("\t\t\tfor( int  _i = 0; _i < %d ; _i++){%n", exceptionState.getExceptionCode()));
+			w("\t\t\t\tdigitalWrite(12,HIGH);\n");
+			w("\t\t\t\tdelay(500);\n");
+			w("\t\t\t\tdigitalWrite(12,LOW);\n");
+			w("\t\t\t}\n");
+			w("\t\t\tdelay(2000);\n");
+			w("\t\tbreak;\n");
+		}
 
 	}
 

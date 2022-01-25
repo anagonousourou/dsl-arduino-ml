@@ -19,7 +19,7 @@ public abstract class Visitor<T> {
 	public abstract void visit(Sensor sensor);
 	public abstract void visit(TemporalTransition transition);
 
-	public abstract void visit(MultipleConditionTransition transition);
+	public abstract void visit(TransitionCondition transitionCondition);
 
 	/***********************
 	 ** Helper mechanisms **
@@ -32,6 +32,11 @@ public abstract class Visitor<T> {
 	public T getResult() {
 		return result;
 	}
+
+	public  abstract void visit(ExceptionTransition exceptionTransition);
+
+	public abstract void visit(ExceptionState exceptionState); 
+    
 
 }
 

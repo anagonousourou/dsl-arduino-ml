@@ -1,0 +1,26 @@
+application redButton
+
+# Declaring bricks
+sensor button: 9
+sensor button2: 4
+actuator buz: 11
+exception doorViolation: 3
+
+# Declaring states
+-> start {
+    buz <= LOW
+    button is HIGH => goIn
+    button2 is HIGH => getOut
+    handle button and button2 are HIGH => doorViolation
+}
+goIn {
+    buz <= HIGH
+    after 3000 milliseconds => start
+}
+
+getOut {
+    buz <= HIGH
+    after 3000 milliseconds => start
+}
+
+

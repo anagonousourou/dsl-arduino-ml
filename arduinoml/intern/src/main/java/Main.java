@@ -54,7 +54,7 @@ public class Main {
                 .endTransitionTable()
                 .build();
 
-        App scenario4 = application("scenario4").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(12))
+        App scenario4 = application("scenario4").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
                 .uses(actuator("buz").atPin(12))
                 .hasForState("start").initial().setting("led").toLow().setting("buz").toLow().endState()
                 .hasForState("state1").setting("buz").toHigh().endState()
