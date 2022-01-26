@@ -3,6 +3,7 @@ embeddeds/haskell/dist
 .metals
 # Python
 *.py[cod]
+.idea
 
 
 
