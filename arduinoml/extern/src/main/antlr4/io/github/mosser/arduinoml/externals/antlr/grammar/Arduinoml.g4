@@ -18,7 +18,7 @@ location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
 state:
-	initial? name = IDENTIFIER '{' action+ transition+ exceptionTransition* '}';
+	initial? name = IDENTIFIER '{' action+  exceptionTransition* transition+ '}';
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
 exceptionTransition: 'handle' condition '=>' next = IDENTIFIER;

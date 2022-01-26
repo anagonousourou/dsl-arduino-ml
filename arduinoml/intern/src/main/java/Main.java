@@ -1,10 +1,10 @@
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.actuator;
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.application;
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.sensor;
-
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.generator.ToWiring;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
+
+import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.actuator;
+import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.application;
+import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.sensor;
 
 public class Main {
 
@@ -77,7 +77,7 @@ public class Main {
                 .build();
 
         App temporalTransitionScenario2 = application("temporalTransitionScenario2")
-                .uses(sensor("button").atPin(9)).uses(actuator("led").atPin(12)).uses(actuator("buz").atPin( 4))
+                .uses(sensor("button").atPin(9)).uses(actuator("led").atPin(12)).uses(actuator("buz").atPin(4))
                 .hasForState("start").initial().setting("led").toLow().setting("buz").toLow().endState()
                 .hasForState("state1").setting("led").toHigh().endState()
                 .hasForState("state2").setting("buz").toHigh().setting("led").toLow().endState()
@@ -87,6 +87,45 @@ public class Main {
                 .from("state2").after(2).seconds().goTo("start")
                 .endTransitionTable()
                 .build();
+
+        /**
+sensor button: 9
+sensor button2: 4
+actuator buz: 11
+exception doorViolation: 3
+
+# Declaring states
+-> start {
+    buz <= LOW
+    button is HIGH => goIn
+    button2 is HIGH => getOut
+    handle button and button2 are HIGH => doorViolation
+}
+goIn {
+    buz <= HIGH
+    after 3000 milliseconds => start
+}
+
+getOut {
+    buz <= HIGH
+    after 3000 milliseconds => start
+}
+         */
+
+        App exceptionScenario=application("exceptionScenario")
+        .uses(sensor("button").atPin(9)).uses(sensor("button2").atPin(10)).uses(actuator("buz").atPin(11))
+        .hasException("doorViolation").withCode(3)
+        .hasForState("goIn").setting("buz").toHigh().endState()
+        .hasForState("getOut").setting("buz").toHigh().endState()
+        .hasForState("start").initial().setting("buz").toLow().endState()
+        .beginTransitionTable()
+        .from("start").when("button").isHigh().goTo("goIn")
+        .from("start").when("button2").isHigh().goTo("getOut")
+        .from("start").when("button").and("button2").areHigh().raise("doorViolation")
+        .from("goIn").after(3).seconds().goTo("start")
+        .from("getOut").after(3).seconds().goTo("start")
+        .endTransitionTable()
+        .build();
 
         Visitor<StringBuffer> codeGenerator = new ToWiring();
 
@@ -101,7 +140,7 @@ public class Main {
         scenario2.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
-        
+
         scenario3.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
@@ -117,7 +156,11 @@ public class Main {
         temporalTransitionScenario2.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
-    }
 
+
+        exceptionScenario.accept(codeGenerator);
+        System.out.println(codeGenerator.getResult());
+        System.out.println("=============================");
+    }
 
 }

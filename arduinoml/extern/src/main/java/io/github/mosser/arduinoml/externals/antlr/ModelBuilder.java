@@ -1,10 +1,5 @@
 package io.github.mosser.arduinoml.externals.antlr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.AndConditionContext;
@@ -13,7 +8,6 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.Except
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ExceptionTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.OrConditionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.UniqConditionContext;
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
@@ -27,6 +21,11 @@ import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ModelBuilder extends ArduinomlBaseListener {
 
     /********************
@@ -37,14 +36,6 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private boolean built = false;
 
     private long temporalTransitionCounts = 0;
-
-    public App retrieve() {
-        if (built) {
-            return theApp;
-        }
-        throw new RuntimeException("Cannot retrieve a model that was not created!");
-    }
-
     /*******************
      ** Symbol tables **
      *******************/
@@ -53,26 +44,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private Map<String, Actuator> actuators = new HashMap<>();
     private Map<String, State> states = new HashMap<>();
     private Map<String, TemporalTransitionBinding> temporalBindings = new HashMap<>();
-
     private Map<String, ExceptionState> exceptionStates = new HashMap<>();
-
     private List<UnfinishedTransitionBinding> unfinishedTransitionBinding = new ArrayList<>();
     private Transition currentTransition;
-
-    private static class UnfinishedTransitionBinding {
-        String from;
-        Transition unfinishedTransition;
-        String to; // name of the next state, as its instance might not have been compiled yet
-    }
-
-    private static class TemporalTransitionBinding {
-        String to;
-        long after;
-        long number;
-    }
-
     private State currentState = null;
     private ExceptionTransition exceptionTransition = null;
+
+    public App retrieve() {
+        if (built) {
+            return theApp;
+        }
+        throw new RuntimeException("Cannot retrieve a model that was not created!");
+    }
 
     /**************************
      ** Listening mechanisms **
@@ -97,9 +80,9 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
         this.temporalBindings.forEach((fromState, transition) ->
 
-        states.get(fromState)
-                .addTemporalTransition(
-                        new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
+                states.get(fromState)
+                        .addTemporalTransition(
+                                new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
 
         this.built = true;
     }
@@ -182,7 +165,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
         transitionCondition.addSensor(sensors.get(ctx.trigger2.getText()));
         transitionCondition.setOperator("and");
         transitionCondition.setValue(SIGNAL.valueOf(ctx.value.getText()));
-        
+
         if (this.exceptionTransition != null) {
             this.exceptionTransition.setTransitionCondition(transitionCondition);
 
@@ -254,6 +237,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void exitExceptionTransition(ExceptionTransitionContext ctx) {
         this.currentState.addExceptionTransition(this.exceptionTransition);
         this.exceptionTransition = null; // to leave an exception handling
+    }
+
+    private static class UnfinishedTransitionBinding {
+        String from;
+        Transition unfinishedTransition;
+        String to; // name of the next state, as its instance might not have been compiled yet
+    }
+
+    private static class TemporalTransitionBinding {
+        String to;
+        long after;
+        long number;
     }
 
 }

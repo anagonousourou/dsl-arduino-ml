@@ -2,16 +2,16 @@ application redButton
 
 # Declaring bricks
 sensor button: 9
-sensor button2: 4
+sensor button2: 10
 actuator buz: 11
 exception doorViolation: 3
 
 # Declaring states
 -> start {
     buz <= LOW
-    button is HIGH => goIn
-    button2 is HIGH => getOut
     handle button and button2 are HIGH => doorViolation
+    button is HIGH => goIn
+    button2 is HIGH => getOut 
 }
 goIn {
     buz <= HIGH

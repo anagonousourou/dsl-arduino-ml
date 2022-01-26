@@ -511,17 +511,17 @@ public class ArduinomlParser extends Parser {
 		public ActionContext action(int i) {
 			return getRuleContext(ActionContext.class,i);
 		}
-		public List<TransitionContext> transition() {
-			return getRuleContexts(TransitionContext.class);
-		}
-		public TransitionContext transition(int i) {
-			return getRuleContext(TransitionContext.class,i);
-		}
 		public List<ExceptionTransitionContext> exceptionTransition() {
 			return getRuleContexts(ExceptionTransitionContext.class);
 		}
 		public ExceptionTransitionContext exceptionTransition(int i) {
 			return getRuleContext(ExceptionTransitionContext.class,i);
+		}
+		public List<TransitionContext> transition() {
+			return getRuleContexts(TransitionContext.class);
+		}
+		public TransitionContext transition(int i) {
+			return getRuleContext(TransitionContext.class,i);
 		}
 		public StateContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -579,34 +579,34 @@ public class ArduinomlParser extends Parser {
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(84); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(83);
-				transition();
-				}
-				}
-				setState(86); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( _la==T__10 || _la==IDENTIFIER );
-			setState(91);
+			setState(86);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__8) {
 				{
 				{
-				setState(88);
+				setState(83);
 				exceptionTransition();
 				}
 				}
-				setState(93);
+				setState(88);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
+			setState(90); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(89);
+				transition();
+				}
+				}
+				setState(92); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==T__10 || _la==IDENTIFIER );
 			setState(94);
 			match(T__6);
 			}
@@ -1120,7 +1120,7 @@ public class ArduinomlParser extends Parser {
 		"\4\23\t\23\4\24\t\24\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\3\4\6\4\64"+
 		"\n\4\r\4\16\4\65\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3"+
 		"\b\3\b\3\t\6\tH\n\t\r\t\16\tI\3\n\5\nM\n\n\3\n\3\n\3\n\6\nR\n\n\r\n\16"+
-		"\nS\3\n\6\nW\n\n\r\n\16\nX\3\n\7\n\\\n\n\f\n\16\n_\13\n\3\n\3\n\3\13\3"+
+		"\nS\3\n\7\nW\n\n\f\n\16\nZ\13\n\3\n\6\n]\n\n\r\n\16\n^\3\n\3\n\3\13\3"+
 		"\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\r\3\r\5\rn\n\r\3\16\3\16\3\16\3\16"+
 		"\3\16\3\16\3\17\3\17\3\17\5\17y\n\17\3\20\3\20\3\20\3\20\3\20\3\20\3\21"+
 		"\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\24"+
@@ -1136,19 +1136,19 @@ public class ArduinomlParser extends Parser {
 		"\2\2@A\7\26\2\2A\r\3\2\2\2BC\7\24\2\2CD\7\7\2\2DE\7\26\2\2E\17\3\2\2\2"+
 		"FH\5\22\n\2GF\3\2\2\2HI\3\2\2\2IG\3\2\2\2IJ\3\2\2\2J\21\3\2\2\2KM\5&\24"+
 		"\2LK\3\2\2\2LM\3\2\2\2MN\3\2\2\2NO\7\24\2\2OQ\7\b\2\2PR\5\24\13\2QP\3"+
-		"\2\2\2RS\3\2\2\2SQ\3\2\2\2ST\3\2\2\2TV\3\2\2\2UW\5\30\r\2VU\3\2\2\2WX"+
-		"\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y]\3\2\2\2Z\\\5\26\f\2[Z\3\2\2\2\\_\3\2\2"+
-		"\2][\3\2\2\2]^\3\2\2\2^`\3\2\2\2_]\3\2\2\2`a\7\t\2\2a\23\3\2\2\2bc\7\24"+
-		"\2\2cd\7\n\2\2de\7\25\2\2e\25\3\2\2\2fg\7\13\2\2gh\5\34\17\2hi\7\f\2\2"+
-		"ij\7\24\2\2j\27\3\2\2\2kn\5$\23\2ln\5\32\16\2mk\3\2\2\2ml\3\2\2\2n\31"+
-		"\3\2\2\2op\7\r\2\2pq\7\26\2\2qr\7\23\2\2rs\7\f\2\2st\7\24\2\2t\33\3\2"+
-		"\2\2uy\5\"\22\2vy\5\36\20\2wy\5 \21\2xu\3\2\2\2xv\3\2\2\2xw\3\2\2\2y\35"+
-		"\3\2\2\2z{\7\24\2\2{|\7\16\2\2|}\7\24\2\2}~\7\17\2\2~\177\7\25\2\2\177"+
-		"\37\3\2\2\2\u0080\u0081\7\24\2\2\u0081\u0082\7\20\2\2\u0082\u0083\7\24"+
-		"\2\2\u0083\u0084\7\21\2\2\u0084\u0085\7\25\2\2\u0085!\3\2\2\2\u0086\u0087"+
-		"\7\24\2\2\u0087\u0088\7\21\2\2\u0088\u0089\7\25\2\2\u0089#\3\2\2\2\u008a"+
-		"\u008b\5\34\17\2\u008b\u008c\7\f\2\2\u008c\u008d\7\24\2\2\u008d%\3\2\2"+
-		"\2\u008e\u008f\7\22\2\2\u008f\'\3\2\2\2\13\63\65ILSX]mx";
+		"\2\2\2RS\3\2\2\2SQ\3\2\2\2ST\3\2\2\2TX\3\2\2\2UW\5\26\f\2VU\3\2\2\2WZ"+
+		"\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2[]\5\30\r\2\\[\3\2\2"+
+		"\2]^\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_`\3\2\2\2`a\7\t\2\2a\23\3\2\2\2bc\7"+
+		"\24\2\2cd\7\n\2\2de\7\25\2\2e\25\3\2\2\2fg\7\13\2\2gh\5\34\17\2hi\7\f"+
+		"\2\2ij\7\24\2\2j\27\3\2\2\2kn\5$\23\2ln\5\32\16\2mk\3\2\2\2ml\3\2\2\2"+
+		"n\31\3\2\2\2op\7\r\2\2pq\7\26\2\2qr\7\23\2\2rs\7\f\2\2st\7\24\2\2t\33"+
+		"\3\2\2\2uy\5\"\22\2vy\5\36\20\2wy\5 \21\2xu\3\2\2\2xv\3\2\2\2xw\3\2\2"+
+		"\2y\35\3\2\2\2z{\7\24\2\2{|\7\16\2\2|}\7\24\2\2}~\7\17\2\2~\177\7\25\2"+
+		"\2\177\37\3\2\2\2\u0080\u0081\7\24\2\2\u0081\u0082\7\20\2\2\u0082\u0083"+
+		"\7\24\2\2\u0083\u0084\7\21\2\2\u0084\u0085\7\25\2\2\u0085!\3\2\2\2\u0086"+
+		"\u0087\7\24\2\2\u0087\u0088\7\21\2\2\u0088\u0089\7\25\2\2\u0089#\3\2\2"+
+		"\2\u008a\u008b\5\34\17\2\u008b\u008c\7\f\2\2\u008c\u008d\7\24\2\2\u008d"+
+		"%\3\2\2\2\u008e\u008f\7\22\2\2\u008f\'\3\2\2\2\13\63\65ILSX^mx";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
