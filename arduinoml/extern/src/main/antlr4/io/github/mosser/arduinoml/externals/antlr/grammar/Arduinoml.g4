@@ -8,29 +8,30 @@ root: declaration bricks states EOF;
 
 declaration: 'application' name = IDENTIFIER;
 
-bricks: (sensor | actuator)+;
+bricks: (sensor | actuator | exceptionDeclaration)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
+exceptionDeclaration:
+	'exception' name = IDENTIFIER ':' code = INTEGER;
+
 location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
-state: initial? name = IDENTIFIER '{' action+ transition+ '}';
+state:
+	initial? name = IDENTIFIER '{' action+  exceptionTransition* transition+ '}';
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
-transition:
-	temporalTransition
-	| triggerTransition
-	| conjunctionTriggerTransition
-	| disjunctionTriggerTransition;
+exceptionTransition: 'handle' condition '=>' next = IDENTIFIER;
+transition: conditionTransition | temporalTransition;
 temporalTransition:
 	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
-triggerTransition:
-	trigger = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
-conjunctionTriggerTransition:
-	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL '=>' next = IDENTIFIER;
-
-disjunctionTriggerTransition:
-	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
+condition: uniqCondition | andCondition | orCondition;
+andCondition:
+	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL;
+orCondition:
+	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL;
+uniqCondition: trigger = IDENTIFIER 'is' value = SIGNAL;
+conditionTransition: condition '=>' next = IDENTIFIER;
 initial: '->';
 
 /*****************
@@ -45,7 +46,7 @@ INTEGER: [1-9] [0-9]*;
 /*************
  * * Helpers ** ***********
  */
-fragment DIGITS : [0-9];
+fragment DIGITS: [0-9];
 fragment LOWERCASE: [a-z];
 // abstract rule, does not really exists
 fragment UPPERCASE: [A-Z];

@@ -1,23 +1,30 @@
 package io.github.mosser.arduinoml.externals.antlr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ConjunctionTriggerTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.DisjunctionTriggerTransitionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.AndConditionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ConditionTransitionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ExceptionDeclarationContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ExceptionTransitionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.OrConditionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TriggerTransitionContext;
+import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.UniqConditionContext;
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.MultipleConditionTransition;
+import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
+import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
+import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
 
@@ -29,14 +36,6 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private boolean built = false;
 
     private long temporalTransitionCounts = 0;
-
-    public App retrieve() {
-        if (built) {
-            return theApp;
-        }
-        throw new RuntimeException("Cannot retrieve a model that was not created!");
-    }
-
     /*******************
      ** Symbol tables **
      *******************/
@@ -44,31 +43,19 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private Map<String, Sensor> sensors = new HashMap<>();
     private Map<String, Actuator> actuators = new HashMap<>();
     private Map<String, State> states = new HashMap<>();
-    private Map<String, Binding> bindings = new HashMap<>();
     private Map<String, TemporalTransitionBinding> temporalBindings = new HashMap<>();
-    private Map<String, MultipleTriggersTransitionBinding> conjunctionBindings = new HashMap<>();
-
-    private class Binding { // used to support state resolution for transitions
-        String to; // name of the next state, as its instance might not have been compiled yet
-        Sensor trigger;
-        SIGNAL value;
-    }
-
-    private static class MultipleTriggersTransitionBinding {
-        String operator;
-        Sensor trigger1;
-        Sensor trigger2;
-        String to; // name of the next state, as its instance might not have been compiled yet
-        SIGNAL value;
-    }
-
-    private static class TemporalTransitionBinding {
-        String to;
-        long after;
-        long number;
-    }
-
+    private Map<String, ExceptionState> exceptionStates = new HashMap<>();
+    private List<UnfinishedTransitionBinding> unfinishedTransitionBinding = new ArrayList<>();
+    private Transition currentTransition;
     private State currentState = null;
+    private ExceptionTransition exceptionTransition = null;
+
+    public App retrieve() {
+        if (built) {
+            return theApp;
+        }
+        throw new RuntimeException("Cannot retrieve a model that was not created!");
+    }
 
     /**************************
      ** Listening mechanisms **
@@ -84,23 +71,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void exitRoot(ArduinomlParser.RootContext ctx) {
         // Resolving states in transitions
 
-        bindings.forEach((key, binding) -> {
-            Transition t = new Transition();
-            t.setSensor(binding.trigger);
-            t.setValue(binding.value);
-            t.setNext(states.get(binding.to));
-            states.get(key).addTransition(t);
+        states.forEach((stateName, state) -> {
+            this.unfinishedTransitionBinding.stream().filter(unt -> unt.from.equals(stateName)).map(unt -> {
+                unt.unfinishedTransition.setNext(states.get(unt.to));
+                return unt.unfinishedTransition;
+            }).forEach(state::addTransition);
         });
 
         this.temporalBindings.forEach((fromState, transition) ->
 
-        states.get(fromState)
-                .addTemporalTransition(
-                        new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
-
-        this.conjunctionBindings.forEach((fromState, binding) -> states.get(fromState)
-                .addMultipleConditionTransition(new MultipleConditionTransition(states.get(binding.to),
-                        binding.trigger1, binding.trigger2, binding.value, binding.operator)));
+                states.get(fromState)
+                        .addTemporalTransition(
+                                new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
 
         this.built = true;
     }
@@ -144,18 +126,82 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     @Override
     public void enterAction(ArduinomlParser.ActionContext ctx) {
-        
-        if(actuators.get(ctx.receiver.getText())==null){
-            System.err.println("Undeclared actuator "+ctx.receiver.getText()+". Compilation failed");
+
+        if (actuators.get(ctx.receiver.getText()) == null) {
+            System.err.println("Undeclared actuator " + ctx.receiver.getText() + ". Compilation failed");
             System.exit(1);
-        }
-        else{
+        } else {
             Action action = new Action();
             action.setActuator(actuators.get(ctx.receiver.getText()));
             action.setValue(SIGNAL.valueOf(ctx.value.getText()));
             currentState.getActions().add(action);
         }
-        
+
+    }
+
+    @Override
+    public void enterConditionTransition(ConditionTransitionContext ctx) {
+
+        this.currentTransition = new Transition();
+        //this.currentTransition.setNext();
+    }
+
+    @Override
+    public void exitConditionTransition(ConditionTransitionContext ctx) {
+        UnfinishedTransitionBinding tmp = new UnfinishedTransitionBinding();
+        tmp.from = this.currentState.getName();
+        tmp.to = ctx.next.getText();
+        tmp.unfinishedTransition = this.currentTransition;
+        this.unfinishedTransitionBinding.add(tmp);
+
+        this.currentTransition = null;
+    }
+
+    @Override
+    public void enterAndCondition(AndConditionContext ctx) {
+
+        TransitionCondition transitionCondition = new TransitionCondition();
+        transitionCondition.addSensor(sensors.get(ctx.trigger1.getText()));
+        transitionCondition.addSensor(sensors.get(ctx.trigger2.getText()));
+        transitionCondition.setOperator("and");
+        transitionCondition.setValue(SIGNAL.valueOf(ctx.value.getText()));
+
+        if (this.exceptionTransition != null) {
+            this.exceptionTransition.setTransitionCondition(transitionCondition);
+
+        } else if (this.currentTransition != null) {
+            this.currentTransition.setTransitionCondition(transitionCondition);
+        }
+    }
+
+    @Override
+    public void enterOrCondition(OrConditionContext ctx) {
+
+        TransitionCondition transitionCondition = new TransitionCondition();
+        transitionCondition.addSensor(sensors.get(ctx.trigger1.getText()));
+        transitionCondition.addSensor(sensors.get(ctx.trigger2.getText()));
+        transitionCondition.setOperator("or");
+        transitionCondition.setValue(SIGNAL.valueOf(ctx.value.getText()));
+        if (this.exceptionTransition != null) {
+            this.exceptionTransition.setTransitionCondition(transitionCondition);
+
+        } else if (this.currentTransition != null) {
+            this.currentTransition.setTransitionCondition(transitionCondition);
+        }
+    }
+
+    @Override
+    public void enterUniqCondition(UniqConditionContext ctx) {
+        TransitionCondition transitionCondition = new TransitionCondition();
+        transitionCondition.addSensor(sensors.get(ctx.trigger.getText()));
+        transitionCondition.setValue(SIGNAL.valueOf(ctx.value.getText()));
+        if (this.exceptionTransition != null) {
+            this.exceptionTransition.setTransitionCondition(transitionCondition);
+
+        } else if (this.currentTransition != null) {
+            this.currentTransition.setTransitionCondition(transitionCondition);
+        }
+
     }
 
     @Override
@@ -170,43 +216,39 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterTriggerTransition(TriggerTransitionContext ctx) {
-        // Creating a placeholder as the next state might not have been compiled yet.
-        Binding toBeResolvedLater = new Binding();
-        toBeResolvedLater.to = ctx.next.getText();
-        toBeResolvedLater.trigger = sensors.get(ctx.trigger.getText());
-        toBeResolvedLater.value = SIGNAL.valueOf(ctx.value.getText());
-        bindings.put(this.currentState.getName(), toBeResolvedLater);// TODO the map means that only one transition is
-                                                                     // available by state
-    }
-
-    @Override
     public void enterInitial(ArduinomlParser.InitialContext ctx) {
         this.theApp.setInitial(this.currentState);
     }
 
     @Override
-    public void enterConjunctionTriggerTransition(ConjunctionTriggerTransitionContext ctx) {
-        MultipleTriggersTransitionBinding binding = new MultipleTriggersTransitionBinding();
-        binding.operator = "and";
-        binding.to = ctx.next.getText();
-        binding.trigger1 = sensors.get(ctx.trigger1.getText());
-        binding.trigger2 = sensors.get(ctx.trigger2.getText());
-        binding.value = SIGNAL.valueOf(ctx.value.getText());
-
-        this.conjunctionBindings.put(this.currentState.getName(), binding);
+    public void enterExceptionDeclaration(ExceptionDeclarationContext ctx) {
+        ExceptionState tmp = new ExceptionState(ctx.name.getText(), Integer.parseInt(ctx.code.getText()));
+        this.exceptionStates.put(ctx.name.getText(), tmp);
+        this.theApp.addExceptionState(tmp);
     }
 
     @Override
-    public void enterDisjunctionTriggerTransition(DisjunctionTriggerTransitionContext ctx) {
-        MultipleTriggersTransitionBinding binding = new MultipleTriggersTransitionBinding();
-        binding.operator = "or";
-        binding.to = ctx.next.getText();
-        binding.trigger1 = sensors.get(ctx.trigger1.getText());
-        binding.trigger2 = sensors.get(ctx.trigger2.getText());
-        binding.value = SIGNAL.valueOf(ctx.value.getText());
+    public void enterExceptionTransition(ExceptionTransitionContext ctx) {
+        this.exceptionTransition = new ExceptionTransition();
+        this.exceptionTransition.setNext(this.exceptionStates.get(ctx.next.getText()));
+    }
 
-        this.conjunctionBindings.put(this.currentState.getName(), binding);
+    @Override
+    public void exitExceptionTransition(ExceptionTransitionContext ctx) {
+        this.currentState.addExceptionTransition(this.exceptionTransition);
+        this.exceptionTransition = null; // to leave an exception handling
+    }
+
+    private static class UnfinishedTransitionBinding {
+        String from;
+        Transition unfinishedTransition;
+        String to; // name of the next state, as its instance might not have been compiled yet
+    }
+
+    private static class TemporalTransitionBinding {
+        String to;
+        long after;
+        long number;
     }
 
 }
