@@ -10,12 +10,9 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.Disjun
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TriggerTransitionContext;
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.MultipleConditionTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
+import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
@@ -129,6 +126,15 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
+    public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
+        LCDScreen lcdScreen = new LCDScreen();
+        lcdScreen.setName(ctx.location().id.getText());
+        lcdScreen.setPin(Integer.parseInt(ctx.location().port.getText()));
+        this.theApp.getBricks().add(lcdScreen);
+        actuators.put(lcdScreen.getName(), lcdScreen);
+    }
+
+    @Override
     public void enterState(ArduinomlParser.StateContext ctx) {
         State local = new State();
         local.setName(ctx.name.getText());
@@ -144,7 +150,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     @Override
     public void enterAction(ArduinomlParser.ActionContext ctx) {
-        
+
         if(actuators.get(ctx.receiver.getText())==null){
             System.err.println("Undeclared actuator "+ctx.receiver.getText()+". Compilation failed");
             System.exit(1);
@@ -155,7 +161,23 @@ public class ModelBuilder extends ArduinomlBaseListener {
             action.setValue(SIGNAL.valueOf(ctx.value.getText()));
             currentState.getActions().add(action);
         }
-        
+
+    }
+
+    @Override
+    public void enterPrint(ArduinomlParser.PrintContext ctx) {
+
+        if(actuators.get(ctx.receiver.getText())==null){
+            System.err.println("Undeclared actuator "+ctx.receiver.getText()+". Compilation failed");
+            System.exit(1);
+        }
+        else{
+            Print print = new Print();
+            print.setActuator(actuators.get(ctx.receiver.getText()));
+            print.setValue(SIGNAL.valueOf(ctx.value.getText()));
+            currentState.getActions().add(print);
+        }
+
     }
 
     @Override

@@ -71,6 +71,27 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitActuator(ArduinomlParser.ActuatorContext ctx) { }
+
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	@Override
+	public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
+
+	}
+
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	@Override
+	public void exitPrinter(ArduinomlParser.PrinterContext ctx) {
+
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -119,6 +140,27 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAction(ArduinomlParser.ActionContext ctx) { }
+
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	@Override
+	public void enterPrint(ArduinomlParser.PrintContext ctx) {
+
+	}
+
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
+	 *
+	 * @param ctx the parse tree
+	 */
+	@Override
+	public void exitPrint(ArduinomlParser.PrintContext ctx) {
+
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *

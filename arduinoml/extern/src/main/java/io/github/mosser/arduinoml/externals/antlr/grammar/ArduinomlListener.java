@@ -58,6 +58,16 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitActuator(ArduinomlParser.ActuatorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrinter(ArduinomlParser.PrinterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrinter(ArduinomlParser.PrinterContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#location}.
 	 * @param ctx the parse tree
 	 */
@@ -97,6 +107,16 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAction(ArduinomlParser.ActionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(ArduinomlParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(ArduinomlParser.PrintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#transition}.
 	 * @param ctx the parse tree
