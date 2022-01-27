@@ -21,6 +21,10 @@ public class Switch {
 		led.setName("LED");
 		led.setPin(12);
 
+		LCDScreen lcd = new LCDScreen();
+		lcd.setName("LcdScreen");
+		lcd.setBus(13);
+
 		// Declaring states
 		State on = new State();
 		on.setName("on");
@@ -37,8 +41,12 @@ public class Switch {
 		switchTheLightOff.setActuator(led);
 		switchTheLightOff.setValue(SIGNAL.LOW);
 
+		
+		Print printHelloWorld = new Print();
+		printHelloWorld.setActuator(lcd);
+		printHelloWorld.setValue("Hello, world!!");
 		// Binding actions to states
-		on.setActions(Arrays.asList(switchTheLightOn));
+		on.setActions(Arrays.asList(switchTheLightOn,printHelloWorld));
 		off.setActions(Arrays.asList(switchTheLightOff));
 
 		// Creating transitions
@@ -59,7 +67,7 @@ public class Switch {
 		// Building the App
 		App theSwitch = new App();
 		theSwitch.setName("Switch!");
-		theSwitch.setBricks(Arrays.asList(button, led ));
+		theSwitch.setBricks(Arrays.asList(button, led , lcd));
 		theSwitch.setStates(Arrays.asList(on, off));
 		theSwitch.setInitial(off);
 
