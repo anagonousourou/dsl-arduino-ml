@@ -1,1 +1,3 @@
- mvn clean install; cd extern; mvn exec:java -Dexec.args="src/main/resources/$1"; cd ..;
+#!/bin/bash
+mvn clean install
+java -jar extern/target/external-antlr-1.0-SNAPSHOT-jar-with-dependencies.jar $1 $2

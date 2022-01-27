@@ -2,8 +2,8 @@ application redButton
 
 # Declaring bricks
 sensor button: 9
-actuator ll: 12
-actuator buz: 8
+actuator ll: 11
+actuator buz: 12
 
 # Declaring states
 

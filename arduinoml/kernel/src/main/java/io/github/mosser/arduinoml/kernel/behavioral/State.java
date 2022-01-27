@@ -9,71 +9,75 @@ import java.util.List;
 
 public class State implements NamedElement, Visitable {
 
-	private String name;
-	private List<Action> actions = new ArrayList<>();
-	private List<Transition> transitions;
+    private String name;
+    private List<Action> actions = new ArrayList<>();
+    private List<Transition> transitions = new ArrayList<>();
+    private List<ExceptionTransition> exceptionTransitions = new ArrayList<>();
+    private List<TemporalTransition> temporalTransitions = new ArrayList<>();
 
-	private List<TemporalTransition> temporalTransitions;
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	private List<MultipleConditionTransition> multipleConditionTransitions = new ArrayList<>();
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    public List<Action> getActions() {
+        return actions;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
 
-	public List<Action> getActions() {
-		return actions;
-	}
+    public List<ExceptionTransition> getExceptionTransitions() {
+        return exceptionTransitions;
+    }
 
-	public void setActions(List<Action> actions) {
-		this.actions = actions;
-	}
+    public void addExceptionTransition(ExceptionTransition transition) {
+        this.exceptionTransitions.add(transition);
+    }
 
-	public List<TemporalTransition> getTemporalTransitions() {
-		if (this.temporalTransitions == null) {
-			return new ArrayList<>();
-		}
-		return temporalTransitions;
-	}
+    public List<TemporalTransition> getTemporalTransitions() {
+        if (this.temporalTransitions == null) {
+            return new ArrayList<>();
+        }
+        return temporalTransitions;
+    }
 
-	public List<MultipleConditionTransition> getMultipleConditionTransitions() {
-		return multipleConditionTransitions;
-	}
+    public void addTemporalTransition(TemporalTransition temporalTransition) {
+        if (this.temporalTransitions == null) {
+            this.temporalTransitions = new ArrayList<>();
+        }
+        this.temporalTransitions.add(temporalTransition);
+    }
 
-	public void addMultipleConditionTransition(MultipleConditionTransition transition){
-		this.multipleConditionTransitions.add(transition);
-	}
+    public List<Transition> getTransitions() {
+        if (this.transitions == null) {
+            return new ArrayList<>();
+        }
+        return transitions;
+    }
 
-	public void addTemporalTransition(TemporalTransition temporalTransition) {
-		if (this.temporalTransitions == null) {
-			this.temporalTransitions = new ArrayList<>();
-		}
-		this.temporalTransitions.add(temporalTransition);
-	}
+    public void addTransition(Transition transition) {
+        if (this.transitions == null) {
+            this.transitions = new ArrayList<>();
+        }
+        this.transitions.add(transition);
 
-	public List<Transition> getTransitions() {
-		if (this.transitions == null) {
-			return new ArrayList<>();
-		}
-		return transitions;
-	}
+    }
 
-	public void addTransition(Transition transition) {
-		if (this.transitions == null) {
-			this.transitions = new ArrayList<>();
-		}
-		this.transitions.add(transition);
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 
-	}
+    @Override
+    public String toString() {
+        return "State [name=" + name + "]";
+    }
 
-	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
 }

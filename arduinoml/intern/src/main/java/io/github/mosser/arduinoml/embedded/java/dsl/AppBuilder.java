@@ -1,19 +1,23 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
-import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.structural.Actuator;
-import io.github.mosser.arduinoml.kernel.structural.Brick;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import io.github.mosser.arduinoml.kernel.App;
+import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
+import io.github.mosser.arduinoml.kernel.behavioral.State;
+import io.github.mosser.arduinoml.kernel.structural.Actuator;
+import io.github.mosser.arduinoml.kernel.structural.Brick;
+import io.github.mosser.arduinoml.kernel.structural.Sensor;
+
 public class AppBuilder {
 
     App theApp = null;
+
+    private AppBuilder() {
+    }
 
     /*********************
      ** Creating an App **
@@ -25,23 +29,6 @@ public class AppBuilder {
         inst.theApp.setName(name);
         return inst;
     }
-
-    public App build() {
-        return theApp;
-    }
-
-    private AppBuilder() {
-    }
-
-    /**********************
-     ** Declaring Bricks **
-     **********************/
-
-    public AppBuilder uses(Brick b) {
-        this.theApp.getBricks().add(b);
-        return this;
-    }
-
 
     public static BrickBuilder actuator(String name) {
         return new BrickBuilder(Actuator.class, name);
@@ -66,6 +53,23 @@ public class AppBuilder {
         }
     }
 
+    public App build() {
+        return theApp;
+    }
+
+    public ExceptionStateBuilder hasException(String exceptionName){
+        return new ExceptionStateBuilder(this, exceptionName);
+    }
+
+    /**********************
+     ** Declaring Bricks **
+     **********************/
+
+    public AppBuilder uses(Brick b) {
+        this.theApp.getBricks().add(b);
+        return this;
+    }
+
     /**********************
      ** Declaring States **
      **********************/
@@ -83,12 +87,15 @@ public class AppBuilder {
         Map<String, State> stateTable = theApp.getStates().stream()
                 .collect(Collectors.toMap(State::getName, Function.identity()));
 
+        Map<String, ExceptionState> exceptionStateTable = theApp.getExceptionStates().stream()
+                .collect(Collectors.toMap(ExceptionState::getName, Function.identity()));
+
         Map<String, Sensor> sensorTable = theApp.getBricks().stream()
                 .filter(Sensor.class::isInstance)
                 .map(Sensor.class::cast)
                 .collect(Collectors.toMap(Brick::getName, Function.identity()));
 
-        return new TransitionTableBuilder(this, stateTable, sensorTable);
+        return new TransitionTableBuilder(this, stateTable, sensorTable, exceptionStateTable);
     }
 
     /***********************************************************************************
@@ -99,7 +106,7 @@ public class AppBuilder {
     Optional<Actuator> findActuator(String name) {
         Optional<Brick> b = theApp.getBricks()
                 .stream()
-                .filter(brick -> brick instanceof Actuator)
+                .filter(Actuator.class::isInstance)
                 .filter(actuator -> actuator.getName().equals(name))
                 .findFirst();
         return b.map(sensor -> Optional.of((Actuator) sensor)).orElse(Optional.empty());
