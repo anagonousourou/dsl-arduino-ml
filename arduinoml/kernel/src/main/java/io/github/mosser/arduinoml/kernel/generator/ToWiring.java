@@ -4,13 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
-import io.github.mosser.arduinoml.kernel.structural.Actuator;
-import io.github.mosser.arduinoml.kernel.structural.Brick;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
+import io.github.mosser.arduinoml.kernel.structural.*;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
@@ -202,7 +197,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
     }
 
-	@Override
+    @Override
 	public void visit(Print print) {
 		if(context.get("pass") == PASS.ONE) {
 			return;

@@ -330,23 +330,6 @@ public class ArduinomlParser extends Parser {
 			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitActuator(this);
 		}
 	}
-	public static class PrinterContext extends ParserRuleContext {
-		public LocationContext location() {
-			return getRuleContext(LocationContext.class,0);
-		}
-		public PrinterContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_actuator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterPrinter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitPrinter(this);
-		}
-	}
 
 	public final ActuatorContext actuator() throws RecognitionException {
 		ActuatorContext _localctx = new ActuatorContext(_ctx, getState());
@@ -655,25 +638,6 @@ public class ArduinomlParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitAction(this);
-		}
-	}
-
-	public static class PrintContext extends ParserRuleContext {
-		public Token receiver;
-		public Token value;
-		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
-		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
-		public PrintContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_action; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterPrint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitPrint(this);
 		}
 	}
 
