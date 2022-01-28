@@ -2,5 +2,5 @@
 ### Maven template
 target/
 *.iml
-
+/output
 

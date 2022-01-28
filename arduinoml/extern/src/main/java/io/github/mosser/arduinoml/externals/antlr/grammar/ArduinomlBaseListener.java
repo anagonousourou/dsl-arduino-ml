@@ -71,27 +71,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitActuator(ArduinomlParser.ActuatorContext ctx) { }
-
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
-
-	}
-
+	@Override public void enterExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx) { }
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void exitPrinter(ArduinomlParser.PrinterContext ctx) {
-
-	}
-
+	@Override public void exitExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -140,27 +131,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAction(ArduinomlParser.ActionContext ctx) { }
-
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void enterPrint(ArduinomlParser.PrintContext ctx) {
-
-	}
-
+	@Override public void enterExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) { }
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void exitPrint(ArduinomlParser.PrintContext ctx) {
-
-	}
-
+	@Override public void exitExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -190,37 +172,61 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx) { }
+	@Override public void enterCondition(ArduinomlParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx) { }
+	@Override public void exitCondition(ArduinomlParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	@Override public void enterAndCondition(ArduinomlParser.AndConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	@Override public void exitAndCondition(ArduinomlParser.AndConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
+	@Override public void enterOrCondition(ArduinomlParser.OrConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
+	@Override public void exitOrCondition(ArduinomlParser.OrConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUniqCondition(ArduinomlParser.UniqConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUniqCondition(ArduinomlParser.UniqConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

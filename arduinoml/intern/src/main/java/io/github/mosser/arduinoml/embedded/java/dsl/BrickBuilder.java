@@ -9,11 +9,11 @@ public class BrickBuilder {
 
     public BrickBuilder(Class<? extends Brick> brickClass, String name) {
         this.brickClass = brickClass;
-        this.name=name;
+        this.name = name;
     }
 
 
-    public Brick atPin(int pin){
+    public Brick atPin(int pin) {
         return AppBuilder.createBrick(this.brickClass, this.name, pin);
     }
 

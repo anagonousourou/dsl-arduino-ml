@@ -11,18 +11,24 @@ public class InstructionBuilder {
 
     private StateBuilder parent;
 
-    private Action local =  new Action();
+    private Action local = new Action();
 
     InstructionBuilder(StateBuilder parent, String target) {
         this.parent = parent;
         Optional<Actuator> opt = parent.parent.findActuator(target);
-        Actuator act = opt.orElseThrow(() -> new IllegalArgumentException("Illegal actuator: ["+target+"]"));
+        Actuator act = opt.orElseThrow(() -> new IllegalArgumentException("Illegal actuator: [" + target + "]"));
         local.setActuator(act);
     }
 
-    public StateBuilder toHigh() { local.setValue(SIGNAL.HIGH); return goUp(); }
+    public StateBuilder toHigh() {
+        local.setValue(SIGNAL.HIGH);
+        return goUp();
+    }
 
-    public StateBuilder toLow() { local.setValue(SIGNAL.LOW); return goUp(); }
+    public StateBuilder toLow() {
+        local.setValue(SIGNAL.LOW);
+        return goUp();
+    }
 
     private StateBuilder goUp() {
         parent.local.getActions().add(this.local);

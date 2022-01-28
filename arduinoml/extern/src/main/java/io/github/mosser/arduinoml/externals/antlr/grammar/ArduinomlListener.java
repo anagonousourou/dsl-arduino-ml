@@ -58,15 +58,15 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitActuator(ArduinomlParser.ActuatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#exceptionDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrinter(ArduinomlParser.PrinterContext ctx);
+	void enterExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#exceptionDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrinter(ArduinomlParser.PrinterContext ctx);
+	void exitExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#location}.
 	 * @param ctx the parse tree
@@ -108,15 +108,15 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitAction(ArduinomlParser.ActionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#exceptionTransition}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrint(ArduinomlParser.PrintContext ctx);
+	void enterExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#exceptionTransition}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrint(ArduinomlParser.PrintContext ctx);
+	void exitExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#transition}.
 	 * @param ctx the parse tree
@@ -138,35 +138,55 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitTemporalTransition(ArduinomlParser.TemporalTransitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#triggerTransition}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#condition}.
 	 * @param ctx the parse tree
 	 */
-	void enterTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx);
+	void enterCondition(ArduinomlParser.ConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#triggerTransition}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#condition}.
 	 * @param ctx the parse tree
 	 */
-	void exitTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx);
+	void exitCondition(ArduinomlParser.ConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#conjunctionTriggerTransition}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#andCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx);
+	void enterAndCondition(ArduinomlParser.AndConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#conjunctionTriggerTransition}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#andCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx);
+	void exitAndCondition(ArduinomlParser.AndConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#disjunctionTriggerTransition}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#orCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx);
+	void enterOrCondition(ArduinomlParser.OrConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#disjunctionTriggerTransition}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#orCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx);
+	void exitOrCondition(ArduinomlParser.OrConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#uniqCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterUniqCondition(ArduinomlParser.UniqConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#uniqCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitUniqCondition(ArduinomlParser.UniqConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#conditionTransition}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionTransition(ArduinomlParser.ConditionTransitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#conditionTransition}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionTransition(ArduinomlParser.ConditionTransitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#initial}.
 	 * @param ctx the parse tree

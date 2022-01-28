@@ -3,4 +3,10 @@ embeddeds/haskell/dist
 .metals
 # Python
 *.py[cod]
-.idea
+
+
+
+.idea/workspace.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
