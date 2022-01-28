@@ -8,14 +8,16 @@ root: declaration bricks states EOF;
 
 declaration: 'application' name = IDENTIFIER;
 
-bricks: (sensor | actuator)+;
+bricks: (sensor | actuator | printer)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
+printer: 'printer' location;
 location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
 state: initial? name = IDENTIFIER '{' action+ transition+ '}';
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
+print: receiver = IDENTIFIER '<=' value = STRING;
 
 transition:
 	temporalTransition
@@ -41,12 +43,14 @@ DURATION_UNIT: 'milliseconds' | 'millisecond';
 IDENTIFIER: LOWERCASE (LOWERCASE | UPPERCASE | DIGITS)+;
 SIGNAL: 'HIGH' | 'LOW';
 INTEGER: [1-9] [0-9]*;
+STRING: (LOWERCASE | UPPERCASE | DIGITS | SPECIAL)+;
 
 /*************
  * * Helpers ** ***********
  */
 fragment DIGITS : [0-9];
 fragment LOWERCASE: [a-z];
+fragment SPECIAL: (NEWLINE|WS|COMMENT|'@'|'-'|'_')+;
 // abstract rule, does not really exists
 fragment UPPERCASE: [A-Z];
 NEWLINE: ('\r'? '\n' | '\r')+ -> skip;
