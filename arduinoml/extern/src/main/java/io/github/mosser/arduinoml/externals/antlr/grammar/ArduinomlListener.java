@@ -1,4 +1,4 @@
-// Generated from io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.7
+// Generated from io\github\mosser\arduinoml\externals\antlr\grammar\Arduinoml.g4 by ANTLR 4.7
 package io.github.mosser.arduinoml.externals.antlr.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -58,12 +58,12 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitActuator(ArduinomlParser.ActuatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * Enter a parse tree produced by {@link ArduinomlParser#printer}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrinter(ArduinomlParser.PrinterContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * Exit a parse tree produced by {@link ArduinomlParser#printer}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrinter(ArduinomlParser.PrinterContext ctx);
@@ -98,6 +98,16 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitState(ArduinomlParser.StateContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(ArduinomlParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(ArduinomlParser.PrintContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
 	 * @param ctx the parse tree
 	 */
@@ -107,16 +117,6 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAction(ArduinomlParser.ActionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrint(ArduinomlParser.PrintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrint(ArduinomlParser.PrintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#transition}.
 	 * @param ctx the parse tree

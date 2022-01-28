@@ -1,0 +1,15 @@
+application lcdscreen
+
+# Declaring bricks
+sensor button: 9
+printer myprinter
+
+# Declaring states
+state1 {
+    myprinter <= "hello world"
+    button is HIGH => start
+}
+
+-> start {
+    button is HIGH => state1 
+}

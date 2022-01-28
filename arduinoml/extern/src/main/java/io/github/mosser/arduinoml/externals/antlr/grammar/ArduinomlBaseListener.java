@@ -1,4 +1,4 @@
-// Generated from io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.7
+// Generated from io\github\mosser\arduinoml\externals\antlr\grammar\Arduinoml.g4 by ANTLR 4.7
 package io.github.mosser.arduinoml.externals.antlr.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -71,27 +71,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitActuator(ArduinomlParser.ActuatorContext ctx) { }
-
 	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
-
-	}
-
+	@Override public void enterPrinter(ArduinomlParser.PrinterContext ctx) { }
 	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#actuator}.
+	 * {@inheritDoc}
 	 *
-	 * @param ctx the parse tree
+	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override
-	public void exitPrinter(ArduinomlParser.PrinterContext ctx) {
-
-	}
-
+	@Override public void exitPrinter(ArduinomlParser.PrinterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -133,6 +124,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrint(ArduinomlParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrint(ArduinomlParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAction(ArduinomlParser.ActionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -140,27 +143,6 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAction(ArduinomlParser.ActionContext ctx) { }
-
-	/**
-	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
-	 *
-	 * @param ctx the parse tree
-	 */
-	@Override
-	public void enterPrint(ArduinomlParser.PrintContext ctx) {
-
-	}
-
-	/**
-	 * Exit a parse tree produced by {@link ArduinomlParser#action}.
-	 *
-	 * @param ctx the parse tree
-	 */
-	@Override
-	public void exitPrint(ArduinomlParser.PrintContext ctx) {
-
-	}
-
 	/**
 	 * {@inheritDoc}
 	 *

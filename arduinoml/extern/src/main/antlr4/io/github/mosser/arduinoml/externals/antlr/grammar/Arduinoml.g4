@@ -11,13 +11,13 @@ declaration: 'application' name = IDENTIFIER;
 bricks: (sensor | actuator | printer)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
-printer: 'printer' location;
+printer: 'printer' id = IDENTIFIER ;
 location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
-state: initial? name = IDENTIFIER '{' action+ transition+ '}';
-action: receiver = IDENTIFIER '<=' value = SIGNAL;
+state: initial? name = IDENTIFIER '{' (action | print)* transition+ '}';
 print: receiver = IDENTIFIER '<=' value = STRING;
+action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
 transition:
 	temporalTransition
@@ -43,8 +43,7 @@ DURATION_UNIT: 'milliseconds' | 'millisecond';
 IDENTIFIER: LOWERCASE (LOWERCASE | UPPERCASE | DIGITS)+;
 SIGNAL: 'HIGH' | 'LOW';
 INTEGER: [1-9] [0-9]*;
-STRING: (LOWERCASE | UPPERCASE | DIGITS | SPECIAL)+;
-
+STRING: '"' (~["\\\r\n] | EscapeSequence)* '"';
 /*************
  * * Helpers ** ***********
  */
@@ -58,3 +57,14 @@ WS: ((' ' | '\t')+) -> skip;
 // who cares about whitespaces?
 COMMENT: '#' ~('\r' | '\n')* -> skip;
 // Single line comments, starting with a #
+fragment EscapeSequence
+    : '\\' [btnfr"'\\]
+    | '\\' ([0-3]? [0-7])? [0-7]
+    | '\\' 'u'+ HexDigit HexDigit HexDigit HexDigit
+    ;
+fragment HexDigits
+    : HexDigit ((HexDigit | '_')* HexDigit)?
+    ;
+fragment HexDigit
+    : [0-9a-fA-F]
+    ;
