@@ -61,12 +61,39 @@ public class ToWiring extends Visitor<StringBuffer> {
 	}
 
 	@Override
-	public void visit(Actuator actuator) {
+	public void visit(LCDScreen lcdScreen) {
+		visitLCD();
+	}
+
+	private void visitLCD() {
 		if(context.get("pass") == PASS.ONE) {
+			w("#include <LiquidCrystal.h>\n");
+			w("LiquidCrystal lcd(10, 11, 12, 13, 14, 15, 16);\n");
 			return;
 		}
 		if(context.get("pass") == PASS.TWO) {
-			w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]\n", actuator.getPin(), actuator.getName()));
+			//lcdScreen.getPin(), lcdScreen.getName()
+			w("  lcd.begin(16, 2); //  [LCDScreen]\n");
+			return;
+		}
+	}
+
+	@Override
+	public void visit(Actuator actuator) {
+		if(context.get("pass") == PASS.ONE) {
+			if (actuator instanceof LCDScreen){
+				visitLCD();
+			}else{
+				return;
+			}
+
+		}
+		if(context.get("pass") == PASS.TWO) {
+			if (actuator instanceof LCDScreen){
+				visitLCD();
+			}else{
+				w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]\n", actuator.getPin(), actuator.getName()));
+			}
 			return;
 		}
 	}
@@ -134,5 +161,20 @@ public class ToWiring extends Visitor<StringBuffer> {
 			return;
 		}
 	}
+
+	@Override
+	public void visit(Print print) {
+		if(context.get("pass") == PASS.ONE) {
+			return;
+		}
+		if(context.get("pass") == PASS.TWO) {
+			//print.getActuator().getPin(),
+			w(String.format("\t\t\tlcd.print(%s);\n",print.getStringValue()));
+			return;
+		}
+	}
+
+
+
 
 }

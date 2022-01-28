@@ -4,21 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
-import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
-import io.github.mosser.arduinoml.kernel.structural.Actuator;
-import io.github.mosser.arduinoml.kernel.structural.Brick;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
-import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
+import io.github.mosser.arduinoml.kernel.structural.*;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
  */
 public class ToWiring extends Visitor<StringBuffer> {
+	enum PASS {
+		INITIAL,ONE, TWO
+	}
     private boolean firstCondition = true;
 
     public ToWiring() {
@@ -29,15 +24,22 @@ public class ToWiring extends Visitor<StringBuffer> {
         result.append(String.format("%s", s));
     }
 
-    @Override
-    public void visit(App app) {
-        this.result = new StringBuffer();
+	@Override
+	public void visit(App app) {
+		this.result = new StringBuffer();
+		// initial pass, add included libs
 
-        // first pass, create global vars
-        context.put("pass", PASS.ONE);
-        w("// Wiring code generated from an ArduinoML model\n");
-        w(String.format("// Application name: %s%n", app.getName()) + "\n");
+		w("// Wiring code generated from an ArduinoML model\n");
+		w(String.format("// Application name: %s%n", app.getName()) + "\n");
 
+		context.put("pass", PASS.INITIAL);
+		for (Brick brick : app.getBricks()) {
+			brick.accept(this);
+		}
+		// first pass, create global vars
+		context.put("pass", PASS.ONE);
+
+		w("\nlong debounce = 200;\n");
         w("long debounce = 200;\n");
 
         w("\nenum STATE {");
@@ -83,15 +85,42 @@ public class ToWiring extends Visitor<StringBuffer> {
                 "}");
     }
 
-    @Override
-    public void visit(Actuator actuator) {
-        if (context.get("pass") == PASS.ONE) {
-            return;
-        }
-        if (context.get("pass") == PASS.TWO) {
-            w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]%n", actuator.getPin(), actuator.getName()));
-        }
-    }
+	@Override
+	public void visit(LCDScreen lcdScreen) {
+		visitLCD();
+	}
+
+	private void visitLCD() {
+
+		if(context.get("pass") == PASS.INITIAL) {
+			w("#include <LiquidCrystal.h>\n");
+			return;
+		}
+		if(context.get("pass") == PASS.ONE) {
+			w("LiquidCrystal lcd(10, 11, 12, 13, 14, 15, 16);\n");
+			return;
+		}
+		if(context.get("pass") == PASS.TWO) {
+			//lcdScreen.getPin(), lcdScreen.getName()
+			w("  lcd.begin(16, 2); //  [LCDScreen]\n");
+			return;
+		}
+	}
+
+	@Override
+	public void visit(Actuator actuator) {
+		if (actuator instanceof LCDScreen){
+			visitLCD();
+			return;
+		}
+		if (context.get("pass") == PASS.ONE) {
+			return;
+		}
+		if (context.get("pass") == PASS.TWO) {
+			w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]\n", actuator.getPin(), actuator.getName()));
+			return;
+		}
+	}
 
     @Override
     public void visit(Sensor sensor) {
@@ -169,15 +198,29 @@ public class ToWiring extends Visitor<StringBuffer> {
     }
 
     @Override
-    public void visit(TemporalTransition transition) {
-        if (context.get("pass") == PASS.ONE) {
-            w(String.format("long _temporal_transition_time%d = 0; %n", transition.getNumber()));
-        } else if (context.get("pass") == PASS.TWO) {
-            w(String.format(
-                    "\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\telse if( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\t_temporal_transition_time%d = 0;%n\t\t\t}%n",
-                    transition.getNumber(), transition.getNumber(), transition.getNumber(), transition.getAfter(),
-                    transition.getNext().getName(), transition.getNumber()));
-        }
+	public void visit(Print print) {
+		if(context.get("pass") == PASS.ONE) {
+			return;
+		}
+		if(context.get("pass") == PASS.TWO) {
+			//print.getActuator().getPin(),
+			w(String.format("\t\t\tlcd.print(\"%s\");\n",print.getStringValue()));
+			return;
+		}
+	}
+
+	@Override
+	public void visit(TemporalTransition transition) {
+		if (context.get("pass") == PASS.ONE) {
+			w(String.format("long _temporal_transition_time%d = 0; %n", transition.getNumber()));
+		}
+
+		else if (context.get("pass") == PASS.TWO) {
+			w(String.format(
+					"\t\t\tif ( _temporal_transition_time%d == 0 )  {%n\t\t\t\t _temporal_transition_time%d = millis(); %n\t\t\t}%n\t\t\telse if( (_temporal_transition_time%d + %d) <= millis() ) { %n\t\t\t\tcurrentState = %s;%n\t\t\t\t_temporal_transition_time%d = 0;%n\t\t\t}%n",
+					transition.getNumber(), transition.getNumber(), transition.getNumber(), transition.getAfter(),
+					transition.getNext().getName(), transition.getNumber()));
+		}
 
     }
 
@@ -251,8 +294,5 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     }
 
-    enum PASS {
-        ONE, TWO
-    }
 
 }

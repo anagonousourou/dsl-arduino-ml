@@ -22,9 +22,14 @@ state:
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
 exceptionTransition: 'handle' condition '=>' next = IDENTIFIER;
-transition: conditionTransition | temporalTransition;
+transition: conditionTransition | temporalTransition | printTransition;
+
 temporalTransition:
 	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
+
+printTransition:
+    'print' string = IDENTIFIER;
+
 condition: uniqCondition | andCondition | orCondition;
 andCondition:
 	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL;

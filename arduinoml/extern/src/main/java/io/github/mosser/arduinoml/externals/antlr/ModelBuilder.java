@@ -2,24 +2,13 @@ package io.github.mosser.arduinoml.externals.antlr;
 
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.AndConditionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ConditionTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ExceptionDeclarationContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ExceptionTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.OrConditionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.UniqConditionContext;
 import io.github.mosser.arduinoml.kernel.App;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
-import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
-import io.github.mosser.arduinoml.kernel.structural.Actuator;
-import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
-import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
+import io.github.mosser.arduinoml.kernel.structural.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,8 +116,8 @@ public class ModelBuilder extends ArduinomlBaseListener {
     @Override
     public void enterAction(ArduinomlParser.ActionContext ctx) {
 
-        if (actuators.get(ctx.receiver.getText()) == null) {
-            System.err.println("Undeclared actuator " + ctx.receiver.getText() + ". Compilation failed");
+        if(actuators.get(ctx.receiver.getText())==null){
+            System.err.println("Undeclared actuator "+ctx.receiver.getText()+". Compilation failed");
             System.exit(1);
         } else {
             Action action = new Action();
@@ -136,18 +125,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
             action.setValue(SIGNAL.valueOf(ctx.value.getText()));
             currentState.getActions().add(action);
         }
-
+        
     }
 
     @Override
-    public void enterConditionTransition(ConditionTransitionContext ctx) {
+    public void enterConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) {
 
         this.currentTransition = new Transition();
         //this.currentTransition.setNext();
     }
 
     @Override
-    public void exitConditionTransition(ConditionTransitionContext ctx) {
+    public void exitConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) {
         UnfinishedTransitionBinding tmp = new UnfinishedTransitionBinding();
         tmp.from = this.currentState.getName();
         tmp.to = ctx.next.getText();
@@ -158,7 +147,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterAndCondition(AndConditionContext ctx) {
+    public void enterAndCondition(ArduinomlParser.AndConditionContext ctx) {
 
         TransitionCondition transitionCondition = new TransitionCondition();
         transitionCondition.addSensor(sensors.get(ctx.trigger1.getText()));
@@ -175,7 +164,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterOrCondition(OrConditionContext ctx) {
+    public void enterOrCondition(ArduinomlParser.OrConditionContext ctx) {
 
         TransitionCondition transitionCondition = new TransitionCondition();
         transitionCondition.addSensor(sensors.get(ctx.trigger1.getText()));
@@ -191,7 +180,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterUniqCondition(UniqConditionContext ctx) {
+    public void enterUniqCondition(ArduinomlParser.UniqConditionContext ctx) {
         TransitionCondition transitionCondition = new TransitionCondition();
         transitionCondition.addSensor(sensors.get(ctx.trigger.getText()));
         transitionCondition.setValue(SIGNAL.valueOf(ctx.value.getText()));
@@ -204,8 +193,9 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     }
 
+
     @Override
-    public void enterTemporalTransition(TemporalTransitionContext ctx) {
+    public void enterTemporalTransition(ArduinomlParser.TemporalTransitionContext ctx) {
         this.temporalTransitionCounts++;
         TemporalTransitionBinding binding = new TemporalTransitionBinding();
         binding.after = Long.parseLong(ctx.duration.getText());
@@ -221,20 +211,20 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterExceptionDeclaration(ExceptionDeclarationContext ctx) {
+    public void enterExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx) {
         ExceptionState tmp = new ExceptionState(ctx.name.getText(), Integer.parseInt(ctx.code.getText()));
         this.exceptionStates.put(ctx.name.getText(), tmp);
         this.theApp.addExceptionState(tmp);
     }
 
     @Override
-    public void enterExceptionTransition(ExceptionTransitionContext ctx) {
+    public void enterExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) {
         this.exceptionTransition = new ExceptionTransition();
         this.exceptionTransition.setNext(this.exceptionStates.get(ctx.next.getText()));
     }
 
     @Override
-    public void exitExceptionTransition(ExceptionTransitionContext ctx) {
+    public void exitExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) {
         this.currentState.addExceptionTransition(this.exceptionTransition);
         this.exceptionTransition = null; // to leave an exception handling
     }
