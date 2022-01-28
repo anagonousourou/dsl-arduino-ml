@@ -7,7 +7,6 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.ConjunctionTriggerTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.DisjunctionTriggerTransitionContext;
-import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TriggerTransitionContext;
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.*;
@@ -181,7 +180,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterTemporalTransition(TemporalTransitionContext ctx) {
+    public void enterTemporalTransition(ArduinomlParser.TemporalTransitionContext ctx) {
         this.temporalTransitionCounts++;
         TemporalTransitionBinding binding = new TemporalTransitionBinding();
         binding.after = Long.parseLong(ctx.duration.getText());

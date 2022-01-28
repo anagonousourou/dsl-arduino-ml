@@ -21,6 +21,7 @@ transition:
 	temporalTransition
 	| triggerTransition
 	| conjunctionTriggerTransition
+	| printTransition
 	| disjunctionTriggerTransition;
 temporalTransition:
 	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
@@ -31,6 +32,10 @@ conjunctionTriggerTransition:
 
 disjunctionTriggerTransition:
 	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
+
+printTransition:
+    'print' string = IDENTIFIER;
+
 initial: '->';
 
 /*****************
