@@ -1,4 +1,4 @@
-// Generated from io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.7
+// Generated from io\github\mosser\arduinoml\externals\antlr\grammar\Arduinoml.g4 by ANTLR 4.7
 package io.github.mosser.arduinoml.externals.antlr.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;

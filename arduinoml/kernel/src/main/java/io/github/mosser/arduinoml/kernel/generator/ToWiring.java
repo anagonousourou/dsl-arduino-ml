@@ -104,25 +104,27 @@ public class ToWiring extends Visitor<StringBuffer> {
 		if(context.get("pass") == PASS.INITIAL) {
 			w("#include <LiquidCrystal.h>\n");
 
-			w("void printString(String text){\n");
-			w("	int interval = text.length();\n");
+			w("void printString(String text, LiquidCrystal&lcd){\n");
+            w("	lcd.clear();\n");
 			w("	bool endLoop = false;\n");
+            w("	const int interval = text.length();\n");
+            w("	const int max_chars_on_line = 16;\n");
 			w("	for (int i=0;i<interval&&not endLoop;i++){\n");
-			w("		int endscreen1 = i+((interval-i)>16? 16:interval);\n");
+			w("		int endscreen1 = i+((interval-i)>max_chars_on_line? max_chars_on_line:interval);\n");
 			w("		lcd.setCursor(0,0);\n");
 			w("		lcd.print(text.substring(i,endscreen1));\n");
 
 			w("		int rest = interval-endscreen1;\n");
 			w("		int endscreen2 = 0;\n");
-			w("		if (rest>16){\n");
-			w("			endscreen2 = endscreen1+16;\n");
+			w("		if (rest>max_chars_on_line){\n");
+			w("			endscreen2 = endscreen1+max_chars_on_line;\n");
 			w("		}else{\n");
 			w("			endscreen2 = rest;\n");
 			w("			endLoop=true;\n");
 			w("		}\n");
 			w("		lcd.setCursor(0,1);\n");
 			w("		lcd.print(text.substring(endscreen1,endscreen1+endscreen2));\n");
-			w("		delay(800);\n");
+			w("		delay(endLoop?800:1);\n");
 			w("	}\n");
 			w("}\n");
 			return;
@@ -175,7 +177,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		if(context.get("pass") == PASS.TWO) {
 			//print.getActuator().getPin(),
-			w(String.format("\t\t\tlcd.print(\"%s\");%n",print.getStringValue()));
+			w(String.format("\t\t\tprintString(%s,lcd);%n",print.getStringValue()));
 			return;
 		}
 	}

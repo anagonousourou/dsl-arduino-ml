@@ -160,10 +160,14 @@ public class ModelBuilder extends ArduinomlBaseListener {
         else{
             Print print = new Print();
             print.setActuator(actuators.get(ctx.receiver.getText()));
-            print.setValue(ctx.value.getText().substring(1,ctx.value.getText().length()-1));
+            if(ctx.value.getText().contains("\""))
+                print.printString(ctx.value.getText());
+            else
+                print.printBrick(actuators.containsKey(ctx.value.getText())?actuators.get(ctx.value.getText()):sensors.get(ctx.value.getText()));
             currentState.getActions().add(print);
         }
     }
+
     @Override
     public void enterConditionTransition(ConditionTransitionContext ctx) {
 

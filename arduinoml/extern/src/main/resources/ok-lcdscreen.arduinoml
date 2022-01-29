@@ -2,14 +2,16 @@ application lcdscreen
 
 # Declaring bricks
 sensor button: 9
+sensor button2: 13
 printer myprinter
 
 # Declaring states
 state1 {
-    myprinter <= "hello world"
+    myprinter <= "Some sweet text in the state1, just random thing to overload the screen!!!"
     button is HIGH => start
 }
 
 -> start {
+    myprinter <= "Initial text, here we are in the state start!!!"
     button is HIGH => state1 
 }
