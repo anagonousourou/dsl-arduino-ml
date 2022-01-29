@@ -8,31 +8,32 @@ root: declaration bricks states EOF;
 
 declaration: 'application' name = IDENTIFIER;
 
-bricks: (sensor | actuator | printer)+;
+bricks: (sensor | actuator | printer |exceptionDeclaration)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
+exceptionDeclaration:
+	'exception' name = IDENTIFIER ':' code = INTEGER;
 printer: 'printer' id = IDENTIFIER ;
 location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
-state: initial? name = IDENTIFIER '{' (action | print)* transition+ '}';
+state:
+	initial? name = IDENTIFIER '{' (action | print)* exceptionTransition* transition+ '}';
 print: receiver = IDENTIFIER '<=' value = STRING;
+
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
-transition:
-	temporalTransition
-	| triggerTransition
-	| conjunctionTriggerTransition
-	| disjunctionTriggerTransition;
+exceptionTransition: 'handle' condition '=>' next = IDENTIFIER;
+transition: conditionTransition | temporalTransition;
 temporalTransition:
 	'after' duration = INTEGER DURATION_UNIT '=>' next = IDENTIFIER;
-triggerTransition:
-	trigger = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
-conjunctionTriggerTransition:
-	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL '=>' next = IDENTIFIER;
-
-disjunctionTriggerTransition:
-	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL '=>' next = IDENTIFIER;
+condition: uniqCondition | andCondition | orCondition;
+andCondition:
+	trigger1 = IDENTIFIER 'and' trigger2 = IDENTIFIER 'are' value = SIGNAL;
+orCondition:
+	trigger1 = IDENTIFIER 'or' trigger2 = IDENTIFIER 'is' value = SIGNAL;
+uniqCondition: trigger = IDENTIFIER 'is' value = SIGNAL;
+conditionTransition: condition '=>' next = IDENTIFIER;
 initial: '->';
 
 /*****************
@@ -47,7 +48,7 @@ STRING: '"' (~["\\\r\n] | EscapeSequence)* '"';
 /*************
  * * Helpers ** ***********
  */
-fragment DIGITS : [0-9];
+fragment DIGITS: [0-9];
 fragment LOWERCASE: [a-z];
 fragment SPECIAL: (NEWLINE|WS|COMMENT|'@'|'-'|'_')+;
 // abstract rule, does not really exists

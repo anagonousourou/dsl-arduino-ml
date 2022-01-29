@@ -1,0 +1,27 @@
+application redButton
+
+# Declaring bricks
+sensor button: 9
+actuator ll: 11
+actuator buz: 12
+
+# Declaring states
+
+
+-> start {
+    ll <= LOW
+    buz <= LOW
+    button is HIGH => stateA
+}
+
+
+stateA {
+    ll <= HIGH
+    after 3000 milliseconds => stateB
+}
+
+stateB {
+    buz <= HIGH
+    ll <= LOW
+    after 2000 milliseconds => start 
+}

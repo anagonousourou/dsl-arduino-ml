@@ -1,16 +1,8 @@
 package io.github.mosser.arduinoml.kernel.samples;
 
-import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.*;
-import io.github.mosser.arduinoml.kernel.generator.ToWiring;
-import io.github.mosser.arduinoml.kernel.generator.Visitor;
-import io.github.mosser.arduinoml.kernel.structural.*;
-
-import java.util.Arrays;
-
 public class Switch {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		// Declaring elementary bricks
 		Sensor button = new Sensor();
@@ -77,6 +69,6 @@ public class Switch {
 
 		// Printing the generated code on the console
 		System.out.println(codeGenerator.getResult());
-	}
+	}*/
 
 }

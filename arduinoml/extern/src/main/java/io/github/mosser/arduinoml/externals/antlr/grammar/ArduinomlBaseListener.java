@@ -1,4 +1,4 @@
-// Generated from io\github\mosser\arduinoml\externals\antlr\grammar\Arduinoml.g4 by ANTLR 4.7
+// Generated from io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.7
 package io.github.mosser.arduinoml.externals.antlr.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -76,6 +76,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrinter(ArduinomlParser.PrinterContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -148,6 +160,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExceptionTransition(ArduinomlParser.ExceptionTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTransition(ArduinomlParser.TransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -172,37 +196,61 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx) { }
+	@Override public void enterCondition(ArduinomlParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTriggerTransition(ArduinomlParser.TriggerTransitionContext ctx) { }
+	@Override public void exitCondition(ArduinomlParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	@Override public void enterAndCondition(ArduinomlParser.AndConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConjunctionTriggerTransition(ArduinomlParser.ConjunctionTriggerTransitionContext ctx) { }
+	@Override public void exitAndCondition(ArduinomlParser.AndConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
+	@Override public void enterOrCondition(ArduinomlParser.OrConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDisjunctionTriggerTransition(ArduinomlParser.DisjunctionTriggerTransitionContext ctx) { }
+	@Override public void exitOrCondition(ArduinomlParser.OrConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUniqCondition(ArduinomlParser.UniqConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUniqCondition(ArduinomlParser.UniqConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionTransition(ArduinomlParser.ConditionTransitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

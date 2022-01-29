@@ -17,8 +17,14 @@ public class StateBuilder {
         return new InstructionBuilder(this, sensorName);
     }
 
-    public StateBuilder initial() { parent.theApp.setInitial(this.local); return this; }
+    public StateBuilder initial() {
+        parent.theApp.setInitial(this.local);
+        return this;
+    }
 
-    public AppBuilder endState() { parent.theApp.getStates().add(this.local); return parent; }
+    public AppBuilder endState() {
+        parent.theApp.getStates().add(this.local);
+        return parent;
+    }
 
 }
