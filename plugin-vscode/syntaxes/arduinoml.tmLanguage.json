@@ -1,0 +1,105 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Automatic Machines Simulator",
+    "scopeName": "source.arduinoml",
+    "fileTypes": [
+        ".arduinoml"
+    ],
+    "patterns": [
+        {
+            "include": "#brick"
+        },
+        {
+            "include": "#transition"
+        },
+        {
+            "include": "#exception"
+        },
+        {
+            "include": "#operator"
+        },
+        {
+            "include": "#start"
+        },
+        {
+            "include": "#value"
+        },
+        {
+            "include": "#int"
+        },
+        {
+            "include": "#string"
+        },
+        {
+            "include": "#comment"
+        }
+    ],
+    "repository": {
+        "exception": {
+            "patterns": [
+                {
+                    "name": "keyword.other.arduinoml",
+                    "match": "handle"
+                }
+            ]
+        },
+        "value": {
+            "patterns": [
+                {
+                    "name": "constant.language.arduinoml",
+                    "match": "\\b(HIGH|LOW)\\b"
+                }
+            ]
+        },
+        "transition": {
+            "patterns": [
+                {
+                    "name": "keyword.control.arduinoml",
+                    "match": "=>"
+                }
+            ]
+        },
+        "operator": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.arduinoml",
+                    "match": "\\b(or|and|is|are)\\b"
+                }
+            ]
+        },
+        "brick": {
+            "patterns": [
+                {
+                    "name": "keyword.other.arduinoml",
+                    "match": "\\b(actuator|sensor|exception)\\b"
+                }
+            ]
+        },
+        "start": {
+            "patterns": [
+                {
+                    "name": "keyword.control.start.arduinoml",
+                    "match": "->"
+                }
+            ]
+        },
+        "int": {
+            "name": "constant.numeric.int.arduinoml",
+            "match": "\\s[1-9][0-9]*"
+        },
+        "string": {
+            "name": "string.quoted.double.arduinoml",
+            "begin": "\"",
+            "end": "\""
+        },
+        "comment": {
+            "patterns": [
+                {
+                    "name": "comment.line.arduinoml",
+                    "begin": "#",
+                    "end": "\n"
+                }
+            ]
+        }
+    }
+}

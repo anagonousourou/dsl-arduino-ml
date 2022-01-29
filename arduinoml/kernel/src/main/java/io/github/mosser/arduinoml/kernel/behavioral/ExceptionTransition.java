@@ -4,22 +4,32 @@ import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
 
-public class Transition implements Visitable {
-
-    private State next;
+public class ExceptionTransition implements Visitable {
+    private ExceptionState next;
     private TransitionCondition transitionCondition;
 
-    public State getNext() {
-        return next;
-    }
+    
 
-    public void setNext(State next) {
-        this.next = next;
+    public ExceptionTransition() {
     }
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+
+    }
+
+    public ExceptionTransition(ExceptionState next, TransitionCondition transitionCondition) {
+        this.next = next;
+        this.transitionCondition = transitionCondition;
+    }
+
+    public ExceptionState getNext() {
+        return next;
+    }
+
+    public void setNext(ExceptionState next) {
+        this.next = next;
     }
 
     public TransitionCondition getTransitionCondition() {
@@ -28,11 +38,6 @@ public class Transition implements Visitable {
 
     public void setTransitionCondition(TransitionCondition transitionCondition) {
         this.transitionCondition = transitionCondition;
-    }
-
-    @Override
-    public String toString() {
-        return "Transition [next=" + next + ", transitionCondition=" + transitionCondition + "]";
     }
 
 

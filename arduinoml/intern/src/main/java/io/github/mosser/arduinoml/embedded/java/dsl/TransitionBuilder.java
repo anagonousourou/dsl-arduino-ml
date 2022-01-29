@@ -1,14 +1,14 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
+import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
+import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
-import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
+import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
 public class TransitionBuilder {
 
+    Transition local;
     private TransitionTableBuilder parent;
-
-    private Transition local;
-
     private String source;
 
     TransitionBuilder(TransitionTableBuilder parent, String source) {
@@ -18,34 +18,19 @@ public class TransitionBuilder {
 
     }
 
-    public TransitionBuilder when(String sensor) {
-        local.setSensor(parent.findSensor(sensor));
-        return this;
+    public ConditionBuilder when(String sensor) {
+
+        return new ConditionBuilder(this, parent.findSensor(sensor));
     }
 
-    public TemporalTransitionBuilder after(long duration){
-        return new TemporalTransitionBuilder(this.parent, this.source,duration);
+    public TemporalTransitionBuilder after(long duration) {
+        return new TemporalTransitionBuilder(this.parent, this.source, duration);
     }
 
-
-    public MultipleTriggerTransitionBuilder and(String sensor) {
-        return new MultipleTriggerTransitionBuilder(this.parent, this.source, "and", this.local.getSensor(),
-                parent.findSensor(sensor));
-    }
-
-    public MultipleTriggerTransitionBuilder or(String sensor) {
-        return new MultipleTriggerTransitionBuilder(this.parent, this.source, "or", this.local.getSensor(),
-                parent.findSensor(sensor));
-    }
-
-    public TransitionBuilder isHigh() {
-        local.setValue(SIGNAL.HIGH);
-        return this;
-    }
-
-    public TransitionBuilder isLow() {
-        local.setValue(SIGNAL.LOW);
-        return this;
+    public TransitionTableBuilder raise(String state){
+        ExceptionState exceptionState = parent.findExceptionState(state);
+        this.parent.findState(this.source).addExceptionTransition(new ExceptionTransition(exceptionState,this.local.getTransitionCondition()));
+        return parent;
     }
 
     public TransitionTableBuilder goTo(String state) {
@@ -53,5 +38,11 @@ public class TransitionBuilder {
         local.setNext(parent.findState(state));
         return parent;
     }
+    
+
+    Sensor findSensor(String sensorName) {
+        return this.parent.findSensor(sensorName);
+    }
+
 
 }

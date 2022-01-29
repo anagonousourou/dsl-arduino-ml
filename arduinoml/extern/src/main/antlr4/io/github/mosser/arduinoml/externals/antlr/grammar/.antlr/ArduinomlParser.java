@@ -1,4 +1,4 @@
-// Generated from /home/anagonou/Documents/si5/dsl/dsl-arduino-ml/projects/extern/wrapper/src/main/antlr4/io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.8
+// Generated from /home/anagonou/Documents/si5/dsl/dsl-arduino-ml/arduinoml/extern/src/main/antlr4/io/github/mosser/arduinoml/externals/antlr/grammar/Arduinoml.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -17,35 +17,39 @@ public class ArduinomlParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, DURATION_UNIT=15, IDENTIFIER=16, 
-		SIGNAL=17, INTEGER=18, NEWLINE=19, WS=20, COMMENT=21;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
+		DURATION_UNIT=18, IDENTIFIER=19, SIGNAL=20, INTEGER=21, STRING=22, NEWLINE=23, 
+		WS=24, COMMENT=25;
 	public static final int
 		RULE_root = 0, RULE_declaration = 1, RULE_bricks = 2, RULE_sensor = 3, 
-		RULE_actuator = 4, RULE_location = 5, RULE_states = 6, RULE_state = 7, 
-		RULE_action = 8, RULE_transition = 9, RULE_temporalTransition = 10, RULE_triggerTransition = 11, 
-		RULE_conjunctionTriggerTransition = 12, RULE_disjunctionTriggerTransition = 13, 
-		RULE_initial = 14;
+		RULE_actuator = 4, RULE_exceptionDeclaration = 5, RULE_printer = 6, RULE_location = 7, 
+		RULE_states = 8, RULE_state = 9, RULE_print = 10, RULE_action = 11, RULE_exceptionTransition = 12, 
+		RULE_transition = 13, RULE_temporalTransition = 14, RULE_condition = 15, 
+		RULE_andCondition = 16, RULE_orCondition = 17, RULE_uniqCondition = 18, 
+		RULE_conditionTransition = 19, RULE_initial = 20;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"root", "declaration", "bricks", "sensor", "actuator", "location", "states", 
-			"state", "action", "transition", "temporalTransition", "triggerTransition", 
-			"conjunctionTriggerTransition", "disjunctionTriggerTransition", "initial"
+			"root", "declaration", "bricks", "sensor", "actuator", "exceptionDeclaration", 
+			"printer", "location", "states", "state", "print", "action", "exceptionTransition", 
+			"transition", "temporalTransition", "condition", "andCondition", "orCondition", 
+			"uniqCondition", "conditionTransition", "initial"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'application'", "'sensor'", "'actuator'", "':'", "'{'", "'}'", 
-			"'<='", "'after'", "'=>'", "'is'", "'and'", "'are'", "'or'", "'->'"
+			null, "'application'", "'sensor'", "'actuator'", "'exception'", "':'", 
+			"'printer'", "'{'", "'}'", "'<='", "'handle'", "'=>'", "'after'", "'and'", 
+			"'are'", "'or'", "'is'", "'->'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "DURATION_UNIT", "IDENTIFIER", "SIGNAL", "INTEGER", 
-			"NEWLINE", "WS", "COMMENT"
+			null, null, null, null, null, null, "DURATION_UNIT", "IDENTIFIER", "SIGNAL", 
+			"INTEGER", "STRING", "NEWLINE", "WS", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -122,13 +126,13 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
+			setState(42);
 			declaration();
-			setState(31);
+			setState(43);
 			bricks();
-			setState(32);
+			setState(44);
 			states();
-			setState(33);
+			setState(45);
 			match(EOF);
 			}
 		}
@@ -158,9 +162,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(47);
 			match(T__0);
-			setState(36);
+			setState(48);
 			((DeclarationContext)_localctx).name = match(IDENTIFIER);
 			}
 		}
@@ -188,6 +192,18 @@ public class ArduinomlParser extends Parser {
 		public ActuatorContext actuator(int i) {
 			return getRuleContext(ActuatorContext.class,i);
 		}
+		public List<PrinterContext> printer() {
+			return getRuleContexts(PrinterContext.class);
+		}
+		public PrinterContext printer(int i) {
+			return getRuleContext(PrinterContext.class,i);
+		}
+		public List<ExceptionDeclarationContext> exceptionDeclaration() {
+			return getRuleContexts(ExceptionDeclarationContext.class);
+		}
+		public ExceptionDeclarationContext exceptionDeclaration(int i) {
+			return getRuleContext(ExceptionDeclarationContext.class,i);
+		}
 		public BricksContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -201,34 +217,46 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40); 
+			setState(54); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(40);
+				setState(54);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__1:
 					{
-					setState(38);
+					setState(50);
 					sensor();
 					}
 					break;
 				case T__2:
 					{
-					setState(39);
+					setState(51);
 					actuator();
+					}
+					break;
+				case T__5:
+					{
+					setState(52);
+					printer();
+					}
+					break;
+				case T__3:
+					{
+					setState(53);
+					exceptionDeclaration();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(42); 
+				setState(56); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__1 || _la==T__2 );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__5))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -258,9 +286,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(58);
 			match(T__1);
-			setState(45);
+			setState(59);
 			location();
 			}
 		}
@@ -291,10 +319,80 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47);
+			setState(61);
 			match(T__2);
-			setState(48);
+			setState(62);
 			location();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ExceptionDeclarationContext extends ParserRuleContext {
+		public Token name;
+		public Token code;
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public TerminalNode INTEGER() { return getToken(ArduinomlParser.INTEGER, 0); }
+		public ExceptionDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_exceptionDeclaration; }
+	}
+
+	public final ExceptionDeclarationContext exceptionDeclaration() throws RecognitionException {
+		ExceptionDeclarationContext _localctx = new ExceptionDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_exceptionDeclaration);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(64);
+			match(T__3);
+			setState(65);
+			((ExceptionDeclarationContext)_localctx).name = match(IDENTIFIER);
+			setState(66);
+			match(T__4);
+			setState(67);
+			((ExceptionDeclarationContext)_localctx).code = match(INTEGER);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrinterContext extends ParserRuleContext {
+		public Token id;
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public PrinterContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_printer; }
+	}
+
+	public final PrinterContext printer() throws RecognitionException {
+		PrinterContext _localctx = new PrinterContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_printer);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(69);
+			match(T__5);
+			setState(70);
+			((PrinterContext)_localctx).id = match(IDENTIFIER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -321,15 +419,15 @@ public class ArduinomlParser extends Parser {
 
 	public final LocationContext location() throws RecognitionException {
 		LocationContext _localctx = new LocationContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_location);
+		enterRule(_localctx, 14, RULE_location);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(72);
 			((LocationContext)_localctx).id = match(IDENTIFIER);
-			setState(51);
-			match(T__3);
-			setState(52);
+			setState(73);
+			match(T__4);
+			setState(74);
 			((LocationContext)_localctx).port = match(INTEGER);
 			}
 		}
@@ -359,25 +457,25 @@ public class ArduinomlParser extends Parser {
 
 	public final StatesContext states() throws RecognitionException {
 		StatesContext _localctx = new StatesContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_states);
+		enterRule(_localctx, 16, RULE_states);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55); 
+			setState(77); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(54);
+				setState(76);
 				state();
 				}
 				}
-				setState(57); 
+				setState(79); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__13 || _la==IDENTIFIER );
+			} while ( _la==T__16 || _la==IDENTIFIER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -403,6 +501,18 @@ public class ArduinomlParser extends Parser {
 		public ActionContext action(int i) {
 			return getRuleContext(ActionContext.class,i);
 		}
+		public List<PrintContext> print() {
+			return getRuleContexts(PrintContext.class);
+		}
+		public PrintContext print(int i) {
+			return getRuleContext(PrintContext.class,i);
+		}
+		public List<ExceptionTransitionContext> exceptionTransition() {
+			return getRuleContexts(ExceptionTransitionContext.class);
+		}
+		public ExceptionTransitionContext exceptionTransition(int i) {
+			return getRuleContext(ExceptionTransitionContext.class,i);
+		}
 		public List<TransitionContext> transition() {
 			return getRuleContexts(TransitionContext.class);
 		}
@@ -417,62 +527,120 @@ public class ArduinomlParser extends Parser {
 
 	public final StateContext state() throws RecognitionException {
 		StateContext _localctx = new StateContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_state);
+		enterRule(_localctx, 18, RULE_state);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(82);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__13) {
+			if (_la==T__16) {
 				{
-				setState(59);
+				setState(81);
 				initial();
 				}
 			}
 
-			setState(62);
+			setState(84);
 			((StateContext)_localctx).name = match(IDENTIFIER);
-			setState(63);
-			match(T__4);
-			setState(65); 
+			setState(85);
+			match(T__6);
+			setState(90);
 			_errHandler.sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
 					{
-					{
-					setState(64);
-					action();
+					setState(88);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+					case 1:
+						{
+						setState(86);
+						action();
+						}
+						break;
+					case 2:
+						{
+						setState(87);
+						print();
+						}
+						break;
 					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
+					} 
 				}
-				setState(67); 
+				setState(92);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			setState(70); 
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			}
+			setState(96);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__9) {
+				{
+				{
+				setState(93);
+				exceptionTransition();
+				}
+				}
+				setState(98);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(100); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(69);
+				setState(99);
 				transition();
 				}
 				}
-				setState(72); 
+				setState(102); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__7 || _la==IDENTIFIER );
-			setState(74);
-			match(T__5);
+			} while ( _la==T__11 || _la==IDENTIFIER );
+			setState(104);
+			match(T__7);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrintContext extends ParserRuleContext {
+		public Token receiver;
+		public Token value;
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public TerminalNode STRING() { return getToken(ArduinomlParser.STRING, 0); }
+		public PrintContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_print; }
+	}
+
+	public final PrintContext print() throws RecognitionException {
+		PrintContext _localctx = new PrintContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_print);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(106);
+			((PrintContext)_localctx).receiver = match(IDENTIFIER);
+			setState(107);
+			match(T__8);
+			setState(108);
+			((PrintContext)_localctx).value = match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -499,15 +667,15 @@ public class ArduinomlParser extends Parser {
 
 	public final ActionContext action() throws RecognitionException {
 		ActionContext _localctx = new ActionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_action);
+		enterRule(_localctx, 22, RULE_action);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(110);
 			((ActionContext)_localctx).receiver = match(IDENTIFIER);
-			setState(77);
-			match(T__6);
-			setState(78);
+			setState(111);
+			match(T__8);
+			setState(112);
 			((ActionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -522,18 +690,51 @@ public class ArduinomlParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ExceptionTransitionContext extends ParserRuleContext {
+		public Token next;
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
+		}
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public ExceptionTransitionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_exceptionTransition; }
+	}
+
+	public final ExceptionTransitionContext exceptionTransition() throws RecognitionException {
+		ExceptionTransitionContext _localctx = new ExceptionTransitionContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_exceptionTransition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(114);
+			match(T__9);
+			setState(115);
+			condition();
+			setState(116);
+			match(T__10);
+			setState(117);
+			((ExceptionTransitionContext)_localctx).next = match(IDENTIFIER);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class TransitionContext extends ParserRuleContext {
+		public ConditionTransitionContext conditionTransition() {
+			return getRuleContext(ConditionTransitionContext.class,0);
+		}
 		public TemporalTransitionContext temporalTransition() {
 			return getRuleContext(TemporalTransitionContext.class,0);
-		}
-		public TriggerTransitionContext triggerTransition() {
-			return getRuleContext(TriggerTransitionContext.class,0);
-		}
-		public ConjunctionTriggerTransitionContext conjunctionTriggerTransition() {
-			return getRuleContext(ConjunctionTriggerTransitionContext.class,0);
-		}
-		public DisjunctionTriggerTransitionContext disjunctionTriggerTransition() {
-			return getRuleContext(DisjunctionTriggerTransitionContext.class,0);
 		}
 		public TransitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -543,39 +744,27 @@ public class ArduinomlParser extends Parser {
 
 	public final TransitionContext transition() throws RecognitionException {
 		TransitionContext _localctx = new TransitionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_transition);
+		enterRule(_localctx, 26, RULE_transition);
 		try {
-			setState(84);
+			setState(121);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(80);
+				setState(119);
+				conditionTransition();
+				}
+				break;
+			case T__11:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(120);
 				temporalTransition();
 				}
 				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(81);
-				triggerTransition();
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(82);
-				conjunctionTriggerTransition();
-				}
-				break;
-			case 4:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(83);
-				disjunctionTriggerTransition();
-				}
-				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -603,19 +792,19 @@ public class ArduinomlParser extends Parser {
 
 	public final TemporalTransitionContext temporalTransition() throws RecognitionException {
 		TemporalTransitionContext _localctx = new TemporalTransitionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_temporalTransition);
+		enterRule(_localctx, 28, RULE_temporalTransition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
-			match(T__7);
-			setState(87);
+			setState(123);
+			match(T__11);
+			setState(124);
 			((TemporalTransitionContext)_localctx).duration = match(INTEGER);
-			setState(88);
+			setState(125);
 			match(DURATION_UNIT);
-			setState(89);
-			match(T__8);
-			setState(90);
+			setState(126);
+			match(T__10);
+			setState(127);
 			((TemporalTransitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
@@ -630,37 +819,174 @@ public class ArduinomlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TriggerTransitionContext extends ParserRuleContext {
+	public static class ConditionContext extends ParserRuleContext {
+		public UniqConditionContext uniqCondition() {
+			return getRuleContext(UniqConditionContext.class,0);
+		}
+		public AndConditionContext andCondition() {
+			return getRuleContext(AndConditionContext.class,0);
+		}
+		public OrConditionContext orCondition() {
+			return getRuleContext(OrConditionContext.class,0);
+		}
+		public ConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_condition; }
+	}
+
+	public final ConditionContext condition() throws RecognitionException {
+		ConditionContext _localctx = new ConditionContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_condition);
+		try {
+			setState(132);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(129);
+				uniqCondition();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(130);
+				andCondition();
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(131);
+				orCondition();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AndConditionContext extends ParserRuleContext {
+		public Token trigger1;
+		public Token trigger2;
+		public Token value;
+		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
+		public TerminalNode IDENTIFIER(int i) {
+			return getToken(ArduinomlParser.IDENTIFIER, i);
+		}
+		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
+		public AndConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_andCondition; }
+	}
+
+	public final AndConditionContext andCondition() throws RecognitionException {
+		AndConditionContext _localctx = new AndConditionContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_andCondition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(134);
+			((AndConditionContext)_localctx).trigger1 = match(IDENTIFIER);
+			setState(135);
+			match(T__12);
+			setState(136);
+			((AndConditionContext)_localctx).trigger2 = match(IDENTIFIER);
+			setState(137);
+			match(T__13);
+			setState(138);
+			((AndConditionContext)_localctx).value = match(SIGNAL);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class OrConditionContext extends ParserRuleContext {
+		public Token trigger1;
+		public Token trigger2;
+		public Token value;
+		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
+		public TerminalNode IDENTIFIER(int i) {
+			return getToken(ArduinomlParser.IDENTIFIER, i);
+		}
+		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
+		public OrConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_orCondition; }
+	}
+
+	public final OrConditionContext orCondition() throws RecognitionException {
+		OrConditionContext _localctx = new OrConditionContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_orCondition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(140);
+			((OrConditionContext)_localctx).trigger1 = match(IDENTIFIER);
+			setState(141);
+			match(T__14);
+			setState(142);
+			((OrConditionContext)_localctx).trigger2 = match(IDENTIFIER);
+			setState(143);
+			match(T__15);
+			setState(144);
+			((OrConditionContext)_localctx).value = match(SIGNAL);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class UniqConditionContext extends ParserRuleContext {
 		public Token trigger;
 		public Token value;
-		public Token next;
-		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
-		public TerminalNode IDENTIFIER(int i) {
-			return getToken(ArduinomlParser.IDENTIFIER, i);
-		}
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
 		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
-		public TriggerTransitionContext(ParserRuleContext parent, int invokingState) {
+		public UniqConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_triggerTransition; }
+		@Override public int getRuleIndex() { return RULE_uniqCondition; }
 	}
 
-	public final TriggerTransitionContext triggerTransition() throws RecognitionException {
-		TriggerTransitionContext _localctx = new TriggerTransitionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_triggerTransition);
+	public final UniqConditionContext uniqCondition() throws RecognitionException {
+		UniqConditionContext _localctx = new UniqConditionContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_uniqCondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
-			((TriggerTransitionContext)_localctx).trigger = match(IDENTIFIER);
-			setState(93);
-			match(T__9);
-			setState(94);
-			((TriggerTransitionContext)_localctx).value = match(SIGNAL);
-			setState(95);
-			match(T__8);
-			setState(96);
-			((TriggerTransitionContext)_localctx).next = match(IDENTIFIER);
+			setState(146);
+			((UniqConditionContext)_localctx).trigger = match(IDENTIFIER);
+			setState(147);
+			match(T__15);
+			setState(148);
+			((UniqConditionContext)_localctx).value = match(SIGNAL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -674,91 +1000,30 @@ public class ArduinomlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ConjunctionTriggerTransitionContext extends ParserRuleContext {
-		public Token trigger1;
-		public Token trigger2;
-		public Token value;
+	public static class ConditionTransitionContext extends ParserRuleContext {
 		public Token next;
-		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
-		public TerminalNode IDENTIFIER(int i) {
-			return getToken(ArduinomlParser.IDENTIFIER, i);
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
 		}
-		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
-		public ConjunctionTriggerTransitionContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public ConditionTransitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_conjunctionTriggerTransition; }
+		@Override public int getRuleIndex() { return RULE_conditionTransition; }
 	}
 
-	public final ConjunctionTriggerTransitionContext conjunctionTriggerTransition() throws RecognitionException {
-		ConjunctionTriggerTransitionContext _localctx = new ConjunctionTriggerTransitionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_conjunctionTriggerTransition);
+	public final ConditionTransitionContext conditionTransition() throws RecognitionException {
+		ConditionTransitionContext _localctx = new ConditionTransitionContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_conditionTransition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
-			((ConjunctionTriggerTransitionContext)_localctx).trigger1 = match(IDENTIFIER);
-			setState(99);
+			setState(150);
+			condition();
+			setState(151);
 			match(T__10);
-			setState(100);
-			((ConjunctionTriggerTransitionContext)_localctx).trigger2 = match(IDENTIFIER);
-			setState(101);
-			match(T__11);
-			setState(102);
-			((ConjunctionTriggerTransitionContext)_localctx).value = match(SIGNAL);
-			setState(103);
-			match(T__8);
-			setState(104);
-			((ConjunctionTriggerTransitionContext)_localctx).next = match(IDENTIFIER);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class DisjunctionTriggerTransitionContext extends ParserRuleContext {
-		public Token trigger1;
-		public Token trigger2;
-		public Token value;
-		public Token next;
-		public List<TerminalNode> IDENTIFIER() { return getTokens(ArduinomlParser.IDENTIFIER); }
-		public TerminalNode IDENTIFIER(int i) {
-			return getToken(ArduinomlParser.IDENTIFIER, i);
-		}
-		public TerminalNode SIGNAL() { return getToken(ArduinomlParser.SIGNAL, 0); }
-		public DisjunctionTriggerTransitionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_disjunctionTriggerTransition; }
-	}
-
-	public final DisjunctionTriggerTransitionContext disjunctionTriggerTransition() throws RecognitionException {
-		DisjunctionTriggerTransitionContext _localctx = new DisjunctionTriggerTransitionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_disjunctionTriggerTransition);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(106);
-			((DisjunctionTriggerTransitionContext)_localctx).trigger1 = match(IDENTIFIER);
-			setState(107);
-			match(T__12);
-			setState(108);
-			((DisjunctionTriggerTransitionContext)_localctx).trigger2 = match(IDENTIFIER);
-			setState(109);
-			match(T__9);
-			setState(110);
-			((DisjunctionTriggerTransitionContext)_localctx).value = match(SIGNAL);
-			setState(111);
-			match(T__8);
-			setState(112);
-			((DisjunctionTriggerTransitionContext)_localctx).next = match(IDENTIFIER);
+			setState(152);
+			((ConditionTransitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -781,12 +1046,12 @@ public class ArduinomlParser extends Parser {
 
 	public final InitialContext initial() throws RecognitionException {
 		InitialContext _localctx = new InitialContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_initial);
+		enterRule(_localctx, 40, RULE_initial);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
-			match(T__13);
+			setState(154);
+			match(T__16);
 			}
 		}
 		catch (RecognitionException re) {
@@ -801,33 +1066,47 @@ public class ArduinomlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27w\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\3\2\3\2\3\2\3\3\3"+
-		"\3\3\3\3\4\3\4\6\4+\n\4\r\4\16\4,\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7\3\7"+
-		"\3\7\3\b\6\b:\n\b\r\b\16\b;\3\t\5\t?\n\t\3\t\3\t\3\t\6\tD\n\t\r\t\16\t"+
-		"E\3\t\6\tI\n\t\r\t\16\tJ\3\t\3\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\5"+
-		"\13W\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3"+
-		"\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3"+
-		"\20\3\20\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\2\2p\2 "+
-		"\3\2\2\2\4%\3\2\2\2\6*\3\2\2\2\b.\3\2\2\2\n\61\3\2\2\2\f\64\3\2\2\2\16"+
-		"9\3\2\2\2\20>\3\2\2\2\22N\3\2\2\2\24V\3\2\2\2\26X\3\2\2\2\30^\3\2\2\2"+
-		"\32d\3\2\2\2\34l\3\2\2\2\36t\3\2\2\2 !\5\4\3\2!\"\5\6\4\2\"#\5\16\b\2"+
-		"#$\7\2\2\3$\3\3\2\2\2%&\7\3\2\2&\'\7\22\2\2\'\5\3\2\2\2(+\5\b\5\2)+\5"+
-		"\n\6\2*(\3\2\2\2*)\3\2\2\2+,\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\7\3\2\2\2./"+
-		"\7\4\2\2/\60\5\f\7\2\60\t\3\2\2\2\61\62\7\5\2\2\62\63\5\f\7\2\63\13\3"+
-		"\2\2\2\64\65\7\22\2\2\65\66\7\6\2\2\66\67\7\24\2\2\67\r\3\2\2\28:\5\20"+
-		"\t\298\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2<\17\3\2\2\2=?\5\36\20\2>"+
-		"=\3\2\2\2>?\3\2\2\2?@\3\2\2\2@A\7\22\2\2AC\7\7\2\2BD\5\22\n\2CB\3\2\2"+
-		"\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2FH\3\2\2\2GI\5\24\13\2HG\3\2\2\2IJ\3\2"+
-		"\2\2JH\3\2\2\2JK\3\2\2\2KL\3\2\2\2LM\7\b\2\2M\21\3\2\2\2NO\7\22\2\2OP"+
-		"\7\t\2\2PQ\7\23\2\2Q\23\3\2\2\2RW\5\26\f\2SW\5\30\r\2TW\5\32\16\2UW\5"+
-		"\34\17\2VR\3\2\2\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\25\3\2\2\2XY\7\n\2\2"+
-		"YZ\7\24\2\2Z[\7\21\2\2[\\\7\13\2\2\\]\7\22\2\2]\27\3\2\2\2^_\7\22\2\2"+
-		"_`\7\f\2\2`a\7\23\2\2ab\7\13\2\2bc\7\22\2\2c\31\3\2\2\2de\7\22\2\2ef\7"+
-		"\r\2\2fg\7\22\2\2gh\7\16\2\2hi\7\23\2\2ij\7\13\2\2jk\7\22\2\2k\33\3\2"+
-		"\2\2lm\7\22\2\2mn\7\17\2\2no\7\22\2\2op\7\f\2\2pq\7\23\2\2qr\7\13\2\2"+
-		"rs\7\22\2\2s\35\3\2\2\2tu\7\20\2\2u\37\3\2\2\2\t*,;>EJV";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\33\u009f\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3"+
+		"\3\3\4\3\4\3\4\3\4\6\49\n\4\r\4\16\4:\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7"+
+		"\3\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\6\nP\n\n\r\n\16\nQ\3\13\5"+
+		"\13U\n\13\3\13\3\13\3\13\3\13\7\13[\n\13\f\13\16\13^\13\13\3\13\7\13a"+
+		"\n\13\f\13\16\13d\13\13\3\13\6\13g\n\13\r\13\16\13h\3\13\3\13\3\f\3\f"+
+		"\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\17\3\17\5\17|\n\17"+
+		"\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\5\21\u0087\n\21\3\22\3\22"+
+		"\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\24"+
+		"\3\25\3\25\3\25\3\25\3\26\3\26\3\26\2\2\27\2\4\6\b\n\f\16\20\22\24\26"+
+		"\30\32\34\36 \"$&(*\2\2\2\u0096\2,\3\2\2\2\4\61\3\2\2\2\68\3\2\2\2\b<"+
+		"\3\2\2\2\n?\3\2\2\2\fB\3\2\2\2\16G\3\2\2\2\20J\3\2\2\2\22O\3\2\2\2\24"+
+		"T\3\2\2\2\26l\3\2\2\2\30p\3\2\2\2\32t\3\2\2\2\34{\3\2\2\2\36}\3\2\2\2"+
+		" \u0086\3\2\2\2\"\u0088\3\2\2\2$\u008e\3\2\2\2&\u0094\3\2\2\2(\u0098\3"+
+		"\2\2\2*\u009c\3\2\2\2,-\5\4\3\2-.\5\6\4\2./\5\22\n\2/\60\7\2\2\3\60\3"+
+		"\3\2\2\2\61\62\7\3\2\2\62\63\7\25\2\2\63\5\3\2\2\2\649\5\b\5\2\659\5\n"+
+		"\6\2\669\5\16\b\2\679\5\f\7\28\64\3\2\2\28\65\3\2\2\28\66\3\2\2\28\67"+
+		"\3\2\2\29:\3\2\2\2:8\3\2\2\2:;\3\2\2\2;\7\3\2\2\2<=\7\4\2\2=>\5\20\t\2"+
+		">\t\3\2\2\2?@\7\5\2\2@A\5\20\t\2A\13\3\2\2\2BC\7\6\2\2CD\7\25\2\2DE\7"+
+		"\7\2\2EF\7\27\2\2F\r\3\2\2\2GH\7\b\2\2HI\7\25\2\2I\17\3\2\2\2JK\7\25\2"+
+		"\2KL\7\7\2\2LM\7\27\2\2M\21\3\2\2\2NP\5\24\13\2ON\3\2\2\2PQ\3\2\2\2QO"+
+		"\3\2\2\2QR\3\2\2\2R\23\3\2\2\2SU\5*\26\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2"+
+		"VW\7\25\2\2W\\\7\t\2\2X[\5\30\r\2Y[\5\26\f\2ZX\3\2\2\2ZY\3\2\2\2[^\3\2"+
+		"\2\2\\Z\3\2\2\2\\]\3\2\2\2]b\3\2\2\2^\\\3\2\2\2_a\5\32\16\2`_\3\2\2\2"+
+		"ad\3\2\2\2b`\3\2\2\2bc\3\2\2\2cf\3\2\2\2db\3\2\2\2eg\5\34\17\2fe\3\2\2"+
+		"\2gh\3\2\2\2hf\3\2\2\2hi\3\2\2\2ij\3\2\2\2jk\7\n\2\2k\25\3\2\2\2lm\7\25"+
+		"\2\2mn\7\13\2\2no\7\30\2\2o\27\3\2\2\2pq\7\25\2\2qr\7\13\2\2rs\7\26\2"+
+		"\2s\31\3\2\2\2tu\7\f\2\2uv\5 \21\2vw\7\r\2\2wx\7\25\2\2x\33\3\2\2\2y|"+
+		"\5(\25\2z|\5\36\20\2{y\3\2\2\2{z\3\2\2\2|\35\3\2\2\2}~\7\16\2\2~\177\7"+
+		"\27\2\2\177\u0080\7\24\2\2\u0080\u0081\7\r\2\2\u0081\u0082\7\25\2\2\u0082"+
+		"\37\3\2\2\2\u0083\u0087\5&\24\2\u0084\u0087\5\"\22\2\u0085\u0087\5$\23"+
+		"\2\u0086\u0083\3\2\2\2\u0086\u0084\3\2\2\2\u0086\u0085\3\2\2\2\u0087!"+
+		"\3\2\2\2\u0088\u0089\7\25\2\2\u0089\u008a\7\17\2\2\u008a\u008b\7\25\2"+
+		"\2\u008b\u008c\7\20\2\2\u008c\u008d\7\26\2\2\u008d#\3\2\2\2\u008e\u008f"+
+		"\7\25\2\2\u008f\u0090\7\21\2\2\u0090\u0091\7\25\2\2\u0091\u0092\7\22\2"+
+		"\2\u0092\u0093\7\26\2\2\u0093%\3\2\2\2\u0094\u0095\7\25\2\2\u0095\u0096"+
+		"\7\22\2\2\u0096\u0097\7\26\2\2\u0097\'\3\2\2\2\u0098\u0099\5 \21\2\u0099"+
+		"\u009a\7\r\2\2\u009a\u009b\7\25\2\2\u009b)\3\2\2\2\u009c\u009d\7\23\2"+
+		"\2\u009d+\3\2\2\2\f8:QTZ\\bh{\u0086";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
