@@ -22,7 +22,7 @@ import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
  */
 public class ToWiring extends Visitor<StringBuffer> {
 	enum PASS {
-		INITIAL,ONE, TWO
+		INITIAL,ONE, TWO, THREE
 	}
     private boolean firstCondition = true;
 
@@ -82,7 +82,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
         w("}\n");
 
-        w("\nvoid loop() {\n" +
+        w(String.format("\nvoid %s() {\n",app.getMustPrintWithLcd()?"mainLoop":"loop") +
                 "\tswitch(currentState){\n");
         for (State state : app.getStates()) {
             state.accept(this);
@@ -92,6 +92,12 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
         w("\t}\n" +
                 "}");
+        if(app.getMustPrintWithLcd()){
+            context.put("pass", PASS.THREE);
+            for (Brick brick : app.getBricks()) {
+                brick.accept(this);
+            }
+        }
     }
 
 	@Override
@@ -102,42 +108,98 @@ public class ToWiring extends Visitor<StringBuffer> {
 	private void visitLCD() {
 
 		if(context.get("pass") == PASS.INITIAL) {
-			w("#include <LiquidCrystal.h>\n");
+            w("/*\n");
+            w("Arduino Protothreading Example v1.1\n");
+            w("by Drew Alden (@ReanimationXP) 1/12/2016\n");
+            w("- Update: v1.1 - 8/18/17\n");
+            w("  Arduino 1.6.6+ prototyping changed, small fixes.\n");
+            w("  (create functions ahead of use, removed foreach and related library).\n");
 
-			w("void printString(String text, LiquidCrystal&lcd){\n");
-            w("	lcd.clear();\n");
-			w("	bool endLoop = false;\n");
-            w("	const int interval = text.length();\n");
-            w("	const int max_chars_on_line = 16;\n");
-			w("	for (int i=0;i<interval&&not endLoop;i++){\n");
-			w("		int endscreen1 = i+((interval-i)>max_chars_on_line? max_chars_on_line:interval);\n");
-			w("		lcd.setCursor(0,0);\n");
-			w("		lcd.print(text.substring(i,endscreen1));\n");
+            w("  Note that TimedAction is now out of date. Be sure to read notes about\n");
+            w("  TimedAction and WProgram.h / Arduino.h errors.\n");
+            w("*/\n");
 
-			w("		int rest = interval-endscreen1;\n");
-			w("		int endscreen2 = 0;\n");
-			w("		if (rest>max_chars_on_line){\n");
-			w("			endscreen2 = endscreen1+max_chars_on_line;\n");
-			w("		}else{\n");
-			w("			endscreen2 = rest;\n");
-			w("			endLoop=true;\n");
-			w("		}\n");
-			w("		lcd.setCursor(0,1);\n");
-			w("		lcd.print(text.substring(endscreen1,endscreen1+endscreen2));\n");
-			w("		delay(endLoop?800:1);\n");
-			w("	}\n");
-			w("}\n");
+            w("//COMPONENTS\n");
+
+            w("/*\n");
+            w("This code was made using the Sunfounder Arduino starter kit's blue LCD.\n");
+            w("It can be found at Amazon.com in a variety of kits.\n");
+            w("*/\n");
+
+            w("//THIRD-PARTY LIBRARIES\n");
+            w("//these must be manually added to your Arduino IDE installation\n");
+
+            w("//TimedAction\n");
+            w("//allows us to set actions to perform on separate timed intervals\n");
+            w("//http://playground.arduino.cc/Code/TimedAction\n");
+            w("//http://wiring.uniandes.edu.co/source/trunk/wiring/firmware/libraries/TimedAction\n");
+
+            w("#include <TimedAction.h>\n");
+            w("//NOTE: This library has an issue on newer versions of Arduino. After\n");
+            w("//      downloading the library you MUST go into the library directory and\n");
+            w("//      edit TimedAction.h. Within, overwrite WProgram.h with Arduino.h\n");
+
+
+            w("//NATIVE LIBRARIES\n");
+
+            w("#include <LiquidCrystal.h>\n");
+
 			return;
 		}
 		if(context.get("pass") == PASS.ONE) {
-			w("LiquidCrystal lcd(10, 11, 12, 13, 14, 15, 16);\n");
+            w("bool lcd_update = false;\n");
+
+            w("String text(\"Waiting for text to print, but need to put more till overload the screen!!\");\n");
+            w("String currentPrintedState;\n");
+
+            w("void update_lcd(String _text,String state){\n");
+                w("    if(state==nullptr || currentPrintedState==state )return;\n");
+                w("    text = _text;\n");
+                w("    lcd_update = true;\n");
+                w("    currentPrintedState=state;\n");
+                w("}\n");
+			w("LiquidCrystal lcd(2, 3, 4, 5, 6, 7, 8);\n");
 			return;
 		}
 		if(context.get("pass") == PASS.TWO) {
 			//lcdScreen.getPin(), lcdScreen.getName()
 			w("  lcd.begin(16, 2); //  [LCDScreen]\n");
-			return;
 		}
+        if(context.get("pass") == PASS.THREE){
+
+            w("TimedAction mainLoopThread = TimedAction(300,mainLoop);\n");
+            w("void printString(){\n");
+            w("	lcd.clear();\n");
+            w("	bool endLoop = false;\n");
+            w("	const int interval = text.length();\n");
+            w("	const int max_chars_on_line = 16;\n");
+            w("	for (int i=0;i<interval&&not endLoop;i++){\n");
+            w("		mainLoopThread.check();\n");
+            w("		int endscreen1 = i+((interval-i)>max_chars_on_line? max_chars_on_line:interval);\n");
+            w("		lcd.setCursor(0,0);\n");
+            w("		lcd.print(text.substring(i,endscreen1));\n");
+
+            w("		int rest = interval-endscreen1;\n");
+            w("		int endscreen2 = 0;\n");
+            w("		if (rest>max_chars_on_line){\n");
+            w("			endscreen2 = endscreen1+max_chars_on_line;\n");
+            w("		}else{\n");
+            w("			endscreen2 = rest;\n");
+            w("			endLoop=true;\n");
+            w("		}\n");
+            w("		lcd.setCursor(0,1);\n");
+            w("		lcd.print(text.substring(endscreen1,endscreen1+endscreen2));\n");
+            w("		if(lcd_update){\n");
+            w("		    lcd_update=false;\n");
+            w("		    return;\n");
+            w("		}\n");
+            w("		delay(endLoop?600:650);\n");
+            w("	}\n");
+            w("}\n\n");
+            w("void loop(){\n");
+            w("    printString();\n");
+            w("}\n");
+        }
 	}
 
 	
@@ -177,8 +239,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		if(context.get("pass") == PASS.TWO) {
 			//print.getActuator().getPin(),
-			w(String.format("\t\t\tprintString(%s,lcd);%n",print.getStringValue()));
-			return;
+            String sep = "\t\t\t";
+            w(String.format("%supdate_lcd(%s,\n%s\"%s\");%n",sep,print.getStringValue(sep+sep),sep+sep,print.getState().getName()));
+			//return;
 		}
 	}
 	

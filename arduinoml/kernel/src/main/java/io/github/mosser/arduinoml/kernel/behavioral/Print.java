@@ -15,11 +15,18 @@ public class Print extends Action {
 	private Integer counter = 0;
 	private final Map<String, Brick> bricksToPrint;
 	private final Map<String, String> stringsToPrint;
+ 	private final State state;
 
-	public Print(){
+	public Print(State state){
+		this.state = state;
 		bricksToPrint = new HashMap<>();
 		stringsToPrint = new HashMap<>();
 	}
+
+	public State getState() {
+		return state;
+	}
+
 
 	public void printBrick(Brick brick){
 		bricksToPrint.put((counter++).toString(),brick);
@@ -28,7 +35,7 @@ public class Print extends Action {
 		stringsToPrint.put((counter++).toString(),string);
 	}
 
-	public String getStringValue() {
+	public String getStringValue(String sep) {
 		String str = "";
 		StringBuilder strBuilder = new StringBuilder(str);
 		for(int i = 0; i<counter; i++) {
@@ -37,7 +44,8 @@ public class Print extends Action {
 				strBuilder.append(String.format("String(\"%s := \") + String(digitalRead(%d)==1? \"ON\":\"OFF\")",bricksToPrint.get(key).getName(),bricksToPrint.get(key).getPin()) );
 			if(stringsToPrint.containsKey(key))
 				strBuilder.append(stringsToPrint.get(key));
-			if(i>0&&i!=counter-1)strBuilder.append(",");
+			if(i<counter-1)strBuilder.append(String.format( " + \n%s",sep));
+			//if(i<counter-1)strBuilder.append("+String(\",\")+");
 		}
 		value = strBuilder.toString();
 		return value;

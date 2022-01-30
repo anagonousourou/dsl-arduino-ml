@@ -19,31 +19,33 @@ public class ArduinomlParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		DURATION_UNIT=18, IDENTIFIER=19, SIGNAL=20, INTEGER=21, STRING=22, NEWLINE=23, 
-		WS=24, COMMENT=25;
+		T__17=18, DURATION_UNIT=19, IDENTIFIER=20, SIGNAL=21, INTEGER=22, STRING=23, 
+		NEWLINE=24, WS=25, COMMENT=26;
 	public static final int
 		RULE_root = 0, RULE_declaration = 1, RULE_bricks = 2, RULE_sensor = 3, 
 		RULE_actuator = 4, RULE_exceptionDeclaration = 5, RULE_printer = 6, RULE_location = 7, 
-		RULE_states = 8, RULE_state = 9, RULE_print = 10, RULE_action = 11, RULE_exceptionTransition = 12, 
-		RULE_transition = 13, RULE_temporalTransition = 14, RULE_condition = 15, 
-		RULE_andCondition = 16, RULE_orCondition = 17, RULE_uniqCondition = 18, 
-		RULE_conditionTransition = 19, RULE_initial = 20;
+		RULE_states = 8, RULE_state = 9, RULE_print = 10, RULE_printable = 11, 
+		RULE_literalString = 12, RULE_brickToPrint = 13, RULE_action = 14, RULE_exceptionTransition = 15, 
+		RULE_transition = 16, RULE_temporalTransition = 17, RULE_condition = 18, 
+		RULE_andCondition = 19, RULE_orCondition = 20, RULE_uniqCondition = 21, 
+		RULE_conditionTransition = 22, RULE_initial = 23;
 	public static final String[] ruleNames = {
 		"root", "declaration", "bricks", "sensor", "actuator", "exceptionDeclaration", 
-		"printer", "location", "states", "state", "print", "action", "exceptionTransition", 
-		"transition", "temporalTransition", "condition", "andCondition", "orCondition", 
-		"uniqCondition", "conditionTransition", "initial"
+		"printer", "location", "states", "state", "print", "printable", "literalString", 
+		"brickToPrint", "action", "exceptionTransition", "transition", "temporalTransition", 
+		"condition", "andCondition", "orCondition", "uniqCondition", "conditionTransition", 
+		"initial"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'application'", "'sensor'", "'actuator'", "'exception'", "':'", 
-		"'printer'", "'{'", "'}'", "'<='", "'handle'", "'=>'", "'after'", "'and'", 
-		"'are'", "'or'", "'is'", "'->'"
+		"'printer'", "'{'", "'}'", "'<='", "','", "'handle'", "'=>'", "'after'", 
+		"'and'", "'are'", "'or'", "'is'", "'->'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, "DURATION_UNIT", "IDENTIFIER", "SIGNAL", 
-		"INTEGER", "STRING", "NEWLINE", "WS", "COMMENT"
+		null, null, null, null, null, null, null, "DURATION_UNIT", "IDENTIFIER", 
+		"SIGNAL", "INTEGER", "STRING", "NEWLINE", "WS", "COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -125,13 +127,13 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
+			setState(48);
 			declaration();
-			setState(43);
+			setState(49);
 			bricks();
-			setState(44);
+			setState(50);
 			states();
-			setState(45);
+			setState(51);
 			match(EOF);
 			}
 		}
@@ -169,9 +171,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47);
+			setState(53);
 			match(T__0);
-			setState(48);
+			setState(54);
 			((DeclarationContext)_localctx).name = match(IDENTIFIER);
 			}
 		}
@@ -232,35 +234,35 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54); 
+			setState(60); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(54);
+				setState(60);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__1:
 					{
-					setState(50);
+					setState(56);
 					sensor();
 					}
 					break;
 				case T__2:
 					{
-					setState(51);
+					setState(57);
 					actuator();
 					}
 					break;
 				case T__5:
 					{
-					setState(52);
+					setState(58);
 					printer();
 					}
 					break;
 				case T__3:
 					{
-					setState(53);
+					setState(59);
 					exceptionDeclaration();
 					}
 					break;
@@ -268,7 +270,7 @@ public class ArduinomlParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(56); 
+				setState(62); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__5))) != 0) );
@@ -309,9 +311,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
+			setState(64);
 			match(T__1);
-			setState(59);
+			setState(65);
 			location();
 			}
 		}
@@ -350,9 +352,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
+			setState(67);
 			match(T__2);
-			setState(62);
+			setState(68);
 			location();
 			}
 		}
@@ -392,13 +394,13 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(70);
 			match(T__3);
-			setState(65);
+			setState(71);
 			((ExceptionDeclarationContext)_localctx).name = match(IDENTIFIER);
-			setState(66);
+			setState(72);
 			match(T__4);
-			setState(67);
+			setState(73);
 			((ExceptionDeclarationContext)_localctx).code = match(INTEGER);
 			}
 		}
@@ -436,9 +438,9 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69);
+			setState(75);
 			match(T__5);
-			setState(70);
+			setState(76);
 			((PrinterContext)_localctx).id = match(IDENTIFIER);
 			}
 		}
@@ -478,11 +480,11 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
+			setState(78);
 			((LocationContext)_localctx).id = match(IDENTIFIER);
-			setState(73);
+			setState(79);
 			match(T__4);
-			setState(74);
+			setState(80);
 			((LocationContext)_localctx).port = match(INTEGER);
 			}
 		}
@@ -525,20 +527,20 @@ public class ArduinomlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77); 
+			setState(83); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(76);
+				setState(82);
 				state();
 				}
 				}
-				setState(79); 
+				setState(85); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__16 || _la==IDENTIFIER );
+			} while ( _la==T__17 || _la==IDENTIFIER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -604,77 +606,77 @@ public class ArduinomlParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
+			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__16) {
+			if (_la==T__17) {
 				{
-				setState(81);
+				setState(87);
 				initial();
 				}
 			}
 
-			setState(84);
-			((StateContext)_localctx).name = match(IDENTIFIER);
-			setState(85);
-			match(T__6);
 			setState(90);
+			((StateContext)_localctx).name = match(IDENTIFIER);
+			setState(91);
+			match(T__6);
+			setState(96);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
-					setState(88);
+					setState(94);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
-						setState(86);
+						setState(92);
 						action();
 						}
 						break;
 					case 2:
 						{
-						setState(87);
+						setState(93);
 						print();
 						}
 						break;
 					}
 					} 
 				}
-				setState(92);
+				setState(98);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
-			setState(96);
+			setState(102);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__9) {
+			while (_la==T__10) {
 				{
 				{
-				setState(93);
+				setState(99);
 				exceptionTransition();
 				}
 				}
-				setState(98);
+				setState(104);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(100); 
+			setState(106); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(99);
+				setState(105);
 				transition();
 				}
 				}
-				setState(102); 
+				setState(108); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__11 || _la==IDENTIFIER );
-			setState(104);
+			} while ( _la==T__12 || _la==IDENTIFIER );
+			setState(110);
 			match(T__7);
 			}
 		}
@@ -691,9 +693,19 @@ public class ArduinomlParser extends Parser {
 
 	public static class PrintContext extends ParserRuleContext {
 		public Token receiver;
-		public Token value;
 		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
-		public TerminalNode STRING() { return getToken(ArduinomlParser.STRING, 0); }
+		public LiteralStringContext literalString() {
+			return getRuleContext(LiteralStringContext.class,0);
+		}
+		public BrickToPrintContext brickToPrint() {
+			return getRuleContext(BrickToPrintContext.class,0);
+		}
+		public List<PrintableContext> printable() {
+			return getRuleContexts(PrintableContext.class);
+		}
+		public PrintableContext printable(int i) {
+			return getRuleContext(PrintableContext.class,i);
+		}
 		public PrintContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -711,15 +723,182 @@ public class ArduinomlParser extends Parser {
 	public final PrintContext print() throws RecognitionException {
 		PrintContext _localctx = new PrintContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_print);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(112);
 			((PrintContext)_localctx).receiver = match(IDENTIFIER);
-			setState(107);
+			setState(113);
 			match(T__8);
-			setState(108);
-			((PrintContext)_localctx).value = match(STRING);
+			setState(116);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case STRING:
+				{
+				setState(114);
+				literalString();
+				}
+				break;
+			case IDENTIFIER:
+				{
+				setState(115);
+				brickToPrint();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			setState(122);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__9) {
+				{
+				{
+				setState(118);
+				match(T__9);
+				setState(119);
+				printable();
+				}
+				}
+				setState(124);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PrintableContext extends ParserRuleContext {
+		public LiteralStringContext literalString() {
+			return getRuleContext(LiteralStringContext.class,0);
+		}
+		public BrickToPrintContext brickToPrint() {
+			return getRuleContext(BrickToPrintContext.class,0);
+		}
+		public PrintableContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_printable; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterPrintable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitPrintable(this);
+		}
+	}
+
+	public final PrintableContext printable() throws RecognitionException {
+		PrintableContext _localctx = new PrintableContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_printable);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(127);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case STRING:
+				{
+				setState(125);
+				literalString();
+				}
+				break;
+			case IDENTIFIER:
+				{
+				setState(126);
+				brickToPrint();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LiteralStringContext extends ParserRuleContext {
+		public Token value;
+		public TerminalNode STRING() { return getToken(ArduinomlParser.STRING, 0); }
+		public LiteralStringContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_literalString; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterLiteralString(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitLiteralString(this);
+		}
+	}
+
+	public final LiteralStringContext literalString() throws RecognitionException {
+		LiteralStringContext _localctx = new LiteralStringContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_literalString);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(129);
+			((LiteralStringContext)_localctx).value = match(STRING);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BrickToPrintContext extends ParserRuleContext {
+		public Token value;
+		public TerminalNode IDENTIFIER() { return getToken(ArduinomlParser.IDENTIFIER, 0); }
+		public BrickToPrintContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_brickToPrint; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).enterBrickToPrint(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArduinomlListener ) ((ArduinomlListener)listener).exitBrickToPrint(this);
+		}
+	}
+
+	public final BrickToPrintContext brickToPrint() throws RecognitionException {
+		BrickToPrintContext _localctx = new BrickToPrintContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_brickToPrint);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(131);
+			((BrickToPrintContext)_localctx).value = match(IDENTIFIER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -754,15 +933,15 @@ public class ArduinomlParser extends Parser {
 
 	public final ActionContext action() throws RecognitionException {
 		ActionContext _localctx = new ActionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_action);
+		enterRule(_localctx, 28, RULE_action);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110);
+			setState(133);
 			((ActionContext)_localctx).receiver = match(IDENTIFIER);
-			setState(111);
+			setState(134);
 			match(T__8);
-			setState(112);
+			setState(135);
 			((ActionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -799,17 +978,17 @@ public class ArduinomlParser extends Parser {
 
 	public final ExceptionTransitionContext exceptionTransition() throws RecognitionException {
 		ExceptionTransitionContext _localctx = new ExceptionTransitionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_exceptionTransition);
+		enterRule(_localctx, 30, RULE_exceptionTransition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
-			match(T__9);
-			setState(115);
-			condition();
-			setState(116);
+			setState(137);
 			match(T__10);
-			setState(117);
+			setState(138);
+			condition();
+			setState(139);
+			match(T__11);
+			setState(140);
 			((ExceptionTransitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
@@ -847,22 +1026,22 @@ public class ArduinomlParser extends Parser {
 
 	public final TransitionContext transition() throws RecognitionException {
 		TransitionContext _localctx = new TransitionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_transition);
+		enterRule(_localctx, 32, RULE_transition);
 		try {
-			setState(121);
+			setState(144);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(119);
+				setState(142);
 				conditionTransition();
 				}
 				break;
-			case T__11:
+			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(120);
+				setState(143);
 				temporalTransition();
 				}
 				break;
@@ -903,19 +1082,19 @@ public class ArduinomlParser extends Parser {
 
 	public final TemporalTransitionContext temporalTransition() throws RecognitionException {
 		TemporalTransitionContext _localctx = new TemporalTransitionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_temporalTransition);
+		enterRule(_localctx, 34, RULE_temporalTransition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
-			match(T__11);
-			setState(124);
+			setState(146);
+			match(T__12);
+			setState(147);
 			((TemporalTransitionContext)_localctx).duration = match(INTEGER);
-			setState(125);
+			setState(148);
 			match(DURATION_UNIT);
-			setState(126);
-			match(T__10);
-			setState(127);
+			setState(149);
+			match(T__11);
+			setState(150);
 			((TemporalTransitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
@@ -956,29 +1135,29 @@ public class ArduinomlParser extends Parser {
 
 	public final ConditionContext condition() throws RecognitionException {
 		ConditionContext _localctx = new ConditionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_condition);
+		enterRule(_localctx, 36, RULE_condition);
 		try {
-			setState(132);
+			setState(155);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(129);
+				setState(152);
 				uniqCondition();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(130);
+				setState(153);
 				andCondition();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(131);
+				setState(154);
 				orCondition();
 				}
 				break;
@@ -1020,19 +1199,19 @@ public class ArduinomlParser extends Parser {
 
 	public final AndConditionContext andCondition() throws RecognitionException {
 		AndConditionContext _localctx = new AndConditionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_andCondition);
+		enterRule(_localctx, 38, RULE_andCondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(134);
+			setState(157);
 			((AndConditionContext)_localctx).trigger1 = match(IDENTIFIER);
-			setState(135);
-			match(T__12);
-			setState(136);
-			((AndConditionContext)_localctx).trigger2 = match(IDENTIFIER);
-			setState(137);
+			setState(158);
 			match(T__13);
-			setState(138);
+			setState(159);
+			((AndConditionContext)_localctx).trigger2 = match(IDENTIFIER);
+			setState(160);
+			match(T__14);
+			setState(161);
 			((AndConditionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -1072,19 +1251,19 @@ public class ArduinomlParser extends Parser {
 
 	public final OrConditionContext orCondition() throws RecognitionException {
 		OrConditionContext _localctx = new OrConditionContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_orCondition);
+		enterRule(_localctx, 40, RULE_orCondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140);
+			setState(163);
 			((OrConditionContext)_localctx).trigger1 = match(IDENTIFIER);
-			setState(141);
-			match(T__14);
-			setState(142);
-			((OrConditionContext)_localctx).trigger2 = match(IDENTIFIER);
-			setState(143);
+			setState(164);
 			match(T__15);
-			setState(144);
+			setState(165);
+			((OrConditionContext)_localctx).trigger2 = match(IDENTIFIER);
+			setState(166);
+			match(T__16);
+			setState(167);
 			((OrConditionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -1120,15 +1299,15 @@ public class ArduinomlParser extends Parser {
 
 	public final UniqConditionContext uniqCondition() throws RecognitionException {
 		UniqConditionContext _localctx = new UniqConditionContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_uniqCondition);
+		enterRule(_localctx, 42, RULE_uniqCondition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(146);
+			setState(169);
 			((UniqConditionContext)_localctx).trigger = match(IDENTIFIER);
-			setState(147);
-			match(T__15);
-			setState(148);
+			setState(170);
+			match(T__16);
+			setState(171);
 			((UniqConditionContext)_localctx).value = match(SIGNAL);
 			}
 		}
@@ -1165,15 +1344,15 @@ public class ArduinomlParser extends Parser {
 
 	public final ConditionTransitionContext conditionTransition() throws RecognitionException {
 		ConditionTransitionContext _localctx = new ConditionTransitionContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_conditionTransition);
+		enterRule(_localctx, 44, RULE_conditionTransition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(150);
+			setState(173);
 			condition();
-			setState(151);
-			match(T__10);
-			setState(152);
+			setState(174);
+			match(T__11);
+			setState(175);
 			((ConditionTransitionContext)_localctx).next = match(IDENTIFIER);
 			}
 		}
@@ -1205,12 +1384,12 @@ public class ArduinomlParser extends Parser {
 
 	public final InitialContext initial() throws RecognitionException {
 		InitialContext _localctx = new InitialContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_initial);
+		enterRule(_localctx, 46, RULE_initial);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(154);
-			match(T__16);
+			setState(177);
+			match(T__17);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1225,47 +1404,56 @@ public class ArduinomlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\33\u009f\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\34\u00b6\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3"+
-		"\3\3\4\3\4\3\4\3\4\6\49\n\4\r\4\16\4:\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7"+
-		"\3\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\6\nP\n\n\r\n\16\nQ\3\13\5"+
-		"\13U\n\13\3\13\3\13\3\13\3\13\7\13[\n\13\f\13\16\13^\13\13\3\13\7\13a"+
-		"\n\13\f\13\16\13d\13\13\3\13\6\13g\n\13\r\13\16\13h\3\13\3\13\3\f\3\f"+
-		"\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\17\3\17\5\17|\n\17"+
-		"\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\5\21\u0087\n\21\3\22\3\22"+
-		"\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\24"+
-		"\3\25\3\25\3\25\3\25\3\26\3\26\3\26\2\2\27\2\4\6\b\n\f\16\20\22\24\26"+
-		"\30\32\34\36 \"$&(*\2\2\2\u0096\2,\3\2\2\2\4\61\3\2\2\2\68\3\2\2\2\b<"+
-		"\3\2\2\2\n?\3\2\2\2\fB\3\2\2\2\16G\3\2\2\2\20J\3\2\2\2\22O\3\2\2\2\24"+
-		"T\3\2\2\2\26l\3\2\2\2\30p\3\2\2\2\32t\3\2\2\2\34{\3\2\2\2\36}\3\2\2\2"+
-		" \u0086\3\2\2\2\"\u0088\3\2\2\2$\u008e\3\2\2\2&\u0094\3\2\2\2(\u0098\3"+
-		"\2\2\2*\u009c\3\2\2\2,-\5\4\3\2-.\5\6\4\2./\5\22\n\2/\60\7\2\2\3\60\3"+
-		"\3\2\2\2\61\62\7\3\2\2\62\63\7\25\2\2\63\5\3\2\2\2\649\5\b\5\2\659\5\n"+
-		"\6\2\669\5\16\b\2\679\5\f\7\28\64\3\2\2\28\65\3\2\2\28\66\3\2\2\28\67"+
-		"\3\2\2\29:\3\2\2\2:8\3\2\2\2:;\3\2\2\2;\7\3\2\2\2<=\7\4\2\2=>\5\20\t\2"+
-		">\t\3\2\2\2?@\7\5\2\2@A\5\20\t\2A\13\3\2\2\2BC\7\6\2\2CD\7\25\2\2DE\7"+
-		"\7\2\2EF\7\27\2\2F\r\3\2\2\2GH\7\b\2\2HI\7\25\2\2I\17\3\2\2\2JK\7\25\2"+
-		"\2KL\7\7\2\2LM\7\27\2\2M\21\3\2\2\2NP\5\24\13\2ON\3\2\2\2PQ\3\2\2\2QO"+
-		"\3\2\2\2QR\3\2\2\2R\23\3\2\2\2SU\5*\26\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2"+
-		"VW\7\25\2\2W\\\7\t\2\2X[\5\30\r\2Y[\5\26\f\2ZX\3\2\2\2ZY\3\2\2\2[^\3\2"+
-		"\2\2\\Z\3\2\2\2\\]\3\2\2\2]b\3\2\2\2^\\\3\2\2\2_a\5\32\16\2`_\3\2\2\2"+
-		"ad\3\2\2\2b`\3\2\2\2bc\3\2\2\2cf\3\2\2\2db\3\2\2\2eg\5\34\17\2fe\3\2\2"+
-		"\2gh\3\2\2\2hf\3\2\2\2hi\3\2\2\2ij\3\2\2\2jk\7\n\2\2k\25\3\2\2\2lm\7\25"+
-		"\2\2mn\7\13\2\2no\7\30\2\2o\27\3\2\2\2pq\7\25\2\2qr\7\13\2\2rs\7\26\2"+
-		"\2s\31\3\2\2\2tu\7\f\2\2uv\5 \21\2vw\7\r\2\2wx\7\25\2\2x\33\3\2\2\2y|"+
-		"\5(\25\2z|\5\36\20\2{y\3\2\2\2{z\3\2\2\2|\35\3\2\2\2}~\7\16\2\2~\177\7"+
-		"\27\2\2\177\u0080\7\24\2\2\u0080\u0081\7\r\2\2\u0081\u0082\7\25\2\2\u0082"+
-		"\37\3\2\2\2\u0083\u0087\5&\24\2\u0084\u0087\5\"\22\2\u0085\u0087\5$\23"+
-		"\2\u0086\u0083\3\2\2\2\u0086\u0084\3\2\2\2\u0086\u0085\3\2\2\2\u0087!"+
-		"\3\2\2\2\u0088\u0089\7\25\2\2\u0089\u008a\7\17\2\2\u008a\u008b\7\25\2"+
-		"\2\u008b\u008c\7\20\2\2\u008c\u008d\7\26\2\2\u008d#\3\2\2\2\u008e\u008f"+
-		"\7\25\2\2\u008f\u0090\7\21\2\2\u0090\u0091\7\25\2\2\u0091\u0092\7\22\2"+
-		"\2\u0092\u0093\7\26\2\2\u0093%\3\2\2\2\u0094\u0095\7\25\2\2\u0095\u0096"+
-		"\7\22\2\2\u0096\u0097\7\26\2\2\u0097\'\3\2\2\2\u0098\u0099\5 \21\2\u0099"+
-		"\u009a\7\r\2\2\u009a\u009b\7\25\2\2\u009b)\3\2\2\2\u009c\u009d\7\23\2"+
-		"\2\u009d+\3\2\2\2\f8:QTZ\\bh{\u0086";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\3\4\3\4\6\4?\n\4\r\4\16\4@\3"+
+		"\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t"+
+		"\3\n\6\nV\n\n\r\n\16\nW\3\13\5\13[\n\13\3\13\3\13\3\13\3\13\7\13a\n\13"+
+		"\f\13\16\13d\13\13\3\13\7\13g\n\13\f\13\16\13j\13\13\3\13\6\13m\n\13\r"+
+		"\13\16\13n\3\13\3\13\3\f\3\f\3\f\3\f\5\fw\n\f\3\f\3\f\7\f{\n\f\f\f\16"+
+		"\f~\13\f\3\r\3\r\5\r\u0082\n\r\3\16\3\16\3\17\3\17\3\20\3\20\3\20\3\20"+
+		"\3\21\3\21\3\21\3\21\3\21\3\22\3\22\5\22\u0093\n\22\3\23\3\23\3\23\3\23"+
+		"\3\23\3\23\3\24\3\24\3\24\5\24\u009e\n\24\3\25\3\25\3\25\3\25\3\25\3\25"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\27\3\27\3\27\3\27\3\30\3\30\3\30\3\30"+
+		"\3\31\3\31\3\31\2\2\32\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,"+
+		".\60\2\2\2\u00ad\2\62\3\2\2\2\4\67\3\2\2\2\6>\3\2\2\2\bB\3\2\2\2\nE\3"+
+		"\2\2\2\fH\3\2\2\2\16M\3\2\2\2\20P\3\2\2\2\22U\3\2\2\2\24Z\3\2\2\2\26r"+
+		"\3\2\2\2\30\u0081\3\2\2\2\32\u0083\3\2\2\2\34\u0085\3\2\2\2\36\u0087\3"+
+		"\2\2\2 \u008b\3\2\2\2\"\u0092\3\2\2\2$\u0094\3\2\2\2&\u009d\3\2\2\2(\u009f"+
+		"\3\2\2\2*\u00a5\3\2\2\2,\u00ab\3\2\2\2.\u00af\3\2\2\2\60\u00b3\3\2\2\2"+
+		"\62\63\5\4\3\2\63\64\5\6\4\2\64\65\5\22\n\2\65\66\7\2\2\3\66\3\3\2\2\2"+
+		"\678\7\3\2\289\7\26\2\29\5\3\2\2\2:?\5\b\5\2;?\5\n\6\2<?\5\16\b\2=?\5"+
+		"\f\7\2>:\3\2\2\2>;\3\2\2\2><\3\2\2\2>=\3\2\2\2?@\3\2\2\2@>\3\2\2\2@A\3"+
+		"\2\2\2A\7\3\2\2\2BC\7\4\2\2CD\5\20\t\2D\t\3\2\2\2EF\7\5\2\2FG\5\20\t\2"+
+		"G\13\3\2\2\2HI\7\6\2\2IJ\7\26\2\2JK\7\7\2\2KL\7\30\2\2L\r\3\2\2\2MN\7"+
+		"\b\2\2NO\7\26\2\2O\17\3\2\2\2PQ\7\26\2\2QR\7\7\2\2RS\7\30\2\2S\21\3\2"+
+		"\2\2TV\5\24\13\2UT\3\2\2\2VW\3\2\2\2WU\3\2\2\2WX\3\2\2\2X\23\3\2\2\2Y"+
+		"[\5\60\31\2ZY\3\2\2\2Z[\3\2\2\2[\\\3\2\2\2\\]\7\26\2\2]b\7\t\2\2^a\5\36"+
+		"\20\2_a\5\26\f\2`^\3\2\2\2`_\3\2\2\2ad\3\2\2\2b`\3\2\2\2bc\3\2\2\2ch\3"+
+		"\2\2\2db\3\2\2\2eg\5 \21\2fe\3\2\2\2gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2il\3"+
+		"\2\2\2jh\3\2\2\2km\5\"\22\2lk\3\2\2\2mn\3\2\2\2nl\3\2\2\2no\3\2\2\2op"+
+		"\3\2\2\2pq\7\n\2\2q\25\3\2\2\2rs\7\26\2\2sv\7\13\2\2tw\5\32\16\2uw\5\34"+
+		"\17\2vt\3\2\2\2vu\3\2\2\2w|\3\2\2\2xy\7\f\2\2y{\5\30\r\2zx\3\2\2\2{~\3"+
+		"\2\2\2|z\3\2\2\2|}\3\2\2\2}\27\3\2\2\2~|\3\2\2\2\177\u0082\5\32\16\2\u0080"+
+		"\u0082\5\34\17\2\u0081\177\3\2\2\2\u0081\u0080\3\2\2\2\u0082\31\3\2\2"+
+		"\2\u0083\u0084\7\31\2\2\u0084\33\3\2\2\2\u0085\u0086\7\26\2\2\u0086\35"+
+		"\3\2\2\2\u0087\u0088\7\26\2\2\u0088\u0089\7\13\2\2\u0089\u008a\7\27\2"+
+		"\2\u008a\37\3\2\2\2\u008b\u008c\7\r\2\2\u008c\u008d\5&\24\2\u008d\u008e"+
+		"\7\16\2\2\u008e\u008f\7\26\2\2\u008f!\3\2\2\2\u0090\u0093\5.\30\2\u0091"+
+		"\u0093\5$\23\2\u0092\u0090\3\2\2\2\u0092\u0091\3\2\2\2\u0093#\3\2\2\2"+
+		"\u0094\u0095\7\17\2\2\u0095\u0096\7\30\2\2\u0096\u0097\7\25\2\2\u0097"+
+		"\u0098\7\16\2\2\u0098\u0099\7\26\2\2\u0099%\3\2\2\2\u009a\u009e\5,\27"+
+		"\2\u009b\u009e\5(\25\2\u009c\u009e\5*\26\2\u009d\u009a\3\2\2\2\u009d\u009b"+
+		"\3\2\2\2\u009d\u009c\3\2\2\2\u009e\'\3\2\2\2\u009f\u00a0\7\26\2\2\u00a0"+
+		"\u00a1\7\20\2\2\u00a1\u00a2\7\26\2\2\u00a2\u00a3\7\21\2\2\u00a3\u00a4"+
+		"\7\27\2\2\u00a4)\3\2\2\2\u00a5\u00a6\7\26\2\2\u00a6\u00a7\7\22\2\2\u00a7"+
+		"\u00a8\7\26\2\2\u00a8\u00a9\7\23\2\2\u00a9\u00aa\7\27\2\2\u00aa+\3\2\2"+
+		"\2\u00ab\u00ac\7\26\2\2\u00ac\u00ad\7\23\2\2\u00ad\u00ae\7\27\2\2\u00ae"+
+		"-\3\2\2\2\u00af\u00b0\5&\24\2\u00b0\u00b1\7\16\2\2\u00b1\u00b2\7\26\2"+
+		"\2\u00b2/\3\2\2\2\u00b3\u00b4\7\24\2\2\u00b4\61\3\2\2\2\17>@WZ`bhnv|\u0081"+
+		"\u0092\u009d";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

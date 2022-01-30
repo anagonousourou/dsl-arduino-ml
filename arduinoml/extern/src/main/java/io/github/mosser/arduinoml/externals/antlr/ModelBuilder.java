@@ -158,12 +158,25 @@ public class ModelBuilder extends ArduinomlBaseListener {
             System.exit(1);
         }
         else{
-            Print print = new Print();
+            Print print = new Print(currentState);
+            theApp.setMustPrintWithLcd(true);
             print.setActuator(actuators.get(ctx.receiver.getText()));
-            if(ctx.value.getText().contains("\""))
-                print.printString(ctx.value.getText());
+            if(ctx.literalString() !=null )
+                print.printString(ctx.literalString().value.getText());
             else
-                print.printBrick(actuators.containsKey(ctx.value.getText())?actuators.get(ctx.value.getText()):sensors.get(ctx.value.getText()));
+                print.printBrick(actuators.containsKey(ctx.brickToPrint().value.getText())?actuators.get(ctx.brickToPrint().value.getText()):sensors.get(ctx.brickToPrint().value.getText()));
+
+
+            for (int i = 0; i < ctx.printable().size(); i++) {
+                var printable = ctx.printable().get(i);
+                if(printable.literalString()!=null )
+                    print.printString(printable.literalString().value.getText());
+                else {
+                    var brickToPrint = printable.brickToPrint();
+                    print.printBrick(actuators.containsKey(brickToPrint.value.getText()) ? actuators.get(brickToPrint.value.getText()) : sensors.get(brickToPrint.value.getText()));
+                }
+
+            }
             currentState.getActions().add(print);
         }
     }
