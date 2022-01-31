@@ -35,4 +35,8 @@ public class InstructionBuilder {
         return parent;
     }
 
+    public PrintBuilder startPrinting(){
+        return parent.startPrinting();
+    }
+
 }
