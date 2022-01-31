@@ -1,12 +1,11 @@
 package io.github.mosser.arduinoml.kernel.behavioral;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.Brick;
 import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
-
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Print extends Action {
 

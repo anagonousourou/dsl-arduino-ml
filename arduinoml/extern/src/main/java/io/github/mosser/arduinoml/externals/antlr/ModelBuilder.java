@@ -82,9 +82,9 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
         this.temporalBindings.forEach((fromState, transition) ->
 
-                states.get(fromState)
-                        .addTemporalTransition(
-                                new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
+        states.get(fromState)
+                .addTemporalTransition(
+                        new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
 
         this.built = true;
     }
@@ -116,7 +116,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
         LCDScreen lcdScreen = new LCDScreen();
         lcdScreen.setName(ctx.id.getText());
-        //lcdScreen.setPin(Integer.parseInt(ctx.location().port.getText()));
+        // lcdScreen.setPin(Integer.parseInt(ctx.location().port.getText()));
         this.theApp.getBricks().add(lcdScreen);
         actuators.put(lcdScreen.getName(), lcdScreen);
     }
@@ -153,17 +153,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
     @Override
     public void enterPrint(ArduinomlParser.PrintContext ctx) {
 
-        if(actuators.get(ctx.receiver.getText())==null){
-            System.err.println("Undeclared printer "+ctx.receiver.getText()+". Compilation failed");
+        if (actuators.get(ctx.receiver.getText()) == null) {
+            System.err.println("Undeclared printer " + ctx.receiver.getText() + ". Compilation failed");
             System.exit(1);
-        }
-        else{
+        } else {
             Print print = new Print();
             print.setActuator(actuators.get(ctx.receiver.getText()));
-            if(ctx.value.getText().contains("\""))
+            if (ctx.value.getText().contains("\""))
                 print.printString(ctx.value.getText());
-            else
-                print.printBrick(actuators.containsKey(ctx.value.getText())?actuators.get(ctx.value.getText()):sensors.get(ctx.value.getText()));
+            else{
+                print.printBrick(actuators.containsKey(ctx.value.getText()) ? actuators.get(ctx.value.getText())
+                        : sensors.get(ctx.value.getText()));
+            }
             currentState.getActions().add(print);
         }
     }
@@ -172,7 +173,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void enterConditionTransition(ConditionTransitionContext ctx) {
 
         this.currentTransition = new Transition();
-        //this.currentTransition.setNext();
+        // this.currentTransition.setNext();
     }
 
     @Override
