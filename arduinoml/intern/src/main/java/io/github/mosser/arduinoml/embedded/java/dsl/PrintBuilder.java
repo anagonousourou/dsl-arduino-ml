@@ -12,13 +12,18 @@ public class PrintBuilder extends Print {
         this.stateBuilder.parent.build().setMustPrintWithLcd(true);
     }
 
-    public PrintBuilder printABrick(Brick brick) {
-        super.printBrick(brick);
-        return this;
+    public PrintBuilder printABrick(String s) {
+        for(Brick b : stateBuilder.parent.theApp.getBricks()){
+            if(b.getName().equals(s)){
+                super.printBrick(b);
+                return this;
+            }
+        }
+        return null;
     }
 
     public PrintBuilder printAString(String s) {
-        super.printString(s);
+        super.printString('"' + s + '"');
         return this;
     }
 

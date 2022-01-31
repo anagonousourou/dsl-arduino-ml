@@ -59,7 +59,7 @@ public class Main {
                 .uses(actuator("buz").atPin(12))
                 .hasForState("start").initial().setting("led").toLow().setting("buz").toLow().endState()
                 .hasForState("state1").setting("buz").toHigh().endState()
-                .hasForState("state2").setting("buz").toHigh().setting("led").toHigh().endState()
+                .hasForState("state2").setting("buz").toLow().setting("led").toHigh().endState()
                 .beginTransitionTable()
                 .from("start").when("button").isHigh().goTo("state1")
                 .from("state1").when("button").isHigh().goTo("state2")
@@ -128,14 +128,24 @@ getOut {
         .endTransitionTable()
         .build();
 
-        /*App lcdDisplayScenario = application("lcdDisplayScenario").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
+        App lcdDisplayScenario = application("lcdDisplayScenario").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
                 .uses(actuator("buz").atPin(12))
                 .uses(lcd("lcd"))
-                .hasForState("start").initial().setting("led").toLow().setting("buz").toLow()
-                //.setting("lcd").startPrinting().printABrick(actuator("lcd").atPin(8)).endPrinting()
-                //.setting("lcd").startPrinting().printAString("Hello World !!").endPrinting()
-                .endState()
-                .build();*/
+                .hasForState("start").initial()
+                .setting("led").toLow()
+                .setting("buz").toLow()
+                .setting("lcd").startPrinting().printAString("Start : ").printABrick("button").printAString(" ").printABrick("buz").printAString(" ").printABrick("led").endPrinting().endState()
+                .hasForState("state1").setting("buz").toHigh()
+                .setting("lcd").startPrinting().printAString("State 1 : ").printABrick("button").printAString(" ").printABrick("buz").printAString(" ").printABrick("led").endPrinting().endState()
+                .hasForState("state2").setting("buz").toLow().setting("led").toHigh()
+                .setting("lcd").startPrinting().printAString("State 2 : ").printABrick("button").printAString(" ").printABrick("buz").printAString(" ").printABrick("led").endPrinting().endState()
+                .beginTransitionTable()
+                .from("start").when("button").isHigh().goTo("state1")
+                .from("state1").when("button").isHigh().goTo("state2")
+                .from("state2").when("button").isHigh().goTo("start")
+                .endTransitionTable()
+                .build();
+
 
 
         Visitor<StringBuffer> codeGenerator = new ToWiring();
@@ -173,11 +183,9 @@ getOut {
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
-
-
-        /*lcdDisplayScenario.accept(codeGenerator);
+        lcdDisplayScenario.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
-        System.out.println("=============================");*/
+        System.out.println("=============================");
 
 
 
