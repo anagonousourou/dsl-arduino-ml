@@ -38,7 +38,7 @@ public class Print extends Action {
 			if (bricksToPrint.containsKey(key))
 				strBuilder.append(String.format("String(\"%s := \") + String(digitalRead(%d)==1? \"ON\":\"OFF\")",bricksToPrint.get(key).getName(),bricksToPrint.get(key).getPin()) );
 			if(stringsToPrint.containsKey(key))
-				strBuilder.append(stringsToPrint.get(key));
+				strBuilder.append(String.format("String(%s)",stringsToPrint.get(key)));
 			if(i<counter-1)strBuilder.append(String.format( " + \n%s",sep));
 			//if(i<counter-1)strBuilder.append("+String(\",\")+");
 		}
