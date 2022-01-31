@@ -1,10 +1,11 @@
 import io.github.mosser.arduinoml.kernel.App;
+import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.generator.ToWiring;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
+import io.github.mosser.arduinoml.kernel.structural.Brick;
 
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.actuator;
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.application;
-import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.sensor;
+import static io.github.mosser.arduinoml.embedded.java.dsl.AppBuilder.*;
 
 public class Main {
 
@@ -127,6 +128,16 @@ getOut {
         .endTransitionTable()
         .build();
 
+        /*App lcdDisplayScenario = application("lcdDisplayScenario").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
+                .uses(actuator("buz").atPin(12))
+                .uses(lcd("lcd"))
+                .hasForState("start").initial().setting("led").toLow().setting("buz").toLow()
+                //.setting("lcd").startPrinting().printABrick(actuator("lcd").atPin(8)).endPrinting()
+                //.setting("lcd").startPrinting().printAString("Hello World !!").endPrinting()
+                .endState()
+                .build();*/
+
+
         Visitor<StringBuffer> codeGenerator = new ToWiring();
 
         myApp.accept(codeGenerator);
@@ -161,6 +172,15 @@ getOut {
         exceptionScenario.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
+
+
+
+        /*lcdDisplayScenario.accept(codeGenerator);
+        System.out.println(codeGenerator.getResult());
+        System.out.println("=============================");*/
+
+
+
     }
 
 }

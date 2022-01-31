@@ -21,8 +21,6 @@ public class Print extends Action {
 		stringsToPrint = new HashMap<>();
 	}
 
-
-
 	public void printBrick(Brick brick){
 		bricksToPrint.put((counter++).toString(),brick);
 	}

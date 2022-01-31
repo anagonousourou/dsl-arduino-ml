@@ -27,4 +27,10 @@ public class StateBuilder {
         return parent;
     }
 
+    public PrintBuilder startPrinting(){
+
+        return new PrintBuilder(this);
+
+    }
+
 }

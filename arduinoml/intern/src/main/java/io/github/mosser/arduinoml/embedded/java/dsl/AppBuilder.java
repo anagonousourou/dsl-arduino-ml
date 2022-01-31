@@ -10,6 +10,7 @@ import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.Brick;
+import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
 public class AppBuilder {
@@ -38,6 +39,10 @@ public class AppBuilder {
         return new BrickBuilder(Sensor.class, name);
     }
 
+    public static Brick lcd(String name) {
+        return new BrickBuilder(LCDScreen.class, name).createBrick();
+    }
+
     static Brick createBrick(Class<? extends Brick> kind, String name, int port) {
         try {
             Brick b = kind.newInstance();
@@ -47,6 +52,18 @@ public class AppBuilder {
             if (port < 1 || port > 12)
                 throw new IllegalArgumentException("Illegal brick port: [" + port + "]");
             b.setPin(port);
+            return b;
+        } catch (InstantiationException | IllegalAccessException iae) {
+            throw new IllegalArgumentException("Unable to instantiate " + kind.getCanonicalName());
+        }
+    }
+
+    static Brick createBrick(Class<? extends Brick> kind, String name) {
+        try {
+            Brick b = kind.newInstance();
+            if (name.isEmpty() || !Character.isLowerCase(name.charAt(0)))
+                throw new IllegalArgumentException("Illegal brick name: [" + name + "]");
+            b.setName(name);
             return b;
         } catch (InstantiationException | IllegalAccessException iae) {
             throw new IllegalArgumentException("Unable to instantiate " + kind.getCanonicalName());
@@ -77,6 +94,8 @@ public class AppBuilder {
     public StateBuilder hasForState(String name) {
         return new StateBuilder(this, name);
     }
+
+
 
     /*******************************
      ** Declaring TransitionTable **
