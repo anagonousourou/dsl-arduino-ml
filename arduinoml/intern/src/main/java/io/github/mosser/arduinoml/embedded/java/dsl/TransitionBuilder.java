@@ -27,9 +27,9 @@ public class TransitionBuilder {
         return new TemporalTransitionBuilder(this.parent, this.source, duration);
     }
 
-    public TransitionTableBuilder raise(String state){
+    public TransitionTableBuilder raise(String state) {
         ExceptionState exceptionState = parent.findExceptionState(state);
-        this.parent.findState(this.source).addExceptionTransition(new ExceptionTransition(exceptionState,this.local.getTransitionCondition()));
+        this.parent.findState(this.source).addExceptionTransition(new ExceptionTransition(exceptionState, this.local.getTransitionCondition()));
         return parent;
     }
 
@@ -38,7 +38,7 @@ public class TransitionBuilder {
         local.setNext(parent.findState(state));
         return parent;
     }
-    
+
 
     Sensor findSensor(String sensorName) {
         return this.parent.findSensor(sensorName);

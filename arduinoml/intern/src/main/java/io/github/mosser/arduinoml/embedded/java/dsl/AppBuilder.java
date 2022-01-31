@@ -1,10 +1,5 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
@@ -12,6 +7,11 @@ import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.Brick;
 import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class AppBuilder {
 
@@ -74,7 +74,7 @@ public class AppBuilder {
         return theApp;
     }
 
-    public ExceptionStateBuilder hasException(String exceptionName){
+    public ExceptionStateBuilder hasException(String exceptionName) {
         return new ExceptionStateBuilder(this, exceptionName);
     }
 
@@ -94,7 +94,6 @@ public class AppBuilder {
     public StateBuilder hasForState(String name) {
         return new StateBuilder(this, name);
     }
-
 
 
     /*******************************

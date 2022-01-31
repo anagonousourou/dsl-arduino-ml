@@ -8,7 +8,6 @@ public class ExceptionTransition implements Visitable {
     private ExceptionState next;
     private TransitionCondition transitionCondition;
 
-    
 
     public ExceptionTransition() {
     }

@@ -36,7 +36,7 @@ public class PrintBuilder {
         return this;
     }
 
-    
+
     private PrintBuilder printAString(String s) {
         this.printAction.printString('"' + s + '"');
         return this;

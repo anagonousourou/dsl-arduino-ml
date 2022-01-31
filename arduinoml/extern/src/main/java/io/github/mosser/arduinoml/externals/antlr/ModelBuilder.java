@@ -82,9 +82,9 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
         this.temporalBindings.forEach((fromState, transition) ->
 
-        states.get(fromState)
-                .addTemporalTransition(
-                        new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
+                states.get(fromState)
+                        .addTemporalTransition(
+                                new TemporalTransition(states.get(transition.to), transition.after, transition.number)));
 
         this.built = true;
     }
@@ -186,7 +186,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void enterConditionTransition(ConditionTransitionContext ctx) {
 
         this.currentTransition = new Transition();
-        
+
     }
 
     @Override

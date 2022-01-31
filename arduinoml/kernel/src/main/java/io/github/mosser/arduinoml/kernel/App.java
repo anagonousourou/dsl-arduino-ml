@@ -29,6 +29,7 @@ public class App implements NamedElement, Visitable {
     public App(boolean mustPrintWithLcd) {
         this.mustPrintWithLcd = mustPrintWithLcd;
     }
+
     public App() {
         this.mustPrintWithLcd = false;
     }
@@ -75,10 +76,11 @@ public class App implements NamedElement, Visitable {
         return exceptionStates;
     }
 
-    public boolean getMustPrintWithLcd(){
+    public boolean getMustPrintWithLcd() {
         return mustPrintWithLcd;
     }
-    public void setMustPrintWithLcd(boolean mustPrintWithLcd){
+
+    public void setMustPrintWithLcd(boolean mustPrintWithLcd) {
         this.mustPrintWithLcd = mustPrintWithLcd;
     }
 
