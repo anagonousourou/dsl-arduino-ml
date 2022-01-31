@@ -39,7 +39,7 @@
             "patterns": [
                 {
                     "name": "keyword.other.arduinoml",
-                    "match": "handle"
+                    "match": "\\b(handle|after)\\b"
                 }
             ]
         },
@@ -71,7 +71,7 @@
             "patterns": [
                 {
                     "name": "keyword.other.arduinoml",
-                    "match": "\\b(actuator|sensor|exception)\\b"
+                    "match": "\\b(actuator|sensor|exception|printer|application)\\b"
                 }
             ]
         },

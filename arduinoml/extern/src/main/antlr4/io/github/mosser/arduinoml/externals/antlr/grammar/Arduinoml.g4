@@ -54,7 +54,7 @@ STRING: '"' (~["\\\r\n] | EscapeSequence)* '"';
 fragment DIGITS: [0-9];
 fragment LOWERCASE: [a-z];
 fragment SPECIAL: (NEWLINE|WS|COMMENT|'@'|'-'|'_')+;
-// abstract rule, does not really exists
+
 fragment UPPERCASE: [A-Z];
 NEWLINE: ('\r'? '\n' | '\r')+ -> skip;
 WS: ((' ' | '\t')+) -> skip;

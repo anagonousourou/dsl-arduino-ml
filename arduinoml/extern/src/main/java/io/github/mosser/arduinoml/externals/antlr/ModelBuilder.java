@@ -1,5 +1,10 @@
 package io.github.mosser.arduinoml.externals.antlr;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.AndConditionContext;
@@ -10,7 +15,7 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.OrCond
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.UniqConditionContext;
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.DigitalAction;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Print;
@@ -22,11 +27,6 @@ import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
 
@@ -73,12 +73,12 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void exitRoot(ArduinomlParser.RootContext ctx) {
         // Resolving states in transitions
 
-        states.forEach((stateName, state) -> {
+        states.forEach((stateName, state) -> 
             this.unfinishedTransitionBinding.stream().filter(unt -> unt.from.equals(stateName)).map(unt -> {
                 unt.unfinishedTransition.setNext(states.get(unt.to));
                 return unt.unfinishedTransition;
-            }).forEach(state::addTransition);
-        });
+            }).forEach(state::addTransition)
+        );
 
         this.temporalBindings.forEach((fromState, transition) ->
 
@@ -141,7 +141,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
             System.err.println("Undeclared actuator " + ctx.receiver.getText() + ". Compilation failed");
             System.exit(1);
         } else {
-            Action action = new Action();
+            DigitalAction action = new DigitalAction();
             action.setActuator(actuators.get(ctx.receiver.getText()));
             action.setValue(SIGNAL.valueOf(ctx.value.getText()));
             currentState.getActions().add(action);
@@ -158,7 +158,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
         } else {
             Print print = new Print();
             theApp.setMustPrintWithLcd(true);
-            print.setActuator(actuators.get(ctx.receiver.getText()));
+            print.setActuator((LCDScreen) actuators.get(ctx.receiver.getText()));
             if (ctx.literalString() != null)
                 print.printString(ctx.literalString().value.getText());
             else

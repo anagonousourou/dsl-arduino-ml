@@ -2,6 +2,7 @@ package io.github.mosser.arduinoml.kernel.generator;
 
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.DigitalAction;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Print;
@@ -83,7 +84,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("}\n");
 
         w(String.format("%nvoid %s() {%n", app.getMustPrintWithLcd() ? "mainLoop" : "loop") +
-                "\tswitch(currentState){%n");
+                "\tswitch(currentState){\n");
         for (State state : app.getStates()) {
             state.accept(this);
         }
@@ -306,7 +307,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     }
 
     @Override
-    public void visit(Action action) {
+    public void visit(DigitalAction action) {
         if (context.get("pass") == PASS.ONE) {
             return;
         }
