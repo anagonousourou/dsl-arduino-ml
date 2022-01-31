@@ -27,7 +27,7 @@ public class Print extends Action {
 		stringsToPrint.put((counter++).toString(),string);
 	}
 
-	public String getStringValue() {
+	public String getStringValue(String sep) {
 		String str = "";
 		StringBuilder strBuilder = new StringBuilder(str);
 		for(int i = 0; i<counter; i++) {
@@ -36,7 +36,8 @@ public class Print extends Action {
 				strBuilder.append(String.format("String(\"%s := \") + String(digitalRead(%d)==1? \"ON\":\"OFF\")",bricksToPrint.get(key).getName(),bricksToPrint.get(key).getPin()) );
 			if(stringsToPrint.containsKey(key))
 				strBuilder.append(stringsToPrint.get(key));
-			if(i>0&&i!=counter-1)strBuilder.append(",");
+			if(i<counter-1)strBuilder.append(String.format( " + \n%s",sep));
+			//if(i<counter-1)strBuilder.append("+String(\",\")+");
 		}
 		value = strBuilder.toString();
 		return value;
@@ -46,6 +47,7 @@ public class Print extends Action {
 		this.value = value;
 	}
 
+	@Override
 	public LCDScreen getActuator() {
 		return lcdScreen;
 	}

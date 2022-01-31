@@ -118,6 +118,36 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitPrint(ArduinomlParser.PrintContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#printable}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintable(ArduinomlParser.PrintableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#printable}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintable(ArduinomlParser.PrintableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#literalString}.
+	 * @param ctx the parse tree
+	 */
+	void enterLiteralString(ArduinomlParser.LiteralStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#literalString}.
+	 * @param ctx the parse tree
+	 */
+	void exitLiteralString(ArduinomlParser.LiteralStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#brickToPrint}.
+	 * @param ctx the parse tree
+	 */
+	void enterBrickToPrint(ArduinomlParser.BrickToPrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#brickToPrint}.
+	 * @param ctx the parse tree
+	 */
+	void exitBrickToPrint(ArduinomlParser.BrickToPrintContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
 	 * @param ctx the parse tree
 	 */

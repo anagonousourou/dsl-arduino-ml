@@ -19,7 +19,10 @@ location: id = IDENTIFIER ':' port = INTEGER;
 states: state+;
 state:
 	initial? name = IDENTIFIER '{' (action | print)* exceptionTransition* transition+ '}';
-print: receiver = IDENTIFIER '<=' value = STRING;
+print: receiver = IDENTIFIER '<=' (literalString | brickToPrint) (',' printable)*;
+printable: (literalString | brickToPrint);
+literalString: value = STRING;
+brickToPrint: value = IDENTIFIER;
 
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
