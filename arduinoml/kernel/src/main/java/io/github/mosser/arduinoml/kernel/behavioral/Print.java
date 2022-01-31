@@ -15,17 +15,12 @@ public class Print extends Action {
 	private Integer counter = 0;
 	private final Map<String, Brick> bricksToPrint;
 	private final Map<String, String> stringsToPrint;
- 	private final State state;
 
-	public Print(State state){
-		this.state = state;
+	public Print(){
 		bricksToPrint = new HashMap<>();
 		stringsToPrint = new HashMap<>();
 	}
 
-	public State getState() {
-		return state;
-	}
 
 
 	public void printBrick(Brick brick){

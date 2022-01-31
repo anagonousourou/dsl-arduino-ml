@@ -158,7 +158,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
             System.exit(1);
         }
         else{
-            Print print = new Print(currentState);
+            Print print = new Print();
             theApp.setMustPrintWithLcd(true);
             print.setActuator(actuators.get(ctx.receiver.getText()));
             if(ctx.literalString() !=null )

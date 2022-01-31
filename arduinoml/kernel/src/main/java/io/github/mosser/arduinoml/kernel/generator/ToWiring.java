@@ -150,13 +150,13 @@ public class ToWiring extends Visitor<StringBuffer> {
             w("bool lcd_update = false;\n");
 
             w("String text(\"Waiting for text to print, but need to put more till overload the screen!!\");\n");
-            w("String currentPrintedState;\n");
+            w("String currentPrintedText;\n");
 
-            w("void update_lcd(String _text,String state){\n");
-                w("    if(state==nullptr || currentPrintedState==state )return;\n");
+            w("void update_lcd(String _text){\n");
+                w("    if(_text==nullptr || currentPrintedText==_text )return;\n");
                 w("    text = _text;\n");
                 w("    lcd_update = true;\n");
-                w("    currentPrintedState=state;\n");
+                w("    currentPrintedText=_text;\n");
                 w("}\n");
 			w("LiquidCrystal lcd(2, 3, 4, 5, 6, 7, 8);\n");
 			return;
@@ -240,7 +240,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		if(context.get("pass") == PASS.TWO) {
 			//print.getActuator().getPin(),
             String sep = "\t\t\t";
-            w(String.format("%supdate_lcd(%s,\n%s\"%s\");%n",sep,print.getStringValue(sep+sep),sep+sep,print.getState().getName()));
+            w(String.format("%supdate_lcd(%s);%n",sep,print.getStringValue(sep+sep)));
 			//return;
 		}
 	}
