@@ -167,7 +167,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
         if(context.get("pass") == PASS.THREE){
 
-            w("TimedAction mainLoopThread = TimedAction(300,mainLoop);\n");
+            w("\nTimedAction mainLoopThread = TimedAction(300,mainLoop);\n");
             w("void printString(){\n");
             w("	lcd.clear();\n");
             w("	bool endLoop = false;\n");
