@@ -22,16 +22,13 @@ public abstract class Visitor<T> {
      ** Helper mechanisms **
      ***********************/
 
-	
-	
-	
-	public abstract void visit(Print print);
 
-	
-	
-	public abstract void visit(LCDScreen lcdScreen);
-	
-	
+    public abstract void visit(Print print);
+
+
+    public abstract void visit(LCDScreen lcdScreen);
+
+
     protected Map<String, Object> context = new HashMap<>();
     protected T result;
 

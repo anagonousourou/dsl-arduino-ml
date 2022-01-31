@@ -14,7 +14,7 @@ public class TransitionTableBuilder {
     private Map<String, ExceptionState> exceptionStates;
 
     TransitionTableBuilder(AppBuilder parent, Map<String, State> states, Map<String, Sensor> sensors,
-            Map<String, ExceptionState> exceptionStates) {
+                           Map<String, ExceptionState> exceptionStates) {
         this.parent = parent;
         this.states = states;
         this.sensors = sensors;

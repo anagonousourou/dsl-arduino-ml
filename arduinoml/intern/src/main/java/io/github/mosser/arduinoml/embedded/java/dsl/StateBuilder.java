@@ -27,10 +27,8 @@ public class StateBuilder {
         return parent;
     }
 
-    public PrintBuilder startPrinting(){
-
-        return new PrintBuilder(this);
-
+    public PrintBuilder displaying(String... toprints) {
+        return new PrintBuilder(this).display(toprints);
     }
 
 }
