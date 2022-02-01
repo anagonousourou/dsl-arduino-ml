@@ -68,6 +68,16 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitExceptionDeclaration(ArduinomlParser.ExceptionDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#printer}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrinter(ArduinomlParser.PrinterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#printer}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrinter(ArduinomlParser.PrinterContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#location}.
 	 * @param ctx the parse tree
 	 */
@@ -97,6 +107,46 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitState(ArduinomlParser.StateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(ArduinomlParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(ArduinomlParser.PrintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#printable}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintable(ArduinomlParser.PrintableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#printable}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintable(ArduinomlParser.PrintableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#literalString}.
+	 * @param ctx the parse tree
+	 */
+	void enterLiteralString(ArduinomlParser.LiteralStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#literalString}.
+	 * @param ctx the parse tree
+	 */
+	void exitLiteralString(ArduinomlParser.LiteralStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#brickToPrint}.
+	 * @param ctx the parse tree
+	 */
+	void enterBrickToPrint(ArduinomlParser.BrickToPrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#brickToPrint}.
+	 * @param ctx the parse tree
+	 */
+	void exitBrickToPrint(ArduinomlParser.BrickToPrintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#action}.
 	 * @param ctx the parse tree

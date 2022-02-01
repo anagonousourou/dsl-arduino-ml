@@ -8,17 +8,22 @@ root: declaration bricks states EOF;
 
 declaration: 'application' name = IDENTIFIER;
 
-bricks: (sensor | actuator | exceptionDeclaration)+;
+bricks: (sensor | actuator | printer |exceptionDeclaration)+;
 sensor: 'sensor' location;
 actuator: 'actuator' location;
 exceptionDeclaration:
 	'exception' name = IDENTIFIER ':' code = INTEGER;
-
+printer: 'printer' id = IDENTIFIER ;
 location: id = IDENTIFIER ':' port = INTEGER;
 
 states: state+;
 state:
-	initial? name = IDENTIFIER '{' action+  exceptionTransition* transition+ '}';
+	initial? name = IDENTIFIER '{' (action | print)* exceptionTransition* transition+ '}';
+print: receiver = IDENTIFIER '<=' (literalString | brickToPrint) (',' printable)*;
+printable: (literalString | brickToPrint);
+literalString: value = STRING;
+brickToPrint: value = IDENTIFIER;
+
 action: receiver = IDENTIFIER '<=' value = SIGNAL;
 
 exceptionTransition: 'handle' condition '=>' next = IDENTIFIER;
@@ -42,16 +47,28 @@ DURATION_UNIT: 'milliseconds' | 'millisecond';
 IDENTIFIER: LOWERCASE (LOWERCASE | UPPERCASE | DIGITS)+;
 SIGNAL: 'HIGH' | 'LOW';
 INTEGER: [1-9] [0-9]*;
-
+STRING: '"' (~["\\\r\n] | EscapeSequence)* '"';
 /*************
  * * Helpers ** ***********
  */
 fragment DIGITS: [0-9];
 fragment LOWERCASE: [a-z];
-// abstract rule, does not really exists
+fragment SPECIAL: (NEWLINE|WS|COMMENT|'@'|'-'|'_')+;
+
 fragment UPPERCASE: [A-Z];
 NEWLINE: ('\r'? '\n' | '\r')+ -> skip;
 WS: ((' ' | '\t')+) -> skip;
 // who cares about whitespaces?
 COMMENT: '#' ~('\r' | '\n')* -> skip;
 // Single line comments, starting with a #
+fragment EscapeSequence
+    : '\\' [btnfr"'\\]
+    | '\\' ([0-3]? [0-7])? [0-7]
+    | '\\' 'u'+ HexDigit HexDigit HexDigit HexDigit
+    ;
+fragment HexDigits
+    : HexDigit ((HexDigit | '_')* HexDigit)?
+    ;
+fragment HexDigit
+    : [0-9a-fA-F]
+    ;

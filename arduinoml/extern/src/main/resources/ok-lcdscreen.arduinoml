@@ -1,25 +1,29 @@
-application multiStateAlarm
+application redButton
 
 # Declaring bricks
 sensor button: 9
 actuator buz: 12
 actuator ll: 11
+printer myprinter
 
 # Declaring states
 state1 {
     buz <= HIGH
+    myprinter <= "state 1 ",button," ",buz," ",ll
     button is HIGH => state2
-    
+
 }
 
 state2 {
     buz <= LOW
     ll <= HIGH
+    myprinter <= "state 2 ",button," ",buz," ",ll
     button is HIGH => start
 }
 
 -> start {
     buz <= LOW
     ll <= LOW
+    myprinter <= "start ",button," ",buz," ",ll
     button is HIGH => state1 
 }

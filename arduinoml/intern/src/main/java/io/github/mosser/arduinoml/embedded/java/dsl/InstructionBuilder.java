@@ -1,17 +1,17 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
 
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import java.util.Optional;
+
+import io.github.mosser.arduinoml.kernel.behavioral.DigitalAction;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
-
-import java.util.Optional;
 
 public class InstructionBuilder {
 
     private StateBuilder parent;
 
-    private Action local = new Action();
+    private DigitalAction local = new DigitalAction();
 
     InstructionBuilder(StateBuilder parent, String target) {
         this.parent = parent;

@@ -1,5 +1,10 @@
 package io.github.mosser.arduinoml.externals.antlr;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlBaseListener;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.AndConditionContext;
@@ -10,21 +15,18 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.OrCond
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.TemporalTransitionContext;
 import io.github.mosser.arduinoml.externals.antlr.grammar.ArduinomlParser.UniqConditionContext;
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.DigitalAction;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
+import io.github.mosser.arduinoml.kernel.behavioral.Print;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
+import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
 
@@ -71,12 +73,12 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void exitRoot(ArduinomlParser.RootContext ctx) {
         // Resolving states in transitions
 
-        states.forEach((stateName, state) -> {
+        states.forEach((stateName, state) -> 
             this.unfinishedTransitionBinding.stream().filter(unt -> unt.from.equals(stateName)).map(unt -> {
                 unt.unfinishedTransition.setNext(states.get(unt.to));
                 return unt.unfinishedTransition;
-            }).forEach(state::addTransition);
-        });
+            }).forEach(state::addTransition)
+        );
 
         this.temporalBindings.forEach((fromState, transition) ->
 
@@ -111,6 +113,14 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
+    public void enterPrinter(ArduinomlParser.PrinterContext ctx) {
+        LCDScreen lcdScreen = new LCDScreen();
+        lcdScreen.setName(ctx.id.getText());
+        this.theApp.getBricks().add(lcdScreen);
+        actuators.put(lcdScreen.getName(), lcdScreen);
+    }
+
+    @Override
     public void enterState(ArduinomlParser.StateContext ctx) {
         State local = new State();
         local.setName(ctx.name.getText());
@@ -131,7 +141,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
             System.err.println("Undeclared actuator " + ctx.receiver.getText() + ". Compilation failed");
             System.exit(1);
         } else {
-            Action action = new Action();
+            DigitalAction action = new DigitalAction();
             action.setActuator(actuators.get(ctx.receiver.getText()));
             action.setValue(SIGNAL.valueOf(ctx.value.getText()));
             currentState.getActions().add(action);
@@ -140,10 +150,43 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
+    public void enterPrint(ArduinomlParser.PrintContext ctx) {
+
+        if (actuators.get(ctx.receiver.getText()) == null) {
+            System.err.println("Undeclared printer " + ctx.receiver.getText() + ". Compilation failed");
+            System.exit(1);
+        } else {
+            Print print = new Print();
+            theApp.setMustPrintWithLcd(true);
+            print.setActuator((LCDScreen) actuators.get(ctx.receiver.getText()));
+            if (ctx.literalString() != null)
+                print.printString(ctx.literalString().value.getText());
+            else
+                print.printBrick(actuators.containsKey(ctx.brickToPrint().value.getText())
+                        ? actuators.get(ctx.brickToPrint().value.getText())
+                        : sensors.get(ctx.brickToPrint().value.getText()));
+
+            for (int i = 0; i < ctx.printable().size(); i++) {
+                var printable = ctx.printable().get(i);
+                if (printable.literalString() != null)
+                    print.printString(printable.literalString().value.getText());
+                else {
+                    var brickToPrint = printable.brickToPrint();
+                    print.printBrick(actuators.containsKey(brickToPrint.value.getText())
+                            ? actuators.get(brickToPrint.value.getText())
+                            : sensors.get(brickToPrint.value.getText()));
+                }
+
+            }
+            currentState.getActions().add(print);
+        }
+    }
+
+    @Override
     public void enterConditionTransition(ConditionTransitionContext ctx) {
 
         this.currentTransition = new Transition();
-        //this.currentTransition.setNext();
+
     }
 
     @Override

@@ -1,24 +1,31 @@
 package io.github.mosser.arduinoml.kernel.generator;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.Action;
+import io.github.mosser.arduinoml.kernel.behavioral.DigitalAction;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionState;
 import io.github.mosser.arduinoml.kernel.behavioral.ExceptionTransition;
+import io.github.mosser.arduinoml.kernel.behavioral.Print;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.behavioral.TemporalTransition;
 import io.github.mosser.arduinoml.kernel.behavioral.Transition;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.Brick;
+import io.github.mosser.arduinoml.kernel.structural.LCDScreen;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 import io.github.mosser.arduinoml.kernel.structural.TransitionCondition;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
  */
 public class ToWiring extends Visitor<StringBuffer> {
+    enum PASS {
+        INITIAL, ONE, TWO, THREE
+    }
+
     private boolean firstCondition = true;
 
     public ToWiring() {
@@ -33,10 +40,15 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(App app) {
         this.result = new StringBuffer();
 
-        // first pass, create global vars
-        context.put("pass", PASS.ONE);
         w("// Wiring code generated from an ArduinoML model\n");
         w(String.format("// Application name: %s%n", app.getName()) + "\n");
+
+        context.put("pass", PASS.INITIAL);
+        for (Brick brick : app.getBricks()) {
+            brick.accept(this);
+        }
+        // first pass, create global vars
+        context.put("pass", PASS.ONE);
 
         w("long debounce = 200;\n");
 
@@ -71,7 +83,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
         w("}\n");
 
-        w("\nvoid loop() {\n" +
+        w(String.format("%nvoid %s() {%n", app.getMustPrintWithLcd() ? "mainLoop" : "loop") +
                 "\tswitch(currentState){\n");
         for (State state : app.getStates()) {
             state.accept(this);
@@ -81,15 +93,112 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
         w("\t}\n" +
                 "}");
+        if (app.getMustPrintWithLcd()) {
+            context.put("pass", PASS.THREE);
+            for (Brick brick : app.getBricks()) {
+                brick.accept(this);
+            }
+        }
     }
 
     @Override
-    public void visit(Actuator actuator) {
+    public void visit(LCDScreen lcdScreen) {
+        visitLCD();
+    }
+
+    private void visitLCD() {
+
+        if (context.get("pass") == PASS.INITIAL) {
+            w("/*\n");
+            w("Arduino Protothreading Example v1.1\n");
+            w("by Drew Alden (@ReanimationXP) 1/12/2016\n");
+            w("- Update: v1.1 - 8/18/17\n");
+            w("  Arduino 1.6.6+ prototyping changed, small fixes.\n");
+            w("  (create functions ahead of use, removed foreach and related library).\n");
+
+            w("  Note that TimedAction is now out of date. Be sure to read notes about\n");
+            w("  TimedAction and WProgram.h / Arduino.h errors.\n");
+            w("*/\n");
+
+            w("//COMPONENTS\n");
+
+            w("/*\n");
+            w("This code was made using the Sunfounder Arduino starter kit's blue LCD.\n");
+            w("It can be found at Amazon.com in a variety of kits.\n");
+            w("*/\n");
+
+            w("//THIRD-PARTY LIBRARIES\n");
+            w("//these must be manually added to your Arduino IDE installation\n");
+
+            w("//TimedAction\n");
+            w("//allows us to set actions to perform on separate timed intervals\n");
+            w("//http://playground.arduino.cc/Code/TimedAction\n");
+            w("//http://wiring.uniandes.edu.co/source/trunk/wiring/firmware/libraries/TimedAction\n");
+
+            w("#include <TimedAction.h>\n");
+            w("//NOTE: This library has an issue on newer versions of Arduino. After\n");
+            w("//      downloading the library you MUST go into the library directory and\n");
+            w("//      edit TimedAction.h. Within, overwrite WProgram.h with Arduino.h\n");
+
+            w("//NATIVE LIBRARIES\n");
+
+            w("#include <LiquidCrystal.h>\n");
+
+            return;
+        }
         if (context.get("pass") == PASS.ONE) {
+            w("bool lcd_update = false;\n");
+
+            w("String text(\"Waiting for text to print, but need to put more till overload the screen!!\");\n");
+            w("String currentPrintedText;\n");
+
+            w("void update_lcd(String _text){\n");
+            w("    if(_text==nullptr || currentPrintedText==_text )return;\n");
+            w("    text = _text;\n");
+            w("    lcd_update = true;\n");
+            w("    currentPrintedText=_text;\n");
+            w("}\n");
+            w("LiquidCrystal lcd(2, 3, 4, 5, 6, 7, 8);\n");
             return;
         }
         if (context.get("pass") == PASS.TWO) {
-            w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]%n", actuator.getPin(), actuator.getName()));
+            // lcdScreen.getPin(), lcdScreen.getName()
+            w("  lcd.begin(16, 2); //  [LCDScreen]\n");
+        }
+        if (context.get("pass") == PASS.THREE) {
+
+            w("\nTimedAction mainLoopThread = TimedAction(300,mainLoop);\n");
+            w("void printString(){\n");
+            w(" lcd.clear();\n");
+            w(" bool endLoop = false;\n");
+            w(" const int interval = text.length();\n");
+            w(" const int max_chars_on_line = 16;\n");
+            w(" for (int i=0;i<interval&&not endLoop;i++){\n");
+            w("     mainLoopThread.check();\n");
+            w("     int endscreen1 = i+((interval-i)>max_chars_on_line? max_chars_on_line:interval);\n");
+            w("     lcd.setCursor(0,0);\n");
+            w("     lcd.print(text.substring(i,endscreen1));\n");
+
+            w("     int rest = interval-endscreen1;\n");
+            w("     int endscreen2 = 0;\n");
+            w("     if (rest>max_chars_on_line){\n");
+            w("         endscreen2 = endscreen1+max_chars_on_line;\n");
+            w("     }else{\n");
+            w("         endscreen2 = rest;\n");
+            w("         endLoop=true;\n");
+            w("     }\n");
+            w("     lcd.setCursor(0,1);\n");
+            w("     lcd.print(text.substring(endscreen1,endscreen1+endscreen2));\n");
+            w("     if(lcd_update){\n");
+            w("         lcd_update=false;\n");
+            w("         return;\n");
+            w("     }\n");
+            w("     delay(endLoop?600:650);\n");
+            w(" }\n");
+            w("}\n\n");
+            w("void loop(){\n");
+            w("    printString();\n");
+            w("}\n");
         }
     }
 
@@ -103,45 +212,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         if (context.get("pass") == PASS.TWO) {
             w(String.format("  pinMode(%d, INPUT);  // %s [Sensor]%n", sensor.getPin(), sensor.getName()));
         }
-    }
-
-    @Override
-    public void visit(State state) {
-        if (context.get("pass") == PASS.ONE) {
-            w(state.getName());
-            return;
-        }
-        if (context.get("pass") == PASS.TWO) {
-            w("\t\tcase " + state.getName() + ":\n");
-            for (Action action : state.getActions()) {
-                action.accept(this);
-            }
-
-            if (!state.getExceptionTransitions().isEmpty() || !state.getTransitions().isEmpty()) {
-                Set<Sensor> sensors = new HashSet<>();
-                state.getTransitions().forEach(transition -> {
-                    transition.getTransitionCondition().getSensors().forEach(sensors::add);
-
-                });
-
-                state.getExceptionTransitions().forEach(transition -> {
-                    transition.getTransitionCondition().getSensors().forEach(sensors::add);
-
-                });
-                sensors.forEach(sensor -> {
-                    w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
-                            sensor.getName(), sensor.getName()));
-                });
-            }
-
-            this.firstCondition = true;
-            state.getExceptionTransitions().forEach(transition -> transition.accept(this));
-            state.getTransitions().forEach(transition -> transition.accept(this));
-            state.getTemporalTransitions().forEach(transition -> transition.accept(this));
-            this.firstCondition = true;
-            w("\t\tbreak;\n");
-        }
-
     }
 
     @Override
@@ -159,12 +229,15 @@ public class ToWiring extends Visitor<StringBuffer> {
     }
 
     @Override
-    public void visit(Action action) {
+    public void visit(Print print) {
         if (context.get("pass") == PASS.ONE) {
             return;
         }
         if (context.get("pass") == PASS.TWO) {
-            w(String.format("\t\t\tdigitalWrite(%d,%s);%n", action.getActuator().getPin(), action.getValue()));
+            // print.getActuator().getPin(),
+            String sep = "\t\t\t";
+            w(String.format("%supdate_lcd(%s);%n", sep, print.getStringValue(sep + sep)));
+            // return;
         }
     }
 
@@ -179,6 +252,68 @@ public class ToWiring extends Visitor<StringBuffer> {
                     transition.getNext().getName(), transition.getNumber()));
         }
 
+    }
+
+    @Override
+    public void visit(Actuator actuator) {
+        if (actuator instanceof LCDScreen) {
+            visitLCD();
+            return;
+        }
+        if (context.get("pass") == PASS.ONE) {
+            return;
+        }
+        if (context.get("pass") == PASS.TWO) {
+            w(String.format("  pinMode(%d, OUTPUT); // %s [Actuator]%n", actuator.getPin(), actuator.getName()));
+        }
+    }
+
+    @Override
+    public void visit(State state) {
+        if (context.get("pass") == PASS.ONE) {
+            w(state.getName());
+            return;
+        }
+        if (context.get("pass") == PASS.TWO) {
+            w("\t\tcase " + state.getName() + ":\n");
+            for (Action action : state.getActions()) {
+                action.accept(this);
+            }
+
+            if (!state.getExceptionTransitions().isEmpty() || !state.getTransitions().isEmpty()) {
+                Set<Sensor> sensors = new HashSet<>();
+                state.getTransitions()
+                        .forEach(transition -> transition.getTransitionCondition().getSensors().forEach(sensors::add)
+
+                        );
+
+                state.getExceptionTransitions()
+                        .forEach(transition -> transition.getTransitionCondition().getSensors().forEach(sensors::add)
+
+                        );
+                sensors.forEach(
+                        sensor -> w(String.format("\t\t\t%sBounceGuard = millis() - %sLastDebounceTime > debounce;%n",
+                                sensor.getName(), sensor.getName())));
+            }
+
+            this.firstCondition = true;
+            state.getExceptionTransitions().forEach(transition -> transition.accept(this));
+            state.getTransitions().forEach(transition -> transition.accept(this));
+            state.getTemporalTransitions().forEach(transition -> transition.accept(this));
+            this.firstCondition = true;
+            w("\t\tbreak;\n");
+        }
+
+    }
+
+    @Override
+    public void visit(DigitalAction action) {
+        if (context.get("pass") == PASS.ONE) {
+            return;
+        }
+        if (context.get("pass") == PASS.TWO) {
+            w(String.format("\t\t\tdigitalWrite(%d,%s);%n", action.getActuator().getPin(), action.getValue()));
+        }
     }
 
     @Override
@@ -249,10 +384,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             w("\t\tbreak;\n");
         }
 
-    }
-
-    enum PASS {
-        ONE, TWO
     }
 
 }

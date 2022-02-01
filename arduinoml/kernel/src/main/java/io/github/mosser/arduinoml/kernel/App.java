@@ -23,8 +23,16 @@ public class App implements NamedElement, Visitable {
     private List<State> states = new ArrayList<>();
     private List<ExceptionState> exceptionStates = new ArrayList<>();
     private State initial;
-
+    private boolean mustPrintWithLcd;
     private List<String> errors = new ArrayList<>();
+
+    public App(boolean mustPrintWithLcd) {
+        this.mustPrintWithLcd = mustPrintWithLcd;
+    }
+
+    public App() {
+        this.mustPrintWithLcd = false;
+    }
 
     @Override
     public String getName() {
@@ -66,6 +74,14 @@ public class App implements NamedElement, Visitable {
 
     public List<ExceptionState> getExceptionStates() {
         return exceptionStates;
+    }
+
+    public boolean getMustPrintWithLcd() {
+        return mustPrintWithLcd;
+    }
+
+    public void setMustPrintWithLcd(boolean mustPrintWithLcd) {
+        this.mustPrintWithLcd = mustPrintWithLcd;
     }
 
     @Override
