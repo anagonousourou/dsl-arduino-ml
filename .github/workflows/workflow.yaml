@@ -18,4 +18,6 @@ jobs:
 
     - name: clean package
       working-directory: ./arduinoml
-      run: mvn clean package
+      run: |
+        bash external.sh
+        bash internal.sh

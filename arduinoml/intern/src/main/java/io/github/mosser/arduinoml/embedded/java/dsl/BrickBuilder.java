@@ -17,4 +17,8 @@ public class BrickBuilder {
         return AppBuilder.createBrick(this.brickClass, this.name, pin);
     }
 
+    Brick createBrick() {
+        return AppBuilder.createBrick(this.brickClass, this.name);
+    }
+
 }

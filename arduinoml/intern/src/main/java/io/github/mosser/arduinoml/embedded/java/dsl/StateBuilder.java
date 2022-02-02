@@ -27,4 +27,8 @@ public class StateBuilder {
         return parent;
     }
 
+    public PrintBuilder displaying(String... toprints) {
+        return new PrintBuilder(this).display(toprints);
+    }
+
 }
