@@ -188,6 +188,16 @@ public interface ArduinomlListener extends ParseTreeListener {
 	 */
 	void exitTemporalTransition(ArduinomlParser.TemporalTransitionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArduinomlParser#printTransition}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintTransition(ArduinomlParser.PrintTransitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArduinomlParser#printTransition}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintTransition(ArduinomlParser.PrintTransitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArduinomlParser#condition}.
 	 * @param ctx the parse tree
 	 */
