@@ -20,11 +20,10 @@ For example, let’s consider the following scenario: _“As a user, considering
 
 ## Repository Organization
 
-  * `docs` contains the pdf report of the project
   * `uml` contains the png, svg and Visual Paradigm files of the class diagramm that  models and implementations of the abstract syntax of the language.
   * `arduinoml` implementation of the kernel, the external DSL and embedded DSL
   * `subject` the pdf subject of the project
-  * `plugin-vscode` Vscode plugin for the external DSL
+  * `plugin-vscode` Vscode plugin for the external DSL, copy it in `($USER)/.vscode/extensions` and reload Vscode to install it
   * `videos` of the scenarios and extensions supported
 
 
