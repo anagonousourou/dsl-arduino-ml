@@ -26,18 +26,17 @@ public class Main {
                 .endTransitionTable()
                 .build();
 
-        App scenario1 = application("scenario1").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(12))
+        App simpleAlarm = application("scenario1").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(12))
                 .uses(actuator("buz").atPin(11))
                 .hasForState("off").initial().setting("led").toLow()
                 .setting("buz").toLow().endState()
                 .hasForState("on").setting("led").toHigh().setting("buz").toHigh().endState()
                 .beginTransitionTable()
                 .from("on").when("button").isLow().goTo("off")
-
                 .from("off").when("button").isHigh().goTo("on").endTransitionTable()
                 .build();
 
-        App scenario2 = application("scenario2").uses(sensor("button").atPin(9))
+        App dualCheckAlarm = application("scenario2").uses(sensor("button").atPin(9))
                 .uses(sensor("button2").atPin(4))
                 .uses(actuator("buz").atPin(12))
                 .hasForState("start").initial().setting("buz").toLow().endState()
@@ -48,7 +47,7 @@ public class Main {
                 .endTransitionTable()
                 .build();
 
-        App scenario3 = application("scenario3").uses(sensor("button").atPin(9))
+        App stateBasedAlarm = application("scenario3").uses(sensor("button").atPin(9))
                 .uses(actuator("led1").atPin(12))
                 .hasForState("start").initial().setting("led1").toLow().endState()
                 .hasForState("state1").setting("led1").toHigh().endState()
@@ -58,7 +57,7 @@ public class Main {
                 .endTransitionTable()
                 .build();
 
-        App scenario4 = application("scenario4").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
+        App multiStateAlarm = application("scenario4").uses(sensor("button").atPin(9)).uses(actuator("led").atPin(11))
                 .uses(actuator("buz").atPin(12))
                 .hasForState("start").initial().setting("led").toLow().setting("buz").toLow().endState()
                 .hasForState("state1").setting("buz").toHigh().endState()
@@ -138,19 +137,19 @@ public class Main {
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
-        scenario1.accept(codeGenerator);
+        simpleAlarm.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
-        scenario2.accept(codeGenerator);
+        dualCheckAlarm.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
-        scenario3.accept(codeGenerator);
+        stateBasedAlarm.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
-        scenario4.accept(codeGenerator);
+        multiStateAlarm.accept(codeGenerator);
         System.out.println(codeGenerator.getResult());
         System.out.println("=============================");
 
