@@ -9,7 +9,7 @@ create_directory(){
     fi
 }
 create_directory output
-mvn clean install
+
 ls extern/src/main/resources/ | grep ok- | while read f
 do
     java -jar extern/target/external-antlr-1.0-SNAPSHOT-jar-with-dependencies.jar extern/src/main/resources/$f output/$f.cc

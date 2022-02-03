@@ -232,6 +232,18 @@ public class ArduinomlBaseListener implements ArduinomlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrintTransition(ArduinomlParser.PrintTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrintTransition(ArduinomlParser.PrintTransitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCondition(ArduinomlParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}

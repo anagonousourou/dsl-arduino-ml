@@ -20,13 +20,16 @@ For example, let’s consider the following scenario: _“As a user, considering
 
 ## Repository Organization
 
-  * `docs` contains the pdf report of the project
   * `uml` contains the png, svg and Visual Paradigm files of the class diagramm that  models and implementations of the abstract syntax of the language.
   * `arduinoml` implementation of the kernel, the external DSL and embedded DSL
   * `subject` the pdf subject of the project
-  * `plugin-vscode` Vscode plugin for the external DSL
+  * `plugin-vscode` Vscode plugin for the external DSL, copy it in `($USER)/.vscode/extensions` and reload Vscode to install it
+  * `videos` of the scenarios and extensions supported
 
-
+## LCD Feature
+ The LCD and scrolling of the text implementations required the use of the TimedAction library which can be dowload here https://playground.arduino.cc/Code/TimedAction/ .
+ To add a library to arduino, please go to https://learn.adafruit.com/adafruit-all-about-arduino-libraries-install-use/how-to-install-a-library.
+ 
 ## References
 
   * https://github.com/mosser/ArduinoML-kernel: The repository that contains the original basic code of ArduinoML
